@@ -2,7 +2,7 @@ function App() {
 
   return (
     <>
-    
+      <p>React + Vite</p>
     </>
   )
 }
