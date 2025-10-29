@@ -8,3 +8,12 @@
 }
 
 @import "tailwindcss";
+
+input[type="password"]::-webkit-reveal {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+input[type="password"]::-ms-reveal {
+    display: none !important;
+}
