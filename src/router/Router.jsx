@@ -10,6 +10,9 @@ const router = createBrowserRouter([
     path: '/login',
     element: <LoginPage />,
   },
+  {
+    path: "",
+  }
 ]);
 
 export default router;
