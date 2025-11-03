@@ -64,9 +64,9 @@ export default function LoginPage() {
     <div className="grid grid-cols-2">
       <div className="bg-purple h-screen bg-[url('/assets/images/background_Login.webp')] bg-no-repeat bg-auto bg-left "></div>
       <div className="flex justify-center items-center">
-        <form onSubmit={handleLogin} className="w-[400px] flex flex-col gap-4">
+        <form onSubmit={handleLogin} className="w-[450px] flex flex-col gap-4">
           <h1 className="text-2xl mb-4 font-medium">Log In</h1>
-          <div className="flex flex-col items-center justify-center gap-4 w-full">
+          <div className="flex flex-col  gap-4 w-full">
             <div className="w-full">
               <input
                 type="text"
@@ -117,26 +117,26 @@ export default function LoginPage() {
                 <p className="text-red-500 textxs-sm mt-1">{passwordError}</p>
               )}
             </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                id="rememberMe"
+                className="w-[18px] h-[18px] rounded-[5px] cursor-pointer outline-0"
+              />
+              <label
+                htmlFor="rememberMe"
+                className="text-[18px] text-gray-700 cursor-pointer"
+              >
+                Remember me
+              </label>
+            </div>
             <button
               type="submit"
               className="bg-purple text-white text-lg rounded p-2 w-full hover:bg-purple-hover transition duration-200"
             >
               Log In
             </button>
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="rememberMe"
-              id="rememberMe"
-              className="w-[18px] h-[18px] rounded-[5px] cursor-pointer outline-0"
-            />
-            <label
-              htmlFor="rememberMe"
-              className="text-[18px] text-gray-700 cursor-pointer"
-            >
-              Remember me
-            </label>
           </div>
         </form>
       </div>
