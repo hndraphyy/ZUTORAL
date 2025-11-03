@@ -8,10 +8,9 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -24,10 +23,14 @@ export default function LoginPage() {
 
     setUsernameError("");
     setPasswordError("");
+    setErrorMessage("");
 
     let isValid = true;
-    const validUsername = "admin@admin.com";
-    const validPassword = "secret";
+
+    const validManagerUser = import.meta.env.VITE_MANAGER_USERNAME;
+    const validManagerPassword = import.meta.env.VITE_MANAGER_PASSWORD;
+    const validSalesUser = import.meta.env.VITE_SALES_USERNAME;
+    const validSalesPassword = import.meta.env.VITE_SALES_PASSWORD;
 
     if (username.trim() === "") {
       setUsernameError("Username/Email wajib diisi.");
@@ -43,21 +46,13 @@ export default function LoginPage() {
       return;
     }
 
-    if (username !== validUsername) {
-      setUsernameError("Username/Email tidak ditemukan.");
-      isValid = false;
+    if (username === validManagerUser && password === validManagerPassword) {
+      navigate("/manager/dashboard");
+    } else if (username === validSalesUser && password === validSalesPassword) {
+      navigate("/sales-agent/dashboard");
+    } else {
+      setErrorMessage("Username atau password salah.");
     }
-
-    if (password !== validPassword) {
-      setPasswordError("Password salah.");
-      isValid = false;
-    }
-
-    if (!isValid) {
-      return;
-    }
-
-    navigate("/manager/dashboard", { replace: true });
   };
 
   return (
@@ -73,7 +68,7 @@ export default function LoginPage() {
                 placeholder="Email or Username"
                 className={`border-2 rounded text-gray-700 p-[7px] w-full text-[18px] pl-3 transition duration-200 outline-0 
                                 ${
-                                  usernameError
+                                  usernameError || errorMessage
                                     ? "border-red-500 focus:border-red-500"
                                     : "border-gray-300 focus:border-purple"
                                 }`}
@@ -84,7 +79,7 @@ export default function LoginPage() {
                 }}
               />
               {usernameError && (
-                <p className="text-red-500 textxs-sm mt-1">{usernameError}</p>
+                <p className="text-red-500 text-md mt-1">{usernameError}</p>
               )}
             </div>
 
@@ -95,7 +90,7 @@ export default function LoginPage() {
                   placeholder="Password"
                   className={`border-2 rounded text-gray-700 p-[7px] w-full text-[18px] pl-3 pr-10 transition duration-200 outline-0 
                                     ${
-                                      passwordError
+                                      passwordError || errorMessage
                                         ? "border-red-500 focus:border-red-500"
                                         : "border-gray-300 focus:border-purple"
                                     }`}
@@ -114,7 +109,10 @@ export default function LoginPage() {
                 </button>
               </div>
               {passwordError && (
-                <p className="text-red-500 textxs-sm mt-1">{passwordError}</p>
+                <p className="text-red-500 text-md mt-1">{passwordError}</p>
+              )}
+              {errorMessage && (
+                <p className="text-red-500 text-md mt-1">{errorMessage}</p>
               )}
             </div>
             <div className="flex items-center gap-2">
