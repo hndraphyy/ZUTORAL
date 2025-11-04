@@ -1,5 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/LoginPage";
+import ManagerLayout from "../layouts/ManagerLayout";
+import SalesAgentLayout from "../layouts/SalesAgentLayout";
 import ManagerDashboardPage from "../pages/manager/dashboard/ManagerDashboardPage";
 import SalesAgentDashboardPage from "../pages/sales-agent/dashboard/SalesAgentDashboardPage";
 
@@ -13,12 +15,14 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/manager/dashboard",
-    element: <ManagerDashboardPage />,
+    path: "/manager",
+    element: <ManagerLayout />,
+    children: [{ path: "dashboard", element: <ManagerDashboardPage /> }],
   },
   {
-    path: "/sales-agent/dashboard",
-    element: <SalesAgentDashboardPage />,
+    path: "/sales-agent",
+    element: <SalesAgentLayout />,
+    children: [{ path: "dashboard", element: <SalesAgentDashboardPage /> }],
   },
 ]);
 
