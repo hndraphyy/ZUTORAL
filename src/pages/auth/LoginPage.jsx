@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import usePageTitle from "../../hooks/usePageTItle";
 
-export default function LoginPage() {
+const LoginPage = () => {
   usePageTitle("Login");
 
   const [username, setUsername] = useState("");
@@ -140,4 +140,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;
