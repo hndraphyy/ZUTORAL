@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import usePageTitle from "../../hooks/usePageTItle";
+import usePageTitle from "../../hooks/usePageTitle";
+import { USERS } from "../../config/auth";
 
 const LoginPage = () => {
   usePageTitle("Login");
@@ -27,10 +28,9 @@ const LoginPage = () => {
 
     let isValid = true;
 
-    const validManagerUser = import.meta.env.VITE_MANAGER_USERNAME;
-    const validManagerPassword = import.meta.env.VITE_MANAGER_PASSWORD;
-    const validSalesUser = import.meta.env.VITE_SALES_USERNAME;
-    const validSalesPassword = import.meta.env.VITE_SALES_PASSWORD;
+    const validUser = Object.values(USERS).find(
+      (u) => u.username === username && u.password === password
+    );
 
     if (username.trim() === "") {
       setUsernameError("Username/Email wajib diisi.");
@@ -46,18 +46,22 @@ const LoginPage = () => {
       return;
     }
 
-    if (username === validManagerUser && password === validManagerPassword) {
-      navigate("/manager/dashboard");
-    } else if (username === validSalesUser && password === validSalesPassword) {
-      navigate("/sales-agent/dashboard");
+    if (validUser) {
+      navigate(validUser.redirect);
     } else {
-      setErrorMessage("Username atau password salah.");
+      setErrorMessage("Username/Email atau Password salah.");
     }
   };
 
   return (
     <div className="grid grid-cols-2">
-      <div className="bg-purple h-screen bg-[url('/assets/images/background_Login.webp')] bg-no-repeat bg-auto bg-left "></div>
+      <div className="bg-purple h-screen bg-[url('/assets/images/background_Login.webp')] bg-no-repeat bg-auto bg-left flex justify-center items-center">
+        <img
+          src="/assets/svg/logo-brand.svg"
+          alt="Logo Brand"
+          className="w-30 h-auto"
+        />
+      </div>
       <div className="flex justify-center items-center">
         <form onSubmit={handleLogin} className="w-[450px] flex flex-col gap-4">
           <h1 className="text-2xl mb-4 font-medium">Log In</h1>
