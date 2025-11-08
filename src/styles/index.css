@@ -1,19 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
 @theme {
-    --font-sans: 'Outfit', sans-serif;
-    --color-blue: #2A0586;
-    --color-purple: #895cd6;
-    --color-purple-hover: #7a4bb8;
+  --font-sans: "Outfit", sans-serif;
+  --color-blue: #2a0586;
+  --color-purple: #895cd6;
+  --color-purple-hover: #7a4bb8;
+  --background-image-sidebar: linear-gradient(180deg, #895cd6 60%, #1a1327 100%),
+    url("/assets/images/sidebar-bg.webp");
 }
 
 @import "tailwindcss";
 
 input[type="password"]::-webkit-reveal {
-    display: none !important;
-    opacity: 0 !important;
+  display: none !important;
+  opacity: 0 !important;
 }
 
 input[type="password"]::-ms-reveal {
-    display: none !important;
+  display: none !important;
 }

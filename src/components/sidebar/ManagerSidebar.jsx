@@ -7,8 +7,12 @@ const ManagerSidebar = () => {
   ];
 
   return (
-    <aside className="w-60 bg-white border-r p-4 shadow-md">
-      <h2 className="text-xl font-bold mb-6">Zotural</h2>
+    <aside className="w-[318px] bg-sidebar p-4 flex flex-col items-center gap-8 bg-cover">
+      <img
+        src="/assets/svg/logo-brand.svg"
+        alt="Logo Brand"
+        className="w-22 h-auto"
+      />
       <nav className="flex flex-col gap-3">
         {links.map(({ to, label }) => (
           <NavLink
