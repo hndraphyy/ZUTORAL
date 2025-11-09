@@ -23,7 +23,7 @@ const ManagerSidebar = () => {
   ];
 
   return (
-    <aside className="w-[318px] bg-sidebar py-10 px-5 flex flex-col items-center gap-8 bg-cover">
+    <aside className="fixed h-full w-[318px] bg-sidebar py-10 px-5 flex flex-col items-center gap-8 bg-cover">
       <img
         src="/assets/svg/logo-brand.svg"
         alt="Logo Brand"
@@ -38,7 +38,7 @@ const ManagerSidebar = () => {
                 className={`flex items-center gap-2.5 px-5 py-3 text-xl rounded-lg font-medium transition-colors ${
                   isActive
                     ? "bg-white text-purple"
-                    : "text-white bg-transparent"
+                    : "text-white bg-transparent hover:bg-white/25"
                 }`}
               >
                 <img
