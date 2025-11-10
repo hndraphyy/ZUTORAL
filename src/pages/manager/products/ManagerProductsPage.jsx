@@ -1,4 +1,8 @@
+import React from "react";
+import usePageTitle from "../../../hooks/usePageTitle";
+
 const ManagerProductsPage = () => {
+  usePageTitle("Products - Manager");
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <h2>products</h2>

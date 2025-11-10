@@ -2,7 +2,7 @@ import React from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
 
 const ManagerDashboardPage = () => {
-  usePageTitle("Manager Dashboard");
+  usePageTitle("Dashboard - Manager");
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">

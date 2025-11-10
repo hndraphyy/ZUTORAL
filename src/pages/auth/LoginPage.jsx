@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import usePageTitle from "../../hooks/usePageTitle";
-import { USERS } from "../../config/auth";
+import useAuth from "../../hooks/useAuth";
 
 const LoginPage = () => {
   usePageTitle("Login");
+  const { login } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,10 +29,6 @@ const LoginPage = () => {
 
     let isValid = true;
 
-    const validUser = Object.values(USERS).find(
-      (u) => u.username === username && u.password === password
-    );
-
     if (username.trim() === "") {
       setUsernameError("Username/Email wajib diisi.");
       isValid = false;
@@ -46,9 +43,8 @@ const LoginPage = () => {
       return;
     }
 
-    if (validUser) {
-      navigate(validUser.redirect);
-    } else {
+    const user = login(username, password);
+    if (!user) {
       setErrorMessage("Username/Email atau Password salah.");
     }
   };
