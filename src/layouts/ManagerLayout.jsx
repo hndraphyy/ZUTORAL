@@ -5,7 +5,7 @@ const ManagerLayout = () => {
   return (
     <div className="flex">
       <ManagerSidebar />
-      <main className="ml-[318px] w-full p-6">
+      <main className="ml-[318px] w-full p-8">
         <Outlet />
       </main>
     </div>
