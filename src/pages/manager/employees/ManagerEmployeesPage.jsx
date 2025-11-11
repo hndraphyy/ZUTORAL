@@ -59,9 +59,8 @@ const ManagerEmployeesPage = () => {
             onAdd={handleAddProduct}
             showStatus
             showAdd
-            label="Add Employee"
-            className="grid-cols-7"
-            classNameSearch="col-span-5"
+            className="grid-cols-6"
+            classNameSearch="col-span-4"
             classNameStatus="col-span-1"
             classNameAdd="col-span-1"
           />

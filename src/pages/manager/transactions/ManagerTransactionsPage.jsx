@@ -59,9 +59,10 @@ const ManagerTransactionsPage = () => {
             onAdd={handleAddProduct}
             showStatus
             showAdd
-            label="Add Employee"
+            showDate
             className="grid-cols-7"
-            classNameSearch="col-span-5"
+            classNameSearch="col-span-4"
+            classNameDate="col-span-1"
             classNameStatus="col-span-1"
             classNameAdd="col-span-1"
           />

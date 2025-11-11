@@ -57,7 +57,6 @@ const ManagerProductsPage = () => {
             search={search}
             setSearch={setSearch}
             onAdd={handleAddProduct}
-            label="Add Product"
             showAdd
             className="grid-cols-5"
             classNameSearch="col-span-4"

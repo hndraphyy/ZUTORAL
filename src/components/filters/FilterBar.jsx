@@ -32,12 +32,12 @@ const FilterBar = ({
 
       {/* Date */}
       {showDate && (
-        <div className={`${classNameDate}`}>
+        <div className={`h-full ${classNameDate}`}>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-full text-gray-500"
+            className="border text-lg border-gray-300 rounded-md h-full p-2 w-full text-gray-500"
           />
         </div>
       )}
@@ -48,7 +48,7 @@ const FilterBar = ({
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="border px-3 outline-0 border-gray-300 text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white"
+            className={`border px-3 outline-0 border-gray-300 text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white ${classNameStatus}`}
           >
             <option value="">Status</option>
             <option value="active">Active</option>
