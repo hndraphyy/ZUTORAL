@@ -6,6 +6,7 @@ import SalesAgentLayout from "../layouts/SalesAgentLayout";
 
 import ManagerDashboardPage from "../pages/manager/dashboard/ManagerDashboardPage";
 import ManagerProductsPage from "../pages/manager/products/ManagerProductsPage";
+import ManagerTransactionsPage from "../pages/manager/transactions/ManagerTransactionsPage";
 import ManagerEmployeesPage from "../pages/manager/employees/ManagerEmployeesPage";
 import ManagerReportsPage from "../pages/manager/reports/ManagerReportsPage";
 import ManagerSettingsPage from "../pages/manager/settings/ManagerSettingsPage";
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
     children: [
       { path: "dashboard", element: <ManagerDashboardPage /> },
       { path: "products", element: <ManagerProductsPage /> },
+      { path: "transactions", element: <ManagerTransactionsPage /> },
       { path: "employees", element: <ManagerEmployeesPage /> },
       { path: "reports", element: <ManagerReportsPage /> },
       { path: "settings", element: <ManagerSettingsPage /> },

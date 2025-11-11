@@ -17,6 +17,12 @@ const ManagerSidebar = () => {
       iconActive: "/assets/svg/sidebar-icon/active/products.svg",
     },
     {
+      to: "/manager/transactions",
+      label: "Transactions",
+      icon: "/assets/svg/sidebar-icon/transactions.svg",
+      iconActive: "/assets/svg/sidebar-icon/active/transactions.svg",
+    },
+    {
       to: "/manager/employees",
       label: "Employees",
       icon: "/assets/svg/sidebar-icon/employees.svg",
