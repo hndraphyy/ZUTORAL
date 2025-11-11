@@ -52,11 +52,18 @@ const ManagerProductsPage = () => {
     <div>
       <div className="mb-10">
         <Header title="Products" />
-        <FilterBar
-          search={search}
-          setSearch={setSearch}
-          onAdd={handleAddProduct}
-        />
+        <div className="mb-6">
+          <FilterBar
+            search={search}
+            setSearch={setSearch}
+            onAdd={handleAddProduct}
+            label="Add Product"
+            showAdd
+            className="grid-cols-5"
+            classNameSearch="col-span-4"
+            classNameAdd="col-span-1"
+          />
+        </div>
       </div>
     </div>
   );
