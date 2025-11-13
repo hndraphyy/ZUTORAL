@@ -50,23 +50,31 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="grid grid-cols-2">
-      <div className="bg-purple h-screen bg-[url('/assets/images/background_Login.webp')] bg-no-repeat bg-auto bg-left flex justify-center items-center">
+    <div className="grid md:grid-cols-2">
+      <div className="hidden md:flex justify-center items-center bg-purple h-screen bg-[url('/assets/images/background_Login.webp')] bg-no-repeat bg-auto bg-left">
         <img
           src="/assets/svg/logo-brand.svg"
           alt="Logo Brand"
           className="w-30 h-auto"
         />
       </div>
-      <div className="flex justify-center items-center">
-        <form onSubmit={handleLogin} className="w-[450px] flex flex-col gap-4">
+      <div className="relative flex justify-center items-center bg-purple md:bg-white h-dvh bg-[url('/assets/images/background_Login.webp')] md:bg-none bg-no-repeat bg-cover">
+        <img
+          src="/assets/svg/logo-brand.svg"
+          alt="Logo Brand"
+          className="w-11 h-auto absolute top-13 md:hidden"
+        />
+        <form
+          onSubmit={handleLogin}
+          className="bg-white md:bg-transparent p-6 md:p-0 flex flex-col gap-4 rounded-xl"
+        >
           <h1 className="text-2xl mb-4 font-medium">Log In</h1>
           <div className="flex flex-col  gap-4 w-full">
             <div className="w-full">
               <input
                 type="text"
                 placeholder="Email or Username"
-                className={`border-2 rounded text-gray-700 p-[7px] w-full text-[18px] pl-3 transition duration-200 outline-0 
+                className={`border-2 rounded text-gray-700 p-[7px] w-full md:text-[18px] pl-3 transition duration-200 outline-0 
                                 ${
                                   usernameError || errorMessage
                                     ? "border-red-500 focus:border-red-500"
@@ -79,7 +87,7 @@ const LoginPage = () => {
                 }}
               />
               {usernameError && (
-                <p className="text-red-500 text-md mt-1">{usernameError}</p>
+                <p className="text-red-500 md:text-md mt-1">{usernameError}</p>
               )}
             </div>
 
@@ -88,7 +96,7 @@ const LoginPage = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className={`border-2 rounded text-gray-700 p-[7px] w-full text-[18px] pl-3 pr-10 transition duration-200 outline-0 
+                  className={`border-2 rounded text-gray-700 p-[7px] w-full md:text-[18px] pl-3 pr-10 transition duration-200 outline-0 
                                     ${
                                       passwordError || errorMessage
                                         ? "border-red-500 focus:border-red-500"
@@ -109,10 +117,10 @@ const LoginPage = () => {
                 </button>
               </div>
               {passwordError && (
-                <p className="text-red-500 text-md mt-1">{passwordError}</p>
+                <p className="text-red-500 md:text-md mt-1">{passwordError}</p>
               )}
               {errorMessage && (
-                <p className="text-red-500 text-md mt-1">{errorMessage}</p>
+                <p className="text-red-500 md:text-md mt-1">{errorMessage}</p>
               )}
             </div>
             <div className="flex items-center gap-2">
