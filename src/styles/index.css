@@ -10,11 +10,6 @@
   --color-search: #dbd8d8;
 
   --background-image-sidebar: url("/assets/images/sidebar-bg.webp");
-
-  --breakpoint-mobile: 480px;
-  --breakpoint-tablet: 768px;
-  --breakpoint-laptop: 1024px;
-  --breakpoint-desktop: 1440px;
 }
 
 @import "tailwindcss";
