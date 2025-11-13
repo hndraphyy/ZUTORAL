@@ -58,7 +58,7 @@ const LoginPage = () => {
           className="md:w-20 2xl:w-24 h-auto"
         />
       </div>
-      <div className="relative flex justify-center items-center flex-col gap-5 pb-15 bg-purple md:bg-white h-dvh bg-[url('/assets/images/background_Login.webp')] md:bg-none bg-no-repeat bg-cover">
+      <div className="relative flex justify-center items-center flex-col gap-5 pb-15 md:pb-0 bg-purple md:bg-white h-dvh bg-[url('/assets/images/background_Login.webp')] md:bg-none bg-no-repeat bg-cover">
         <img
           src="/assets/svg/logo-brand.svg"
           alt="Logo Brand"

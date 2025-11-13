@@ -11,14 +11,14 @@ const LogoutButton = ({ onLogout }) => {
   return (
     <button
       onClick={handleLogout}
-      className="w-full flex justify-start items-center px-5 text-red bg-transparent text-[22px] mb-5 gap-2.5 cursor-pointer"
+      className="w-full h-full flex justify-start items-center px-2 md:px-5 text-red-light text-[22px] mb-8 gap-2.5 cursor-pointer"
     >
       <img
-        src="/assets/svg/sidebar-icon/logout.svg"
+        src="/assets/svg/sidebar-icon/logout-light.svg"
         alt="log out"
-        className="h-7"
+        className="h-8 md:h-7"
       />
-      Log Out
+      <p className="hidden md:block">Log Out</p>
     </button>
   );
 };
