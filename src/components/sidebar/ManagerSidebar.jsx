@@ -54,7 +54,7 @@ const ManagerSidebar = () => {
         />
 
         <div
-          className={`w-full overflow-x-auto md:overflow-y-auto px-2 md:px-3 lg:px-5 flex justify-between md:flex-col md:gap-3 md:h-[calc(100vh-400px)] 
+          className={`w-full overflow-x-auto md:overflow-y-auto px-2 md:px-3 lg:px-5 flex justify-between md:flex-col md:gap-3 md:h-[calc(100vh-320px)] 
             [&::-webkit-scrollbar]:ml-4
             [&::-webkit-scrollbar]:w-1.5
             [&::-webkit-scrollbar-track]:bg-gray-300
