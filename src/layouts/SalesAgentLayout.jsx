@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
-import SalesSidebar from "../components/sidebar/SalesAgentSidebar";
+import Sidebar from "../components/sidebar/Sidebar";
+import salesLinks from "../components/sidebar/salesLinks";
 
 const SalesAgentLayout = () => {
   return (
-    <div className="flex min-h-screen">
-      <SalesSidebar />
-      <main className="flex-1 p-6">
+    <div className="flex">
+      <Sidebar Links={salesLinks} />
+      <main className="md:ml-[260px] lg:ml-[270px] xl:ml-[318px] 2xl:ml-[360px] w-full p-2 md:p-8">
         <Outlet />
       </main>
     </div>

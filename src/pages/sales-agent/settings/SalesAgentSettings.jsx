@@ -1,13 +1,13 @@
 import React from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
 
-const SalesAgentReportsPage = () => {
-  usePageTitle("Reports - Sales Agent");
+const SalesAgentSettingsPage = () => {
+  usePageTitle("Settings - Sales Agent");
   return (
     <div className="flex items-center justify-center h-screen">
-      <h2>Reports</h2>
+      <h2>settings</h2>
     </div>
   );
 };
 
-export default SalesAgentReportsPage;
+export default SalesAgentSettingsPage;

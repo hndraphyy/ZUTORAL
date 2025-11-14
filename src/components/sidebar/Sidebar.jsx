@@ -1,47 +1,10 @@
 import { NavLink } from "react-router-dom";
 import LogoutButton from "../LogoutButton";
 import useAuth from "../../hooks/useAuth";
+import managerLinks from "./managerLinks";
+import salesLinks from "./salesLinks";
 
-const ManagerSidebar = () => {
-  const links = [
-    {
-      to: "/manager/dashboard",
-      label: "Dashboard",
-      icon: "/assets/svg/sidebar-icon/dashboard.svg",
-      iconActive: "/assets/svg/sidebar-icon/active/dashboard.svg",
-    },
-    {
-      to: "/manager/products",
-      label: "Products",
-      icon: "/assets/svg/sidebar-icon/products.svg",
-      iconActive: "/assets/svg/sidebar-icon/active/products.svg",
-    },
-    {
-      to: "/manager/transactions",
-      label: "Transactions",
-      icon: "/assets/svg/sidebar-icon/transactions.svg",
-      iconActive: "/assets/svg/sidebar-icon/active/transactions.svg",
-    },
-    {
-      to: "/manager/employees",
-      label: "Employees",
-      icon: "/assets/svg/sidebar-icon/employees.svg",
-      iconActive: "/assets/svg/sidebar-icon/active/employees.svg",
-    },
-    {
-      to: "/manager/reports",
-      label: "Reports",
-      icon: "/assets/svg/sidebar-icon/reports.svg",
-      iconActive: "/assets/svg/sidebar-icon/active/reports.svg",
-    },
-    {
-      to: "/manager/settings",
-      label: "Settings",
-      icon: "/assets/svg/sidebar-icon/settings.svg",
-      iconActive: "/assets/svg/sidebar-icon/active/settings.svg",
-    },
-  ];
-
+const ManagerSidebar = ({ Links }) => {
   const { logout } = useAuth();
 
   return (
@@ -64,7 +27,7 @@ const ManagerSidebar = () => {
           `}
         >
           <nav className="flex justify-between md:flex-col 2xl:gap-3.5 md:gap-2 gap-3.5 w-full whitespace-nowrap md:whitespace-normal">
-            {links.map(({ to, label, icon, iconActive }) => (
+            {Links.map(({ to, label, icon, iconActive }) => (
               <NavLink
                 key={to}
                 to={to}
