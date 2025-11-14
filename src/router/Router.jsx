@@ -12,6 +12,10 @@ import ManagerReportsPage from "../pages/manager/reports/ManagerReportsPage";
 import ManagerSettingsPage from "../pages/manager/settings/ManagerSettingsPage";
 
 import SalesAgentDashboardPage from "../pages/sales-agent/dashboard/SalesAgentDashboardPage";
+import SalesAgentCustomersPage from "../pages/sales-agent/customers/SalesAgentCustomersPage";
+import SalesAgentOrdersPage from "../pages/sales-agent/orders/SalesAgentOrdersPage";
+import SalesAgentReportsPage from "../pages/sales-agent/reports/SalesAgentReportsPage";
+import SalesAgentSettingsPage from "../pages/sales-agent/settings/SalesAgentSettings";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +41,13 @@ const router = createBrowserRouter([
   {
     path: "/sales-agent",
     element: <SalesAgentLayout />,
-    children: [{ path: "dashboard", element: <SalesAgentDashboardPage /> }],
+    children: [
+      { path: "dashboard", element: <SalesAgentDashboardPage /> },
+      { path: "customers", element: <SalesAgentCustomersPage /> },
+      { path: "orders", element: <SalesAgentOrdersPage /> },
+      { path: "reports", element: <SalesAgentReportsPage /> },
+      { path: "settings", element: <SalesAgentSettingsPage /> },
+    ],
   },
 ]);
 
