@@ -4,8 +4,8 @@ import { FaPlus } from "react-icons/fa";
 import usePageTitle from "../../../hooks/usePageTitle";
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
-import Button from "../../../components/ui/Button";
 import FilterStatus from "../../../components/filters/Status";
+import Button from "../../../components/ui/Button";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
