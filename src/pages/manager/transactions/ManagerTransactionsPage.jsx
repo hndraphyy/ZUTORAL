@@ -57,7 +57,7 @@ const ManagerTransactionsPage = () => {
       <div className="mb-10">
         <Header title="Transactions" />
         <div className="mb-6">
-          <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1a gap-2 lg:gap-3">
+          <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1a gap-2.5">
             <SearchInput
               value={search}
               onChange={(e) => setSearch(e.target.value)}
