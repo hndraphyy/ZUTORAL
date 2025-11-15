@@ -8,7 +8,7 @@ const ManagerSidebar = ({ Links }) => {
   const { logout } = useAuth();
 
   return (
-    <aside className="fixed bottom-0 md:top-0 md:left-0 w-full md:w-[260px] lg:w-[270px] xl:w-[318px] 2xl:w-[360px] md:h-full bg-sidebar flex md:flex-col justify-between items-center md:py-10 z-50 bg-cover md:bg-bottom pt-2">
+    <aside className="fixed bottom-0 md:top-0 md:left-0 w-full md:w-60 lg:w-[270px] xl:w-[318px] 2xl:w-[360px] md:h-full bg-sidebar flex md:flex-col justify-between items-center md:py-10 z-50 bg-cover md:bg-bottom pt-2">
       <div className="flex flex-col items-center gap-9 2xl:gap-12 w-full">
         <img
           src="/assets/svg/logo-brand.svg"

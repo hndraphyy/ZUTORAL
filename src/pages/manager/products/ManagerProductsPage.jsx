@@ -56,19 +56,24 @@ const ManagerProductsPage = () => {
       <div className="mb-10">
         <Header title="Products" />
         <div className="mb-6">
-          <div className="grid grid-cols-12 gap-2 md:gap-3">
+          <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1a gap-2 lg:gap-3">
             <SearchInput
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="col-span-8"
+              className="col-span-12 lg:col-span-8"
             />
-            <FilterStatus className="col-span-2" />
+            <FilterStatus
+              className="col-span-6 lg:col-span-2"
+              options={[
+                { value: "low", label: "Low" },
+                { value: "out-of-stock", label: "Out of Stock" },
+              ]}
+            />
             <Button
               onAdd={handleAddProduct}
               icon={<FaPlus />}
-              label="Add "
-              className="col-span-2"
-              ClassNameLabel="hidden md:block"
+              label="Add"
+              className="col-span-6 lg:col-span-2"
             />
           </div>
         </div>
