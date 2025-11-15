@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
 import Header from "../../../components/Header";
-import FilterBar from "../../../components/filters/FilterBar";
-import BaseTable from "../../../components/table/BaseTable";
 
 const ManagerEmployeesPage = () => {
   usePageTitle("Employees - Manager");
@@ -52,19 +50,7 @@ const ManagerEmployeesPage = () => {
     <div>
       <div className="mb-10">
         <Header title="Employees" />
-        <div className="mb-6">
-          <FilterBar
-            search={search}
-            setSearch={setSearch}
-            onAdd={handleAddProduct}
-            showStatus
-            showAdd
-            className="grid-cols-6"
-            classNameSearch="col-span-4"
-            classNameStatus="col-span-1"
-            classNameAdd="col-span-1"
-          />
-        </div>
+        <div className="mb-6"></div>
       </div>
     </div>
   );

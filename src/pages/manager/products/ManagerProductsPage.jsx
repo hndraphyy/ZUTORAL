@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { FaPlus } from "react-icons/fa";
+
 import usePageTitle from "../../../hooks/usePageTitle";
 import Header from "../../../components/Header";
-import FilterBar from "../../../components/filters/FilterBar";
-import BaseTable from "../../../components/table/BaseTable";
+import SearchInput from "../../../components/filters/Search";
+import Button from "../../../components/ui/Button";
+import FilterStatus from "../../../components/filters/Status";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
@@ -53,15 +56,21 @@ const ManagerProductsPage = () => {
       <div className="mb-10">
         <Header title="Products" />
         <div className="mb-6">
-          <FilterBar
-            search={search}
-            setSearch={setSearch}
-            onAdd={handleAddProduct}
-            showAdd
-            className="grid-cols-5"
-            classNameSearch="col-span-4"
-            classNameAdd="col-span-1"
-          />
+          <div className="grid grid-cols-12 gap-2 md:gap-3">
+            <SearchInput
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="col-span-8"
+            />
+            <FilterStatus className="col-span-2" />
+            <Button
+              onAdd={handleAddProduct}
+              icon={<FaPlus />}
+              label="Add "
+              className="col-span-2"
+              ClassNameLabel="hidden md:block"
+            />
+          </div>
         </div>
       </div>
     </div>

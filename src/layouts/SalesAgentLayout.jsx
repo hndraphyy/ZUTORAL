@@ -6,7 +6,7 @@ const SalesAgentLayout = () => {
   return (
     <div className="flex">
       <Sidebar Links={salesLinks} />
-      <main className="md:ml-[260px] lg:ml-[270px] xl:ml-[318px] 2xl:ml-[360px] w-full p-2 md:p-8">
+      <main className="md:ml-[260px] lg:ml-[270px] xl:ml-[318px] 2xl:ml-[360px] w-full p-2 md:p-5 lg:p-8">
         <Outlet />
       </main>
     </div>

@@ -37,8 +37,8 @@ const ManagerSidebar = ({ Links }) => {
                   <div
                     className={`flex items-center gap-2.5 px-3 md:px-3.5 lg:px-4 2xl:px-5 py-3 md:py-3 text-base md:text-sm lg:text-lg 2xl:text-[22px] rounded-full md:rounded-lg font-medium transition-all duration-200 ${
                       isActive
-                        ? "bg-white text-purple scale-95 md:scale-100"
-                        : "text-white bg-transparent hover:bg-white/25 hover:scale-95 md:hover:scale-100"
+                        ? "bg-white text-purple"
+                        : "text-white bg-transparent hover:bg-white/25"
                     }`}
                   >
                     <img

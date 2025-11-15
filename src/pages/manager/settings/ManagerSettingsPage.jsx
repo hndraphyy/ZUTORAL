@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
+import Header from "../../../components/Header";
 
 const ManagerSettingsPage = () => {
   usePageTitle("Settings - Manager");
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h2>settings</h2>
+    <div>
+      <div className="mb-10">
+        <Header title="Settings" />
+        <div className="mb-6"></div>
+      </div>
     </div>
   );
 };

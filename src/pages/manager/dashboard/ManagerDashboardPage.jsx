@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
+import Header from "../../../components/Header";
 
 const ManagerDashboardPage = () => {
   usePageTitle("Dashboard - Manager");
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold text-gray-800">MANAGER DASHBOARD</h1>
+    <div>
+      <div className="mb-10">
+        <Header title="Dashboard" />
+        <div className="mb-6"></div>
+      </div>
     </div>
   );
 };
