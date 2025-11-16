@@ -2,7 +2,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 const FilterStatus = ({
   status,
-  setStatus,
+  onChange,
   options = [],
   placeholder = "Status",
   className = "",
@@ -11,7 +11,7 @@ const FilterStatus = ({
     <div className={`relative w-full h-full ${className}`}>
       <select
         value={status}
-        onChange={(e) => setStatus(e.target.value)}
+        onChange={onChange}
         className="border px-3 outline-0 border-gray-300 text-base md:text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white"
       >
         <option value="">{placeholder}</option>

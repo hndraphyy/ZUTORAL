@@ -6,23 +6,27 @@ import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
+import BaseTable from "../../../components/table/BaseTable";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
 
   const [search, setSearch] = useState("");
+  const [isStatus, setStatus] = useState("");
 
   const columns = [
     { header: "No", accessor: "id" },
-    { header: "Nama", accessor: "name" },
+    { header: "Name", accessor: "name" },
     { header: "Price", accessor: "price" },
     { header: "Stock", accessor: "stock" },
+    { header: "Category", accessor: "category" },
+    { header: "Status", accessor: "status" },
     {
-      header: "Action",
-      render: () => (
-        <div className="flex  gap-2">
-          <button className="text-gray-700 text-lg">Edit</button>
-          <button className="text-gray-700 text-lg">Delete</button>
+      header: "Actions",
+      render: (row) => (
+        <div className="flex gap-3">
+          <button className="text-blue-600">Edit</button>
+          <button className="text-red-600">Delete</button>
         </div>
       ),
     },
@@ -34,18 +38,26 @@ const ManagerProductsPage = () => {
       name: "Kopi Hitam",
       price: "Rp 15.000",
       stock: 23,
+      category: "Minuman",
+      status: "Out of Stock",
     },
     {
       id: 2,
       name: "Roti Coklat",
       price: "Rp 12.000",
       stock: 8,
+      category: "Roti",
+      status: "Low",
     },
   ];
 
-  const filteredData = data.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredData = data.filter((p) => {
+    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = isStatus
+      ? p.status.toLowerCase() === isStatus.toLowerCase()
+      : true;
+    return matchSearch && matchStatus;
+  });
 
   const handleAddProduct = () => {
     alert("Add Product clicked");
@@ -63,10 +75,12 @@ const ManagerProductsPage = () => {
               className="col-span-12 lg:col-span-8"
             />
             <FilterStatus
+              value={isStatus}
+              onChange={(e) => setStatus(e.target.value)}
               className="col-span-6 lg:col-span-2"
               options={[
                 { value: "low", label: "Low" },
-                { value: "out-of-stock", label: "Out of Stock" },
+                { value: "out of stock", label: "Out of Stock" },
               ]}
             />
             <Button
@@ -77,6 +91,7 @@ const ManagerProductsPage = () => {
             />
           </div>
         </div>
+        <BaseTable columns={columns} data={filteredData} />
       </div>
     </div>
   );
