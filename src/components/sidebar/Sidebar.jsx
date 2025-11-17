@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 import LogoutButton from "../LogoutButton";
 import useAuth from "../../hooks/useAuth";
-import managerLinks from "./managerLinks";
-import salesLinks from "./salesLinks";
 
 const ManagerSidebar = ({ Links }) => {
   const { logout } = useAuth();

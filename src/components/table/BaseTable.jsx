@@ -29,7 +29,7 @@ const BaseTable = ({ columns = [], data = [] }) => {
             </tr>
           ) : (
             data.map((row, idx) => (
-              <tr key={idx} className="hover:bg-gray-50 transition-colors">
+              <tr key={idx} className="">
                 {columns.map((col, ci) => (
                   <td
                     key={ci}

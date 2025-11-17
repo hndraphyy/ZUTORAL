@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 import usePageTitle from "../../../hooks/usePageTitle";
+import ActionModal from "../../../components/modal/ActionModal";
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
@@ -24,10 +26,12 @@ const ManagerProductsPage = () => {
     {
       header: "Actions",
       render: (row) => (
-        <div className="flex gap-3">
-          <button className="text-blue-600">Edit</button>
-          <button className="text-red-600">Delete</button>
-        </div>
+        <button
+          className="py-[7px] px-2 bg-purple text-white rounded-md cursor-pointer"
+          onClick={handleActionModal}
+        >
+          <FiMoreHorizontal size={24} />
+        </button>
       ),
     },
   ];
@@ -58,6 +62,10 @@ const ManagerProductsPage = () => {
       : true;
     return matchSearch && matchStatus;
   });
+
+  const handleActionModal = () => {
+    return <ActionModal />;
+  };
 
   const handleAddProduct = () => {
     alert("Add Product clicked");
