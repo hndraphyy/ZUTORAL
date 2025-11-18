@@ -25,10 +25,13 @@ const ManagerProductsPage = () => {
     { header: "Status", accessor: "status" },
     {
       header: "Actions",
+      accessor: "actions",
+      sortable: false,
+      isAction: true,
       render: (row) => (
         <button
           className="py-[7px] px-2 bg-purple text-white rounded-md cursor-pointer"
-          onClick={handleActionModal}
+          onClick={() => setIsModalOpen(true)}
         >
           <FiMoreHorizontal size={24} />
         </button>
