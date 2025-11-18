@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { formatRupiah } from "../../../utils/format";
 
 import usePageTitle from "../../../hooks/usePageTitle";
 import ActionModal from "../../../components/modal/ActionModal";
@@ -19,7 +20,11 @@ const ManagerProductsPage = () => {
   const columns = [
     { header: "No", accessor: "id" },
     { header: "Name", accessor: "name" },
-    { header: "Price", accessor: "price" },
+    {
+      header: "Price",
+      accessor: "price",
+      render: (row) => <span>{formatRupiah(row.price)}</span>,
+    },
     { header: "Stock", accessor: "stock" },
     { header: "Category", accessor: "category" },
     { header: "Status", accessor: "status" },
@@ -43,7 +48,7 @@ const ManagerProductsPage = () => {
     {
       id: 1,
       name: "Kopi Hitam",
-      price: "Rp 15.000",
+      price: "15000",
       stock: 23,
       category: "Minuman",
       status: "Out of Stock",
@@ -51,7 +56,7 @@ const ManagerProductsPage = () => {
     {
       id: 2,
       name: "Roti Coklat",
-      price: "Rp 12.000",
+      price: "12000",
       stock: 8,
       category: "Roti",
       status: "Low",
