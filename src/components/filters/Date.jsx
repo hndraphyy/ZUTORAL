@@ -11,7 +11,7 @@ const FilterDate = ({ date, setDate, className = "" }) => {
         id="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="border appearance-none outline-0 text-base md:text-lg border-gray-300 rounded-md h-full p-2 w-full text-gray-500 
+        className="border appearance-none outline-0 text-base 2xl:text-lg border-gray-300 rounded-md h-full p-2 w-full text-gray-500 
           [&::-webkit-calendar-picker-indicator]:opacity-0"
       />
     </div>

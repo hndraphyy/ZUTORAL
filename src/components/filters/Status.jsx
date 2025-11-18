@@ -12,7 +12,7 @@ const FilterStatus = ({
       <select
         value={status}
         onChange={onChange}
-        className="border px-3 outline-0 border-gray-300 text-base md:text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white"
+        className="border px-3 outline-0 border-gray-300 text-base 2xl:text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white"
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (
@@ -21,7 +21,7 @@ const FilterStatus = ({
           </option>
         ))}
       </select>
-      <IoIosArrowDown className="absolute top-[15px] md:top-[13px] right-3 pointer-events-none text-gray-500 md:w-5 md:h-5" />
+      <IoIosArrowDown className="absolute top-[15px] 2xl:top-[13px] right-3 pointer-events-none text-gray-500 2xl:w-5 2xl:h-5" />
     </div>
   );
 };

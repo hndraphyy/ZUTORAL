@@ -10,6 +10,7 @@ import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
+import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
 
 const ManagerProductsPage = () => {
@@ -17,6 +18,14 @@ const ManagerProductsPage = () => {
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
+
+  const getStatusColor = (status) => {
+    const statusLower = status.toLowerCase();
+    if (statusLower === "available") return "green";
+    if (statusLower === "low") return "yellow";
+    if (statusLower === "out of stock") return "red";
+    return "default";
+  };
 
   const columns = [
     { header: "No", accessor: "id" },
@@ -28,7 +37,18 @@ const ManagerProductsPage = () => {
     },
     { header: "Stock", accessor: "stock" },
     { header: "Category", accessor: "category" },
-    { header: "Status", accessor: "status" },
+    {
+      header: "Status",
+      accessor: "status",
+      render: (row) => {
+        const color = getStatusColor(row.status);
+        return (
+          <div className="flex justify-start">
+            <StatusLabel variant={color} label={row.status} />
+          </div>
+        );
+      },
+    },
     {
       header: "Actions",
       accessor: "actions",
@@ -86,6 +106,7 @@ const ManagerProductsPage = () => {
               onChange={(e) => setStatus(e.target.value)}
               className="col-span-6 lg:col-span-2"
               options={[
+                { value: "Available", label: "Available" },
                 { value: "low", label: "Low" },
                 { value: "out of stock", label: "Out of Stock" },
               ]}
