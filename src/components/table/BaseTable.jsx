@@ -64,7 +64,7 @@ const BaseTable = ({ columns = [], data = [] }) => {
                 ) : (
                   <div
                     className={`flex items-center ${
-                      col.isAction ? "justify-center w-40" : ""
+                      col.isAction ? "justify-center" : ""
                     }`}
                   >
                     {col.header}
@@ -98,7 +98,7 @@ const BaseTable = ({ columns = [], data = [] }) => {
                     key={ci}
                     className={`
                         px-4 py-3 text-gray-700 text-sm 2xl:text-[16px]
-                        ${col.isAction ? "text-center w-20" : ""}
+                        ${col.isAction ? "text-center" : ""}
                       `}
                   >
                     {col.render ? col.render(row) : row[col.accessor]}
