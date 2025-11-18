@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
+import usePagination from "../../../hooks/usePagination";
 
 import usePageTitle from "../../../hooks/usePageTitle";
 import ActionModal from "../../../components/modal/ActionModal";
@@ -21,9 +22,9 @@ const ManagerProductsPage = () => {
 
   const getStatusColor = (status) => {
     const statusLower = status.toLowerCase();
-    if (statusLower === "available") return "green";
+    if (statusLower === "available") return "purple";
     if (statusLower === "low") return "yellow";
-    if (statusLower === "out of stock") return "red";
+    if (statusLower === "out of stock") return "pink";
     return "default";
   };
 
@@ -82,6 +83,14 @@ const ManagerProductsPage = () => {
     return matchSearch && matchStatus;
   });
 
+  const {
+    currentPage,
+    itemsPerPage,
+    totalItems,
+    handlePageChange,
+    handleItemsPerPageChange,
+  } = usePagination(filteredData, 10);
+
   const handleActionModal = () => {
     return <ActionModal />;
   };
@@ -119,7 +128,15 @@ const ManagerProductsPage = () => {
             />
           </div>
         </div>
-        <BaseTable columns={columns} data={filteredData} />
+        <BaseTable
+          columns={columns}
+          data={filteredData}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
       </div>
     </div>
   );
