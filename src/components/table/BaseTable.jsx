@@ -93,7 +93,7 @@ const BaseTable = ({ columns = [], data = [] }) => {
                   <td
                     key={ci}
                     className={`
-                      p-3 text-gray-700 text-sm lg:text-[16px]
+                      px-4 py-3 text-gray-700 text-sm lg:text-[16px]
                       ${col.isAction ? "text-center w-40" : ""}
                     `}
                   >

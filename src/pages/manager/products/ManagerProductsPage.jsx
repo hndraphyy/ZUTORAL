@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
+import { generateFakeData } from "../../../utils/faker";
 
 import usePageTitle from "../../../hooks/usePageTitle";
 import ActionModal from "../../../components/modal/ActionModal";
@@ -44,24 +45,14 @@ const ManagerProductsPage = () => {
     },
   ];
 
-  const data = [
-    {
-      id: 1,
-      name: "Kopi Hitam",
-      price: "15000",
-      stock: 23,
-      category: "Minuman",
-      status: "Out of Stock",
-    },
-    {
-      id: 2,
-      name: "Roti Coklat",
-      price: "12000",
-      stock: 8,
-      category: "Roti",
-      status: "Low",
-    },
-  ];
+  const data = generateFakeData(100, (i) => ({
+    id: i,
+    name: `Product ${i}`,
+    price: Math.floor(Math.random() * 20000) + 10000,
+    stock: Math.floor(Math.random() * 50),
+    category: ["Roti", "Minuman", "Snack"][i % 3],
+    status: ["Low", "Out of Stock", "Available"][i % 3],
+  }));
 
   const filteredData = data.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
