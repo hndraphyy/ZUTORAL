@@ -37,7 +37,7 @@ const ManagerProductsPage = () => {
       render: (row) => (
         <button
           className="py-[7px] px-2 bg-purple text-white rounded-md cursor-pointer"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => handleActionModal}
         >
           <FiMoreHorizontal size={24} />
         </button>
@@ -47,7 +47,7 @@ const ManagerProductsPage = () => {
 
   const data = generateFakeData(100, (i) => ({
     id: i,
-    name: `Product ${i}`,
+    name: `Product Aburing Sirs ${i}`,
     price: Math.floor(Math.random() * 20000) + 10000,
     stock: Math.floor(Math.random() * 50),
     category: ["Roti", "Minuman", "Snack"][i % 3],
