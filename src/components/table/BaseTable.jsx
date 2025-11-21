@@ -44,7 +44,7 @@ const BaseTable = ({
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-6">
       <div className="overflow-x-auto border border-gray-200 rounded-t-lg">
         <table className="min-w-full text-left">
           <thead>

@@ -1,4 +1,4 @@
-const ActionDropdown = ({ onClose, data, pos, detailOn, editOn, deleteOn }) => {
+const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
   const handleClickOutside = (e) => {
     if (e.target.dataset.overlay) onClose();
   };
@@ -10,13 +10,15 @@ const ActionDropdown = ({ onClose, data, pos, detailOn, editOn, deleteOn }) => {
       className="absolute inset-0 z-50"
     >
       <div
-        className=" bg-white border border-gray-200 shadow-lg rounded-md w-40 overflow-hidden"
+        className="absolute bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden"
         style={{ top: pos.top, left: pos.left }}
       >
         {detailOn && (
           <button
-            className="w-full py-2 px-4 text-sm text-left hover:bg-gray-100"
-            onClick={() => alert(`Detail → ${data?.name}`)}
+            className="w-full py-2 px-4 text-sm text-left 2xl:text-lg hover:bg-purple-light"
+            onClick={() => {
+              onClose();
+            }}
           >
             Detail
           </button>
@@ -24,8 +26,10 @@ const ActionDropdown = ({ onClose, data, pos, detailOn, editOn, deleteOn }) => {
 
         {editOn && (
           <button
-            className="w-full py-2 px-4 text-sm text-left hover:bg-yellow-100"
-            onClick={() => alert(`Edit → ${data?.name}`)}
+            className="w-full py-2 px-4 text-sm text-left 2xl:text-lg hover:bg-purple-light"
+            onClick={() => {
+              onClose();
+            }}
           >
             Edit
           </button>
@@ -33,8 +37,10 @@ const ActionDropdown = ({ onClose, data, pos, detailOn, editOn, deleteOn }) => {
 
         {deleteOn && (
           <button
-            className="w-full py-2 px-4 text-sm text-left hover:bg-red-100 text-red-600"
-            onClick={() => alert(`Delete → ${data?.name}`)}
+            className="w-full py-2 px-4 text-sm text-left 2xl:text-lg hover:bg-purple-light"
+            onClick={() => {
+              onClose();
+            }}
           >
             Delete
           </button>

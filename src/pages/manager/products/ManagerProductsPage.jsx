@@ -135,7 +135,6 @@ const ManagerProductsPage = () => {
       {isOpen && (
         <ActionDropdown
           onClose={closeModal}
-          data={selectedRow}
           pos={modalPos}
           detailOn
           editOn
