@@ -3,11 +3,12 @@ import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
+
 import useActionModal from "../../../hooks/useModal";
 import usePagination from "../../../hooks/usePagination";
-
 import usePageTitle from "../../../hooks/usePageTitle";
-import ActionModal from "../../../components/modal/ActionModal";
+
+import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
@@ -18,20 +19,17 @@ import BaseTable from "../../../components/table/BaseTable";
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
 
-  const { isOpen, selectedRow, openModal, closeModal } = useActionModal();
+  const { isOpen, selectedRow, modalPos, openModal, closeModal } =
+    useActionModal();
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
 
   const getStatusColor = (status) => {
-    const statusLower = status.toLowerCase();
-    if (statusLower === "available") return "purple";
-    if (statusLower === "low") return "yellow";
-    if (statusLower === "out of stock") return "pink";
-    return "default";
+    const s = status.toLowerCase();
+    return s === "available" ? "purple" : s === "low" ? "yellow" : "pink";
   };
 
-  // th content
   const columns = [
     { header: "No", accessor: "id" },
     { header: "Name", accessor: "name" },
@@ -45,14 +43,14 @@ const ManagerProductsPage = () => {
     {
       header: "Status",
       accessor: "status",
-      render: (row) => {
-        const color = getStatusColor(row.status);
-        return (
-          <div className="flex justify-start">
-            <StatusLabel variant={color} label={row.status} />
-          </div>
-        );
-      },
+      render: (row) => (
+        <div className="flex justify-start">
+          <StatusLabel
+            variant={getStatusColor(row.status)}
+            label={row.status}
+          />
+        </div>
+      ),
     },
     {
       header: "Actions",
@@ -61,7 +59,7 @@ const ManagerProductsPage = () => {
       isAction: true,
       render: (row) => (
         <button
-          onClick={() => openModal(row)}
+          onClick={(e) => openModal(row, e)}
           className="py-[7px] px-2 bg-purple text-white rounded-md cursor-pointer"
         >
           <FiMoreHorizontal size={24} />
@@ -70,32 +68,6 @@ const ManagerProductsPage = () => {
     },
   ];
 
-  // action modal content
-  const actions = [
-    {
-      label: "Details",
-      onClick: (row) => {
-        console.log("Detail:", row);
-        closeModal();
-      },
-    },
-    {
-      label: "Edit",
-      onClick: (row) => {
-        console.log("Edit:", row);
-        closeModal();
-      },
-    },
-    {
-      label: "Delete",
-      onClick: (row) => {
-        console.log("Delete:", row);
-        closeModal();
-      },
-    },
-  ];
-
-  // dummy tbody
   const data = generateFakeData(100, (i) => ({
     id: i,
     name: `Product Aburing Sirs ${i}`,
@@ -121,56 +93,55 @@ const ManagerProductsPage = () => {
     handleItemsPerPageChange,
   } = usePagination(filteredData, 10);
 
-  const handleAddProduct = () => {
-    alert("Add Product clicked");
-  };
-
   return (
     <div>
-      <div className="mb-10">
-        <Header title="Products" />
-        <div className="mb-6">
-          <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1 gap-3">
-            <SearchInput
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="col-span-12 lg:col-span-8"
-            />
-            <FilterStatus
-              value={isStatus}
-              onChange={(e) => setStatus(e.target.value)}
-              className="col-span-6 lg:col-span-2"
-              options={[
-                { value: "Available", label: "Available" },
-                { value: "low", label: "Low" },
-                { value: "out of stock", label: "Out of Stock" },
-              ]}
-            />
-            <Button
-              onAdd={handleAddProduct}
-              icon={<FaPlus />}
-              label="Add"
-              className="col-span-6 lg:col-span-2"
-            />
-          </div>
-        </div>
-        <BaseTable
-          columns={columns}
-          data={filteredData}
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          totalItems={totalItems}
-          onPageChange={handlePageChange}
-          onItemsPerPageChange={handleItemsPerPageChange}
-        />
-        {isOpen && (
-          <ActionModal
-            onClose={closeModal}
-            data={selectedRow}
-            actions={actions}
+      <Header title="Products" />
+      <div className="mb-6">
+        <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1 gap-3">
+          <SearchInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="col-span-12 lg:col-span-8"
           />
-        )}
+          <FilterStatus
+            value={isStatus}
+            onChange={(e) => setStatus(e.target.value)}
+            className="col-span-6 lg:col-span-2"
+            options={[
+              { value: "Available", label: "Available" },
+              { value: "Low", label: "Low" },
+              { value: "Out of Stock", label: "Out of Stock" },
+            ]}
+          />
+          <Button
+            onAdd={() => alert("Add clicked")}
+            icon={<FaPlus />}
+            label="Add"
+            className="col-span-6 lg:col-span-2"
+          />
+        </div>
       </div>
+
+      <BaseTable
+        columns={columns}
+        data={filteredData}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+        onItemsPerPageChange={handleItemsPerPageChange}
+      />
+
+      {isOpen && (
+        <ActionDropdown
+          onClose={closeModal}
+          data={selectedRow}
+          pos={modalPos}
+          detailOn
+          editOn
+          deleteOn
+        />
+      )}
     </div>
   );
 };

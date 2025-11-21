@@ -15,37 +15,33 @@ const BaseTable = ({
   const [sortDirection, setSortDirection] = useState("asc");
 
   const handleSort = (accessor) => {
-    if (sortColumn !== accessor) {
+    if (sortColumn === accessor) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
       setSortColumn(accessor);
       setSortDirection("asc");
-      return;
     }
-    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
 
   const sortedData = useMemo(() => {
     if (!sortColumn) return data;
-
     return [...data].sort((a, b) => {
-      let valA = a[sortColumn];
-      let valB = b[sortColumn];
-
-      if (!isNaN(valA) && !isNaN(valB)) {
-        valA = Number(valA);
-        valB = Number(valB);
-      } else if (typeof valA === "string" && typeof valB === "string") {
-        valA = valA.toLowerCase();
-        valB = valB.toLowerCase();
-      }
-
-      if (valA < valB) return sortDirection === "asc" ? -1 : 1;
-      if (valA > valB) return sortDirection === "asc" ? 1 : -1;
+      let A = a[sortColumn];
+      let B = b[sortColumn];
+      if (!isNaN(A)) A = Number(A);
+      if (!isNaN(B)) B = Number(B);
+      if (typeof A === "string") A = A.toLowerCase();
+      if (typeof B === "string") B = B.toLowerCase();
+      if (A < B) return sortDirection === "asc" ? -1 : 1;
+      if (A > B) return sortDirection === "asc" ? 1 : -1;
       return 0;
     });
   }, [data, sortColumn, sortDirection]);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="w-full">
@@ -59,36 +55,26 @@ const BaseTable = ({
                   onClick={() =>
                     col.sortable !== false && handleSort(col.accessor)
                   }
-                  className={`p-4 font-semibold text-gray-700 text-sm 2xl:text-[16px] select-none whitespace-nowrap 
-                    ${
-                      col.sortable === false
-                        ? "cursor-default"
-                        : "cursor-pointer"
-                    }
-                  `}
+                  className={`p-4 font-semibold ${
+                    col.sortable !== false ? "cursor-pointer" : "cursor-default"
+                  } text-gray-700 text-sm whitespace-nowrap`}
                 >
-                  {col.sortable !== false ? (
-                    <div className="flex items-center justify-between">
-                      <span>{col.header}</span>
-                      <span className="inline-flex items-center ml-2">
-                        <TbArrowsSort
-                          className={
-                            sortColumn === col.accessor
-                              ? "text-gray-800"
-                              : "text-gray-400"
-                          }
-                        />
-                      </span>
-                    </div>
-                  ) : (
-                    <div
-                      className={`flex items-center ${
-                        col.isAction ? "justify-center" : "justify-start"
-                      }`}
-                    >
-                      {col.header}
-                    </div>
-                  )}
+                  <div
+                    className={`flex items-center ${
+                      col.isAction ? "justify-center" : "justify-between"
+                    }`}
+                  >
+                    {col.header}
+                    {col.sortable !== false && (
+                      <TbArrowsSort
+                        className={`ml-2 ${
+                          sortColumn === col.accessor
+                            ? "text-gray-800"
+                            : "text-gray-400"
+                        }`}
+                      />
+                    )}
+                  </div>
                 </th>
               ))}
             </tr>
@@ -97,10 +83,7 @@ const BaseTable = ({
           <tbody>
             {paginatedData.length === 0 ? (
               <tr>
-                <td
-                  colSpan={columns.length}
-                  className="text-center py-6 text-gray-500"
-                >
+                <td colSpan={columns.length} className="text-center py-6">
                   No Data Available
                 </td>
               </tr>
@@ -108,17 +91,16 @@ const BaseTable = ({
               paginatedData.map((row, idx) => (
                 <tr
                   key={row.id || idx}
-                  className={`border-t border-border-table ${
+                  className={`border-t border-gray-200 ${
                     idx % 2 === 0 ? "bg-purple-light" : "bg-white"
                   }`}
                 >
                   {columns.map((col, ci) => (
                     <td
                       key={ci}
-                      className={`
-                          px-4 py-3 text-gray-700 text-sm 2xl:text-[16px]
-                          ${col.isAction ? "text-center" : ""}
-                        `}
+                      className={`px-4 py-3 text-gray-700 text-sm ${
+                        col.isAction ? "text-center" : ""
+                      }`}
                     >
                       {col.render ? col.render(row) : row[col.accessor]}
                     </td>
@@ -129,6 +111,7 @@ const BaseTable = ({
           </tbody>
         </table>
       </div>
+
       <TableFooter
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
