@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
+import useActionModal from "../../../hooks/useModal";
 import usePagination from "../../../hooks/usePagination";
 
 import usePageTitle from "../../../hooks/usePageTitle";
@@ -17,6 +18,8 @@ import BaseTable from "../../../components/table/BaseTable";
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
 
+  const { isOpen, selectedRow, openModal, closeModal } = useActionModal();
+
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
 
@@ -28,6 +31,7 @@ const ManagerProductsPage = () => {
     return "default";
   };
 
+  // th content
   const columns = [
     { header: "No", accessor: "id" },
     { header: "Name", accessor: "name" },
@@ -57,8 +61,8 @@ const ManagerProductsPage = () => {
       isAction: true,
       render: (row) => (
         <button
+          onClick={() => openModal(row)}
           className="py-[7px] px-2 bg-purple text-white rounded-md cursor-pointer"
-          onClick={() => handleActionModal}
         >
           <FiMoreHorizontal size={24} />
         </button>
@@ -66,11 +70,37 @@ const ManagerProductsPage = () => {
     },
   ];
 
+  // action modal content
+  const actions = [
+    {
+      label: "Details",
+      onClick: (row) => {
+        console.log("Detail:", row);
+        closeModal();
+      },
+    },
+    {
+      label: "Edit",
+      onClick: (row) => {
+        console.log("Edit:", row);
+        closeModal();
+      },
+    },
+    {
+      label: "Delete",
+      onClick: (row) => {
+        console.log("Delete:", row);
+        closeModal();
+      },
+    },
+  ];
+
+  // dummy tbody
   const data = generateFakeData(100, (i) => ({
     id: i,
     name: `Product Aburing Sirs ${i}`,
-    price: Math.floor(Math.random() * 20000) + 10000,
-    stock: Math.floor(Math.random() * 50),
+    price: 15000 + i * 100,
+    stock: (i * 3) % 50,
     category: ["Roti", "Minuman", "Snack"][i % 3],
     status: ["Low", "Out of Stock", "Available"][i % 3],
   }));
@@ -90,10 +120,6 @@ const ManagerProductsPage = () => {
     handlePageChange,
     handleItemsPerPageChange,
   } = usePagination(filteredData, 10);
-
-  const handleActionModal = () => {
-    return <ActionModal />;
-  };
 
   const handleAddProduct = () => {
     alert("Add Product clicked");
@@ -137,6 +163,13 @@ const ManagerProductsPage = () => {
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
         />
+        {isOpen && (
+          <ActionModal
+            onClose={closeModal}
+            data={selectedRow}
+            actions={actions}
+          />
+        )}
       </div>
     </div>
   );

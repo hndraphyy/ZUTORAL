@@ -2,19 +2,19 @@ import React from "react";
 
 const statusVariants = {
   purple: {
-    className: "bg-purple-100 text-purple-600",
+    className: "bg-purple-200 text-purple-700",
   },
   yellow: {
-    className: "bg-yellow-100 text-yellow-600",
+    className: "bg-yellow-200 text-yellow-700",
   },
   pink: {
-    className: "bg-pink-100 text-pink-600",
+    className: "bg-pink-200 text-pink-700",
   },
   blue: {
-    className: "bg-blue-100 text-blue-700",
+    className: "bg-blue-200 text-blue-700",
   },
   default: {
-    className: "bg-gray-100 text-gray-700",
+    className: "bg-gray-200 text-gray-700",
   },
 };
 
