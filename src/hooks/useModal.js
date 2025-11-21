@@ -9,8 +9,8 @@ const useActionModal = () => {
     const rect = e.currentTarget.getBoundingClientRect();
     setSelectedRow(row);
     setModalPos({
-      top: rect.bottom + 8,
-      left: rect.left,
+      top: rect.bottom,
+      left: rect.left - 20,
     });
     setIsOpen(true);
   };
