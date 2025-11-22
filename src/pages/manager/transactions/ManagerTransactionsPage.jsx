@@ -20,7 +20,7 @@ import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
 
-  const { isOpen, selectedRow, modalPos, openModal, closeModal } =
+  const { isOpen,  modalPos, openModal, closeModal } =
     useActionModal();
 
   const [search, setSearch] = useState("");
