@@ -42,7 +42,7 @@ const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
       )}
       {deleteOn && (
         <button
-          className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
+          className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-red-500 hover:bg-purple-light"
           onClick={onClose}
         >
           Delete
