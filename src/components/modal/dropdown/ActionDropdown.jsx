@@ -30,14 +30,16 @@ const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
       )}
       <hr className="border border-gray-200" />
       {editOn && (
-        <button
-          className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
-          onClick={onClose}
-        >
-          Edit
-        </button>
+        <div>
+          <button
+            className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
+            onClick={onClose}
+          >
+            Edit
+          </button>
+          <hr className="border border-gray-200" />
+        </div>
       )}
-      <hr className="border border-gray-200" />
       {deleteOn && (
         <button
           className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"

@@ -1,86 +1,151 @@
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { formatRupiah } from "../../../utils/format";
+import { generateFakeData } from "../../../utils/faker";
 
+import useActionModal from "../../../hooks/useActionModal";
+import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterDate from "../../../components/filters/Date";
 import FilterStatus from "../../../components/filters/Status";
+import StatusLabel from "../../../components/ui/StatusLabel";
 import Button from "../../../components/ui/Button";
+import BaseTable from "../../../components/table/BaseTable";
+import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 
 const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
 
+  const { isOpen, selectedRow, modalPos, openModal, closeModal } =
+    useActionModal();
+
   const [search, setSearch] = useState("");
+  const [isStatus, setStatus] = useState("");
+  const [isDate, setDate] = useState("");
 
   const columns = [
     { header: "No", accessor: "id" },
-    { header: "Nama", accessor: "name" },
-    { header: "Price", accessor: "price" },
-    { header: "Stock", accessor: "stock" },
+    { header: "Invoice", accessor: "invoice" },
+    { header: "Customer", accessor: "customer" },
     {
-      header: "Action",
-      render: () => (
-        <div className="flex  gap-2">
-          <button className="text-gray-700 text-lg">Edit</button>
-          <button className="text-gray-700 text-lg">Delete</button>
+      header: "Total",
+      accessor: "total",
+      render: (row) => <span>{formatRupiah(row.total)}</span>,
+    },
+    { header: "Date", accessor: "date" },
+    {
+      header: "Status",
+      accessor: "status",
+      render: (row) => (
+        <div className="flex justify-start">
+          <StatusLabel
+            variant={getStatusColor(row.status)}
+            label={row.status}
+          />
         </div>
+      ),
+    },
+    {
+      header: "Actions",
+      accessor: "actions",
+      sortable: false,
+      isAction: true,
+      render: (row) => (
+        <button
+          onClick={(e) => openModal(row, e)}
+          className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+        >
+          <FiMoreHorizontal size={24} />
+        </button>
       ),
     },
   ];
 
-  const data = [
-    {
-      id: 1,
-      name: "Kopi Hitam",
-      price: "Rp 15.000",
-      stock: 23,
-    },
-    {
-      id: 2,
-      name: "Roti Coklat",
-      price: "Rp 12.000",
-      stock: 8,
-    },
-  ];
+  const data = generateFakeData(100, (i) => ({
+    id: i,
+    invoice: `INV/${1000 + i}`,
+    customer: `Customer Adi Satya ${i}`,
+    total: 1530000 + i * 100,
+    date: `2025-11-${String((i % 30) + 1).padStart(2, "0")}`,
+    status: ["Completed", "Pending", "Failed"][i % 3],
+  }));
 
-  const filteredData = data.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredData = data.filter((p) => {
+    const matchSearch = p.customer.toLowerCase().includes(search.toLowerCase());
+    const matchDate = isDate ? p.date === isDate : true;
+    const matchStatus = isStatus
+      ? p.status.toLowerCase() === isStatus.toLowerCase()
+      : true;
+
+    return matchSearch && matchStatus && matchDate;
+  });
+
+  const getStatusColor = (status) => {
+    const s = status.toLowerCase();
+    return s === "completed" ? "green" : s === "pending" ? "yellow" : "pink";
+  };
 
   const handleAddProduct = () => {
     alert("Add Product clicked");
   };
 
+  const {
+    currentPage,
+    itemsPerPage,
+    totalItems,
+    handlePageChange,
+    handleItemsPerPageChange,
+  } = usePagination(filteredData, 10);
+
   return (
     <div>
-      <div className="mb-10">
-        <Header title="Transactions" />
-        <div className="mb-6">
-          <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1a gap-2.5">
-            <SearchInput
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="col-span-12 lg:col-span-6"
-            />
-            <FilterDate className="col-span-4 lg:col-span-2" />
-            <FilterStatus
-              className="col-span-4 lg:col-span-2"
-              options={[
-                { value: "completed", label: "Completed" },
-                { value: "pending", label: "Pending" },
-                { value: "failed", label: "Failed" },
-              ]}
-            />
-            <Button
-              onAdd={handleAddProduct}
-              icon={<FaPlus />}
-              label="Add"
-              className="col-span-4 lg:col-span-2"
-            />
-          </div>
+      <Header title="Transactions" />
+      <div className="mb-6">
+        <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1 lg:grid-rows-1a gap-2.5">
+          <SearchInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="col-span-12 lg:col-span-6"
+          />
+          <FilterDate
+            onChange={(e) => setDate(e.target.value)}
+            value={isDate}
+            className="col-span-4 lg:col-span-2"
+          />
+          <FilterStatus
+            className="col-span-4 lg:col-span-2"
+            onChange={(e) => setStatus(e.target.value)}
+            options={[
+              { value: "completed", label: "Completed" },
+              { value: "pending", label: "Pending" },
+              { value: "failed", label: "Failed" },
+            ]}
+          />
+          <Button
+            onAdd={handleAddProduct}
+            icon={<FaPlus />}
+            label="Add"
+            className="col-span-4 lg:col-span-2"
+          />
         </div>
       </div>
+      <BaseTable
+        columns={columns}
+        data={filteredData}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+        onItemsPerPageChange={handleItemsPerPageChange}
+      />
+
+      {isOpen && (
+        <ActionDropdown onClose={closeModal} pos={modalPos} detailOn deleteOn />
+      )}
     </div>
   );
 };

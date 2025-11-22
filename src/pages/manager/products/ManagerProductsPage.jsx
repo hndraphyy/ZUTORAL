@@ -8,13 +8,13 @@ import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
 
-import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
 import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
+import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");

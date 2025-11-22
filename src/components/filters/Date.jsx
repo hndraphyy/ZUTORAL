@@ -1,6 +1,6 @@
 import { FiCalendar } from "react-icons/fi";
 
-const FilterDate = ({ date, setDate, className = "" }) => {
+const FilterDate = ({ value, onChange, className = "" }) => {
   return (
     <div className={`relative h-full ${className}`}>
       <label htmlFor="date">
@@ -9,8 +9,8 @@ const FilterDate = ({ date, setDate, className = "" }) => {
       <input
         type="date"
         id="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
+        value={value}
+        onChange={onChange}
         className="border appearance-none outline-0 text-base 2xl:text-lg border-gray-300 rounded-md h-full p-2 w-full text-gray-500 
           [&::-webkit-calendar-picker-indicator]:opacity-0"
       />

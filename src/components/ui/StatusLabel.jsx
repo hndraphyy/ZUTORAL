@@ -10,6 +10,9 @@ const statusVariants = {
   pink: {
     className: "bg-pink-200 text-pink-700",
   },
+  green: {
+    className: "bg-green-200 text-green-700",
+  },
   blue: {
     className: "bg-blue-200 text-blue-700",
   },
