@@ -8,10 +8,15 @@ const useActionModal = () => {
   const openModal = (row, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setSelectedRow(row);
-    setModalPos({
-      top: rect.bottom,
-      left: rect.left - 20,
-    });
+
+    const isMobile = window.innerWidth < 768;
+
+    const top = rect.bottom + window.scrollY + 6;
+    const left = isMobile
+      ? rect.left + window.scrollX - 20
+      : rect.right + window.scrollX - 40;
+
+    setModalPos({ top, left });
     setIsOpen(true);
   };
 

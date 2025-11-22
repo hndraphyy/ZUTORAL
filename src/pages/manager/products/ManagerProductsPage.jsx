@@ -4,7 +4,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
 
-import useActionModal from "../../../hooks/useModal";
+import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
 
@@ -24,11 +24,6 @@ const ManagerProductsPage = () => {
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
-
-  const getStatusColor = (status) => {
-    const s = status.toLowerCase();
-    return s === "available" ? "purple" : s === "low" ? "yellow" : "pink";
-  };
 
   const columns = [
     { header: "No", accessor: "id" },
@@ -60,7 +55,7 @@ const ManagerProductsPage = () => {
       render: (row) => (
         <button
           onClick={(e) => openModal(row, e)}
-          className="py-[7px] px-2 bg-purple text-white rounded-md cursor-pointer"
+          className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
         >
           <FiMoreHorizontal size={24} />
         </button>
@@ -84,6 +79,11 @@ const ManagerProductsPage = () => {
       : true;
     return matchSearch && matchStatus;
   });
+
+  const getStatusColor = (status) => {
+    const s = status.toLowerCase();
+    return s === "available" ? "purple" : s === "low" ? "yellow" : "pink";
+  };
 
   const {
     currentPage,
