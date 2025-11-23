@@ -83,7 +83,10 @@ const BaseTable = ({
           <tbody>
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="text-center py-6">
+                <td
+                  colSpan={columns.length}
+                  className="text-center py-6 border-t border-gray-200 text-gray-700"
+                >
                   No Data Available
                 </td>
               </tr>

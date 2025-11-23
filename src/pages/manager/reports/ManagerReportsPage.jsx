@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
+
 import Header from "../../../components/Header";
+import FilterDate from "../../../components/filters/Date";
+import BaseTable from "../../../components/table/BaseTable";
 
 const ManagerReportsPage = () => {
   usePageTitle("Reports - Manager");
-
-  const [search, setSearch] = useState("");
 
   const columns = [
     { header: "No", accessor: "id" },
@@ -38,20 +39,23 @@ const ManagerReportsPage = () => {
     },
   ];
 
-  const filteredData = data.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   const handleAddProduct = () => {
     alert("Add Product clicked");
   };
 
   return (
     <div>
-      <div className="mb-10">
-        <Header title="Reports" />
-        <div className="mb-6"></div>
+      <Header title="Reports" />
+      <div className="mb-6">
+        <div className="grid grid-cols-13 gap-2 md:gap-0">
+          <FilterDate className="col-span-6" />
+          <span className="col-span-1 flex justify-center items-center text-2xl 2xl:text-3xl">
+            to
+          </span>
+          <FilterDate className="col-span-6" />
+        </div>
       </div>
+      <BaseTable columns={columns} data={data} />
     </div>
   );
 };
