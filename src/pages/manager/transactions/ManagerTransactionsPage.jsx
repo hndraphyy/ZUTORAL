@@ -20,8 +20,7 @@ import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
 
-  const { isOpen,  modalPos, openModal, closeModal } =
-    useActionModal();
+  const { isOpen, modalPos, openModal, closeModal } = useActionModal();
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
@@ -31,6 +30,7 @@ const ManagerTransactionsPage = () => {
     { header: "No", accessor: "id" },
     { header: "Invoice", accessor: "invoice" },
     { header: "Customer", accessor: "customer" },
+    { header: "Sales", accessor: "sales" },
     {
       header: "Total",
       accessor: "total",
@@ -69,6 +69,7 @@ const ManagerTransactionsPage = () => {
     id: i,
     invoice: `INV/${1000 + i}`,
     customer: `Customer Adi Satya ${i}`,
+    sales: `Sales Person ${i}`,
     total: 1530000 + i * 100,
     date: `2025-11-${String((i % 30) + 1).padStart(2, "0")}`,
     status: ["Completed", "Pending", "Failed"][i % 3],

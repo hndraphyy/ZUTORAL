@@ -62,14 +62,22 @@ const ManagerProductsPage = () => {
     },
   ];
 
-  const data = generateFakeData(100, (i) => ({
-    id: i,
-    name: `Product Aburing Sirs ${i}`,
-    price: 15000 + i * 100,
-    stock: (i * 3) % 50,
-    category: ["Roti", "Minuman", "Snack"][i % 3],
-    status: ["Low", "Out of Stock", "Available"][i % 3],
-  }));
+  const data = generateFakeData(100, (i) => {
+    const stock = (i * 5) % 50;
+
+    let status = "Available";
+    if (stock === 0) status = "Out of Stock";
+    else if (stock < 10) status = "Low";
+
+    return {
+      id: i,
+      name: `Product Aburing Sirs ${i}`,
+      price: 15000 + i * 100,
+      stock,
+      category: ["Roti", "Minuman", "Snack"][i % 3],
+      status,
+    };
+  });
 
   const filteredData = data.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
