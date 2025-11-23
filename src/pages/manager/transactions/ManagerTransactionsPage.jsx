@@ -90,10 +90,6 @@ const ManagerTransactionsPage = () => {
     return s === "completed" ? "green" : s === "pending" ? "yellow" : "pink";
   };
 
-  const handleAddProduct = () => {
-    alert("Add Product clicked");
-  };
-
   const {
     currentPage,
     itemsPerPage,
@@ -125,12 +121,6 @@ const ManagerTransactionsPage = () => {
               { value: "pending", label: "Pending" },
               { value: "failed", label: "Failed" },
             ]}
-          />
-          <Button
-            onAdd={handleAddProduct}
-            icon={<FaPlus />}
-            label="Add"
-            className="col-span-4 lg:col-span-2"
           />
         </div>
       </div>
