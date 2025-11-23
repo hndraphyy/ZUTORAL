@@ -1,3 +1,3 @@
-export const generateFakeData = (count, templateFn) => {
-  return Array.from({ length: count }, (_, i) => templateFn(i + 1));
+export const generateFakeData = (count, factory) => {
+  return Array.from({ length: count }, (_, i) => factory(i));
 };

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
-
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
@@ -13,7 +11,6 @@ import SearchInput from "../../../components/filters/Search";
 import FilterDate from "../../../components/filters/Date";
 import FilterStatus from "../../../components/filters/Status";
 import StatusLabel from "../../../components/ui/StatusLabel";
-import Button from "../../../components/ui/Button";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 

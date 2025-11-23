@@ -10,6 +10,7 @@ const BaseTable = ({
   totalItems,
   onPageChange,
   onItemsPerPageChange,
+  tableFooter = true,
 }) => {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
@@ -115,13 +116,15 @@ const BaseTable = ({
         </table>
       </div>
 
-      <TableFooter
-        currentPage={currentPage}
-        itemsPerPage={itemsPerPage}
-        totalItems={totalItems}
-        onPageChange={onPageChange}
-        onItemsPerPageChange={onItemsPerPageChange}
-      />
+      {tableFooter && (
+        <TableFooter
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+          onPageChange={onPageChange}
+          onItemsPerPageChange={onItemsPerPageChange}
+        />
+      )}
     </div>
   );
 };

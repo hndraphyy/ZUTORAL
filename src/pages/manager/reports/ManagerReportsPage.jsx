@@ -1,61 +1,102 @@
 import React, { useState } from "react";
+import { generateFakeData } from "../../../utils/faker";
+import { formatRupiah } from "../../../utils/format";
+import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
 
 import Header from "../../../components/Header";
-import FilterDate from "../../../components/filters/Date";
+import FilterStatus from "../../../components/filters/Status";
 import BaseTable from "../../../components/table/BaseTable";
 
 const ManagerReportsPage = () => {
   usePageTitle("Reports - Manager");
 
+  const currentYear = new Date().getFullYear().toString();
+  const [isYear, setYear] = useState(currentYear);
+
+  const getMonthName = (i) =>
+    new Date(0, i).toLocaleString("en-US", { month: "long" });
+
   const columns = [
-    { header: "No", accessor: "id" },
-    { header: "Nama", accessor: "name" },
-    { header: "Price", accessor: "price" },
-    { header: "Stock", accessor: "stock" },
+    { header: "Month", accessor: "month", sortable: false },
+    { header: "Year", accessor: "year", sortable: false },
+    { header: "Total Transactions", accessor: "transactions", sortable: false },
     {
-      header: "Action",
-      render: () => (
-        <div className="flex  gap-2">
-          <button className="text-gray-700 text-lg">Edit</button>
-          <button className="text-gray-700 text-lg">Delete</button>
-        </div>
+      header: "Total Revenue",
+      accessor: "revenue",
+      sortable: false,
+      render: (row) => <span>{formatRupiah(row.revenue)}</span>,
+    },
+    {
+      header: "Actions",
+      accessor: "actions",
+      sortable: false,
+      isAction: true,
+      render: (row) => (
+        <button
+          onClick={(e) => openModal(row, e)}
+          className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer"
+        >
+          Export
+        </button>
       ),
     },
   ];
 
-  const data = [
-    {
-      id: 1,
-      name: "Kopi Hitam",
-      price: "Rp 15.000",
-      stock: 23,
-    },
-    {
-      id: 2,
-      name: "Roti Coklat",
-      price: "Rp 12.000",
-      stock: 8,
-    },
-  ];
+  const data = generateFakeData(12, (i) => ({
+    id: i,
+    year: isYear,
+    month: getMonthName(i),
+    transactions: Math.floor(150 + i * 10),
+    revenue: 1530000 + i * 100,
+  }));
 
-  const handleAddProduct = () => {
-    alert("Add Product clicked");
-  };
+  const filteredData = data.filter((p) => {
+    const matchYear = isYear
+      ? p.year.toLowerCase() === isYear.toLowerCase()
+      : true;
+
+    return matchYear;
+  });
+
+  const {
+    currentPage,
+    itemsPerPage,
+    totalItems,
+    handlePageChange,
+    handleItemsPerPageChange,
+  } = usePagination(filteredData, filteredData.length);
 
   return (
     <div>
       <Header title="Reports" />
-      <div className="mb-6">
-        <div className="grid grid-cols-13 gap-2 md:gap-0">
-          <FilterDate className="col-span-6" />
-          <span className="col-span-1 flex justify-center items-center text-2xl 2xl:text-3xl">
-            to
-          </span>
-          <FilterDate className="col-span-6" />
+
+      <div className="mb-6 flex justify-end">
+        <div className="h-11 w-1/4">
+          <FilterStatus
+            placeholder="Select Year"
+            value={isYear}
+            onChange={(e) => setYear(e.target.value)}
+            options={[
+              { value: currentYear, label: currentYear },
+              { value: "2024", label: "2024" },
+              { value: "2023", label: "2023" },
+              { value: "2022", label: "2022" },
+            ]}
+          />
         </div>
       </div>
-      <BaseTable columns={columns} data={data} />
+
+      <BaseTable
+        columns={columns}
+        data={filteredData}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+        onItemsPerPageChange={handleItemsPerPageChange}
+        tableFooter={false}
+      />
     </div>
   );
 };

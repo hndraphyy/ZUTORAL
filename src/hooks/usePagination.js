@@ -38,7 +38,7 @@ const usePagination = (data, initialItemsPerPage = 10) => {
     paginatedData,
     handlePageChange,
     handleItemsPerPageChange,
-    setCurrentPage, // Optional: jika perlu mereset dari luar
+    setCurrentPage,
   };
 };
 
