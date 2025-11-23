@@ -76,7 +76,9 @@ const ManagerTransactionsPage = () => {
   }));
 
   const filteredData = data.filter((p) => {
-    const matchSearch = p.customer.toLowerCase().includes(search.toLowerCase());
+    const matchSearch =
+      p.customer.toLowerCase().includes(search.toLowerCase()) ||
+      p.sales.toLowerCase().includes(search.toLowerCase());
     const matchDate = isDate ? p.date === isDate : true;
     const matchStatus = isStatus
       ? p.status.toLowerCase() === isStatus.toLowerCase()
@@ -102,11 +104,11 @@ const ManagerTransactionsPage = () => {
     <div>
       <Header title="Transactions" />
       <div className="mb-6">
-        <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1 gap-2.5">
+        <div className="grid grid-cols-12 grid-rows-2 lg:grid-rows-1 gap-3">
           <SearchInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="col-span-12 lg:col-span-6"
+            className="col-span-12 lg:col-span-8"
           />
           <FilterDate
             onChange={(e) => setDate(e.target.value)}

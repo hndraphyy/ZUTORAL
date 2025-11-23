@@ -65,7 +65,10 @@ const ManagerEmployeesPage = () => {
   }));
 
   const filteredData = data.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    const matchSearch =
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.username.toLowerCase().includes(search.toLowerCase()) ||
+      p.email.toLowerCase().includes(search.toLowerCase());
     const matchStatus = isStatus ? p.status === isStatus : true;
     return matchSearch && matchStatus;
   });
