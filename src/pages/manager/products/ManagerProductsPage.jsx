@@ -70,7 +70,7 @@ const ManagerProductsPage = () => {
     else if (stock < 10) status = "Low";
 
     return {
-      id: i,
+      id: i + 1,
       name: `Product Aburing Sirs ${i}`,
       price: 15000 + i * 100,
       stock,

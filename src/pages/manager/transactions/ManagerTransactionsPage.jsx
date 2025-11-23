@@ -63,7 +63,7 @@ const ManagerTransactionsPage = () => {
   ];
 
   const data = generateFakeData(100, (i) => ({
-    id: i,
+    id: i + 1,
     invoice: `INV/${1000 + i}`,
     customer: `Customer Adi Satya ${i}`,
     sales: `Sales Person ${i}`,
