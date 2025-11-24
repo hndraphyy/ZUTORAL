@@ -120,10 +120,10 @@ const ManagerTransactionsPage = () => {
           <FilterDate
             onChange={(e) => setDate(e.target.value)}
             value={isDate}
-            className="col-span-4 lg:col-span-2"
+            className="col-span-6 lg:col-span-2"
           />
           <FilterStatus
-            className="col-span-4 lg:col-span-2"
+            className="col-span-6 lg:col-span-2"
             onChange={(e) => setStatus(e.target.value)}
             value={isStatus}
             options={[

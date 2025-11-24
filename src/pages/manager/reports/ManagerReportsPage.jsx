@@ -91,6 +91,7 @@ const ManagerReportsPage = () => {
           className="col-span-6"
           icon={<img src="/assets/svg/download.svg" alt="Download" />}
           label="Export Yearly Report"
+          classNameLabel="text-sm leading-tight"
         />
       </div>
 

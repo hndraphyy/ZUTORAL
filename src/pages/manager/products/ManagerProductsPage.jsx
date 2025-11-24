@@ -102,7 +102,7 @@ const ManagerProductsPage = () => {
 
   const getStatusColor = (status) => {
     return status === "available"
-      ? "green"
+      ? "purple"
       : status === "low"
       ? "yellow"
       : "pink";
