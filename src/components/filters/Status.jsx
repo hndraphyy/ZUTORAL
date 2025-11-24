@@ -4,7 +4,7 @@ const FilterStatus = ({
   status,
   onChange,
   value,
-  options = [],
+  options,
   placeholder = "Status",
   className = "",
 }) => {

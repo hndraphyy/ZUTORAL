@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import html2pdf from "html2pdf.js";
+import React, { useState, useMemo } from "react";
+import { exportReportToPDF } from "../../../utils/exportPDF";
 import { generateFakeData } from "../../../utils/faker";
 import { formatRupiah } from "../../../utils/format";
 import usePagination from "../../../hooks/usePagination";
@@ -15,7 +15,11 @@ const ManagerReportsPage = () => {
 
   const currentYear = new Date().getFullYear().toString();
   const [isYear, setYear] = useState(currentYear);
-  const printRef = useRef();
+
+  const yearOptions = Array.from({ length: 6 }, (_, i) => {
+    const year = currentYear - i;
+    return { value: year.toString(), label: year.toString() };
+  });
 
   const getMonthName = (i) =>
     new Date(0, i).toLocaleString("en-US", { month: "long" });
@@ -37,8 +41,11 @@ const ManagerReportsPage = () => {
       isAction: true,
       render: (row) => (
         <button
-          onClick={(e) => openModal(row, e)}
-          className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer "
+          onClick={(e) => {
+            e.stopPropagation();
+            exportReportToPDF([row], `Laporan_${row.month}_${row.year}`);
+          }}
+          className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer"
         >
           <p className="flex items-center gap-2">
             <img src="/assets/svg/download.svg" alt="Download" />
@@ -49,21 +56,15 @@ const ManagerReportsPage = () => {
     },
   ];
 
-  const data = generateFakeData(12, (i) => ({
-    id: i,
-    year: isYear,
-    month: getMonthName(i),
-    transactions: Math.floor(150 + i * 10),
-    revenue: 1530000 + i * 100,
-  }));
-
-  const filteredData = data.filter((p) => {
-    const matchYear = isYear
-      ? p.year.toLowerCase() === isYear.toLowerCase()
-      : true;
-
-    return matchYear;
-  });
+  const data = useMemo(() => {
+    return generateFakeData(12, (i) => ({
+      id: i,
+      year: isYear,
+      month: getMonthName(i),
+      transactions: Math.floor(150 + i * 10),
+      revenue: 1530000 + i * 100,
+    }));
+  }, [isYear]);
 
   const {
     currentPage,
@@ -71,7 +72,7 @@ const ManagerReportsPage = () => {
     totalItems,
     handlePageChange,
     handleItemsPerPageChange,
-  } = usePagination(filteredData, filteredData.length);
+  } = usePagination(data, data.length);
 
   return (
     <div>
@@ -82,23 +83,19 @@ const ManagerReportsPage = () => {
           placeholder="Select Year"
           value={isYear}
           onChange={(e) => setYear(e.target.value)}
-          options={[
-            { value: currentYear, label: currentYear },
-            { value: "2024", label: "2024" },
-            { value: "2023", label: "2023" },
-            { value: "2022", label: "2022" },
-          ]}
+          options={yearOptions}
         />
         <Button
+          onAdd={() => exportReportToPDF(data, `Laporan_Tahunan_${isYear}`)}
           className="col-span-6"
           icon={<img src="/assets/svg/download.svg" alt="Download" />}
-          label="Export"
+          label="Export Yearly Report"
         />
       </div>
 
       <BaseTable
         columns={columns}
-        data={filteredData}
+        data={data}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
