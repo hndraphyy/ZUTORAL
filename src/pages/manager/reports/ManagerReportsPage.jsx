@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import html2pdf from "html2pdf.js";
 import { generateFakeData } from "../../../utils/faker";
 import { formatRupiah } from "../../../utils/format";
 import usePagination from "../../../hooks/usePagination";
@@ -6,6 +7,7 @@ import usePageTitle from "../../../hooks/usePageTitle";
 
 import Header from "../../../components/Header";
 import FilterStatus from "../../../components/filters/Status";
+import Button from "../../../components/ui/Button";
 import BaseTable from "../../../components/table/BaseTable";
 
 const ManagerReportsPage = () => {
@@ -13,6 +15,7 @@ const ManagerReportsPage = () => {
 
   const currentYear = new Date().getFullYear().toString();
   const [isYear, setYear] = useState(currentYear);
+  const printRef = useRef();
 
   const getMonthName = (i) =>
     new Date(0, i).toLocaleString("en-US", { month: "long" });
@@ -35,9 +38,12 @@ const ManagerReportsPage = () => {
       render: (row) => (
         <button
           onClick={(e) => openModal(row, e)}
-          className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer"
+          className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer "
         >
-          Export
+          <p className="flex items-center gap-2">
+            <img src="/assets/svg/download.svg" alt="Download" />
+            <span className="hidden md:block">Export</span>
+          </p>
         </button>
       ),
     },
@@ -70,21 +76,24 @@ const ManagerReportsPage = () => {
   return (
     <div>
       <Header title="Reports" />
-
-      <div className="mb-6 flex justify-end">
-        <div className="h-11 w-1/4">
-          <FilterStatus
-            placeholder="Select Year"
-            value={isYear}
-            onChange={(e) => setYear(e.target.value)}
-            options={[
-              { value: currentYear, label: currentYear },
-              { value: "2024", label: "2024" },
-              { value: "2023", label: "2023" },
-              { value: "2022", label: "2022" },
-            ]}
-          />
-        </div>
+      <div className="mb-6 grid grid-cols-12 gap-3 h-11">
+        <FilterStatus
+          className="col-span-6"
+          placeholder="Select Year"
+          value={isYear}
+          onChange={(e) => setYear(e.target.value)}
+          options={[
+            { value: currentYear, label: currentYear },
+            { value: "2024", label: "2024" },
+            { value: "2023", label: "2023" },
+            { value: "2022", label: "2022" },
+          ]}
+        />
+        <Button
+          className="col-span-6"
+          icon={<img src="/assets/svg/download.svg" alt="Download" />}
+          label="Export"
+        />
       </div>
 
       <BaseTable
