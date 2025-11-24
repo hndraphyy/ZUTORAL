@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { generateFakeData } from "../../../utils/faker";
-
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
-
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
@@ -19,9 +17,12 @@ const ManagerEmployeesPage = () => {
   usePageTitle("Employees - Manager");
 
   const { isOpen, modalPos, openModal, closeModal } = useActionModal();
-
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
+
+  const formatStatusLabel = (status) => {
+    return status === "active" ? "Active" : "Inactive";
+  };
 
   const columns = [
     { header: "No", accessor: "id" },
@@ -35,7 +36,7 @@ const ManagerEmployeesPage = () => {
         <div className="flex justify-start">
           <StatusLabel
             variant={getStatusColor(row.status)}
-            label={row.status}
+            label={formatStatusLabel(row.status)}
           />
         </div>
       ),
@@ -61,25 +62,22 @@ const ManagerEmployeesPage = () => {
     name: `Employee Sadirifan ${i}`,
     username: `employee${i}`,
     email: `employee${i}@example.com`,
-    status: ["Active", "In-Active"][i % 2],
+    status: ["active", "inactive"][i % 2],
   }));
 
-  const filteredData = data.filter((p) => {
-    const matchSearch =
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.username.toLowerCase().includes(search.toLowerCase()) ||
-      p.email.toLowerCase().includes(search.toLowerCase());
-    const matchStatus = isStatus ? p.status === isStatus : true;
-    return matchSearch && matchStatus;
-  });
-
-  const handleAddProduct = () => {
-    alert("Add Product clicked");
-  };
+  const filteredData = useMemo(() => {
+    return data.filter((p) => {
+      const matchSearch =
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.username.toLowerCase().includes(search.toLowerCase()) ||
+        p.email.toLowerCase().includes(search.toLowerCase());
+      const matchStatus = isStatus ? p.status === isStatus : true;
+      return matchSearch && matchStatus;
+    });
+  }, [data, search, isStatus]);
 
   const getStatusColor = (status) => {
-    const s = status.toLowerCase();
-    return s === "active" ? "green" : s === "in-active" ? "pink" : "gray";
+    return status === "active" ? "green" : "pink";
   };
 
   const {
@@ -105,12 +103,13 @@ const ManagerEmployeesPage = () => {
             onChange={(e) => setStatus(e.target.value)}
             value={isStatus}
             options={[
-              { value: "Active", label: "Active" },
-              { value: "In-Active", label: "In-Active" },
+              { value: "", label: "Status" },
+              { value: "active", label: "Active" },
+              { value: "inactive", label: "Inactive" },
             ]}
           />
           <Button
-            onAdd={handleAddProduct}
+            onClick={() => alert("Add Employee clicked")}
             icon={<FaPlus />}
             label="Add"
             className="col-span-6 lg:col-span-2"

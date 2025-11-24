@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
@@ -41,7 +41,7 @@ const ManagerProductsPage = () => {
         <div className="flex justify-start">
           <StatusLabel
             variant={getStatusColor(row.status)}
-            label={row.status}
+            label={formatStatusLabel(row.status)}
           />
         </div>
       ),
@@ -62,12 +62,25 @@ const ManagerProductsPage = () => {
     },
   ];
 
+  const formatStatusLabel = (status) => {
+    switch (status) {
+      case "available":
+        return "Available";
+      case "low":
+        return "Low Stock";
+      case "out_of_stock":
+        return "Out of Stock";
+      default:
+        return status;
+    }
+  };
+
   const data = generateFakeData(100, (i) => {
     const stock = (i * 5) % 50;
 
-    let status = "Available";
-    if (stock === 0) status = "Out of Stock";
-    else if (stock < 10) status = "Low";
+    let status = "available";
+    if (stock === 0) status = "out_of_stock";
+    else if (stock < 10) status = "low";
 
     return {
       id: i + 1,
@@ -79,17 +92,20 @@ const ManagerProductsPage = () => {
     };
   });
 
-  const filteredData = data.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchStatus = isStatus
-      ? p.status.toLowerCase() === isStatus.toLowerCase()
-      : true;
-    return matchSearch && matchStatus;
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((p) => {
+      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+      const matchStatus = isStatus ? p.status === isStatus : true;
+      return matchSearch && matchStatus;
+    });
+  }, [data, search, isStatus]);
 
   const getStatusColor = (status) => {
-    const s = status.toLowerCase();
-    return s === "available" ? "purple" : s === "low" ? "yellow" : "pink";
+    return status === "available"
+      ? "green"
+      : status === "low"
+      ? "yellow"
+      : "pink";
   };
 
   const {
@@ -115,13 +131,14 @@ const ManagerProductsPage = () => {
             onChange={(e) => setStatus(e.target.value)}
             className="col-span-6 lg:col-span-2"
             options={[
-              { value: "Available", label: "Available" },
-              { value: "Low", label: "Low" },
-              { value: "Out of Stock", label: "Out of Stock" },
+              { value: "", label: "Status" },
+              { value: "available", label: "Available" },
+              { value: "low", label: "Low Stock" },
+              { value: "out_of_stock", label: "Out of Stock" },
             ]}
           />
           <Button
-            onAdd={() => alert("Add clicked")}
+            onClick={() => alert("Add Product clicked")}
             icon={<FaPlus />}
             label="Add"
             className="col-span-6 lg:col-span-2"

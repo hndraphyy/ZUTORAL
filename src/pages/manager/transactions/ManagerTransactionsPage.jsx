@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+// src/pages/manager/ManagerTransactionsPage.jsx
+import React, { useState, useMemo } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
+import { formatDate } from "../../../utils/date";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
-
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterDate from "../../../components/filters/Date";
@@ -18,10 +19,17 @@ const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
 
   const { isOpen, modalPos, openModal, closeModal } = useActionModal();
-
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
+
+  const formatStatusLabel = (status) => {
+    return status === "completed"
+      ? "Completed"
+      : status === "pending"
+      ? "Pending"
+      : "Failed";
+  };
 
   const columns = [
     { header: "No", accessor: "id" },
@@ -33,7 +41,7 @@ const ManagerTransactionsPage = () => {
       accessor: "total",
       render: (row) => <span>{formatRupiah(row.total)}</span>,
     },
-    { header: "Date", accessor: "date" },
+    { header: "Date", accessor: "date", render: (row) => formatDate(row.date) },
     {
       header: "Status",
       accessor: "status",
@@ -41,7 +49,7 @@ const ManagerTransactionsPage = () => {
         <div className="flex justify-start">
           <StatusLabel
             variant={getStatusColor(row.status)}
-            label={row.status}
+            label={formatStatusLabel(row.status)}
           />
         </div>
       ),
@@ -69,24 +77,26 @@ const ManagerTransactionsPage = () => {
     sales: `Sales Person ${i}`,
     total: 1530000 + i * 100,
     date: `2025-11-${String((i % 30) + 1).padStart(2, "0")}`,
-    status: ["Completed", "Pending", "Failed"][i % 3],
+    status: ["completed", "pending", "failed"][i % 3], // lowercase
   }));
 
-  const filteredData = data.filter((p) => {
-    const matchSearch =
-      p.customer.toLowerCase().includes(search.toLowerCase()) ||
-      p.sales.toLowerCase().includes(search.toLowerCase());
-    const matchDate = isDate ? p.date === isDate : true;
-    const matchStatus = isStatus
-      ? p.status.toLowerCase() === isStatus.toLowerCase()
-      : true;
-
-    return matchSearch && matchStatus && matchDate;
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((p) => {
+      const matchSearch =
+        p.customer.toLowerCase().includes(search.toLowerCase()) ||
+        p.sales.toLowerCase().includes(search.toLowerCase());
+      const matchDate = isDate ? p.date === isDate : true;
+      const matchStatus = isStatus ? p.status === isStatus : true;
+      return matchSearch && matchStatus && matchDate;
+    });
+  }, [data, search, isStatus, isDate]);
 
   const getStatusColor = (status) => {
-    const s = status.toLowerCase();
-    return s === "completed" ? "green" : s === "pending" ? "yellow" : "pink";
+    return status === "completed"
+      ? "green"
+      : status === "pending"
+      ? "yellow"
+      : "pink";
   };
 
   const {
@@ -115,7 +125,9 @@ const ManagerTransactionsPage = () => {
           <FilterStatus
             className="col-span-4 lg:col-span-2"
             onChange={(e) => setStatus(e.target.value)}
+            value={isStatus}
             options={[
+              { value: "", label: "Status" },
               { value: "completed", label: "Completed" },
               { value: "pending", label: "Pending" },
               { value: "failed", label: "Failed" },
@@ -132,7 +144,6 @@ const ManagerTransactionsPage = () => {
         onPageChange={handlePageChange}
         onItemsPerPageChange={handleItemsPerPageChange}
       />
-
       {isOpen && (
         <ActionDropdown onClose={closeModal} pos={modalPos} detailOn deleteOn />
       )}

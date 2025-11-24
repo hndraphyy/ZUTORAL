@@ -13,11 +13,12 @@ import BaseTable from "../../../components/table/BaseTable";
 const ManagerReportsPage = () => {
   usePageTitle("Reports - Manager");
 
-  const currentYear = new Date().getFullYear().toString();
+  const currentYearNum = new Date().getFullYear();
+  const currentYear = currentYearNum.toString();
   const [isYear, setYear] = useState(currentYear);
 
   const yearOptions = Array.from({ length: 6 }, (_, i) => {
-    const year = currentYear - i;
+    const year = currentYearNum - i;
     return { value: year.toString(), label: year.toString() };
   });
 
