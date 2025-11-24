@@ -19,7 +19,8 @@ import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
 
-  const { isOpen, modalPos, openModal, closeModal } = useActionModal();
+  const { isOpen, modalPos, openDropdown, closeDropdown } = useActionModal();
+  // const { isOpenModal, openModal, closeModal, payload } = useModal();
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
@@ -53,7 +54,7 @@ const ManagerProductsPage = () => {
       isAction: true,
       render: (row) => (
         <button
-          onClick={(e) => openModal(row, e)}
+          onClick={(e) => openDropdown(row, e)}
           className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
         >
           <FiMoreHorizontal size={24} />
@@ -158,7 +159,7 @@ const ManagerProductsPage = () => {
 
       {isOpen && (
         <ActionDropdown
-          onClose={closeModal}
+          onClose={closeDropdown}
           pos={modalPos}
           detailOn
           editOn

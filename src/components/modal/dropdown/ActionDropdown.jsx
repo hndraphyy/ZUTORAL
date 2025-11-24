@@ -1,6 +1,15 @@
 import { useEffect, useRef } from "react";
 
-const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
+const ActionDropdown = ({
+  onClose,
+  pos,
+  detailOn,
+  editOn,
+  deleteOn,
+  onClickDetail,
+  onClickEdit,
+  onClickDelete,
+}) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -23,7 +32,7 @@ const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
       {detailOn && (
         <button
           className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
-          onClick={onClose}
+          onClick={onClickDetail}
         >
           Detail
         </button>
@@ -33,7 +42,7 @@ const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
         <div>
           <button
             className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
-            onClick={onClose}
+            onClick={onClickEdit}
           >
             Edit
           </button>
@@ -43,7 +52,7 @@ const ActionDropdown = ({ onClose, pos, detailOn, editOn, deleteOn }) => {
       {deleteOn && (
         <button
           className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-red-500 hover:bg-purple-light"
-          onClick={onClose}
+          onClick={onClickDelete}
         >
           Delete
         </button>

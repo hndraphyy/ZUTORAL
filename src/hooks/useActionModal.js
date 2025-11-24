@@ -5,7 +5,7 @@ const useActionModal = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalPos, setModalPos] = useState({ top: 0, left: 0 });
 
-  const openModal = (row, e) => {
+  const openDropdown = (row, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setSelectedRow(row);
 
@@ -20,11 +20,11 @@ const useActionModal = () => {
     setIsOpen(true);
   };
 
-  const closeModal = () => {
+  const closeDropdown = () => {
     setIsOpen(false);
   };
 
-  return { isOpen, selectedRow, modalPos, openModal, closeModal };
+  return { isOpen, selectedRow, modalPos, openDropdown, closeDropdown };
 };
 
 export default useActionModal;
