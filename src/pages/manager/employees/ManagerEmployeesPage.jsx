@@ -11,7 +11,7 @@ import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
 import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
-import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
+import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 
 const ManagerEmployeesPage = () => {
   usePageTitle("Employees - Manager");

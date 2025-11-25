@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
+import useModal from "../../../hooks/useModal";
 import { generateFakeData } from "../../../utils/faker";
 
 import useActionModal from "../../../hooks/useActionModal";
@@ -14,13 +15,15 @@ import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
 import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
-import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
+import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
+import Modal from "../../../components/modals/BaseModal";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
 
-  const { isOpen, modalPos, openDropdown, closeDropdown } = useActionModal();
-  // const { isOpenModal, openModal, closeModal, payload } = useModal();
+  const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
+    useActionModal();
+  const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
@@ -164,8 +167,45 @@ const ManagerProductsPage = () => {
           detailOn
           editOn
           deleteOn
+          onClickDetail={() => {
+            openModal("detail", selectedRow);
+            closeDropdown();
+          }}
+          onClickEdit={() => {
+            openModal("edit", selectedRow);
+            closeDropdown();
+          }}
         />
       )}
+
+      <Modal isOpen={isOpenModal} onClose={closeModal}>
+        {modalType === "detail" && payload && (
+          <div>
+            <h2 className="text-lg font-semibold mb-3">Product Detail</h2>
+            <p>
+              <strong>Name:</strong> {payload.name}
+            </p>
+            <p>
+              <strong>Price:</strong> {formatRupiah(payload.price)}
+            </p>
+            <p>
+              <strong>Stock:</strong> {payload.stock}
+            </p>
+          </div>
+        )}
+
+        {modalType === "edit" && payload && (
+          <div>
+            <h2 className="text-lg font-semibold mb-3">Edit Product</h2>
+            <input
+              type="text"
+              defaultValue={payload.name}
+              className="border p-2 rounded w-full mb-3"
+            />
+            <Button onClick={closeModal} label="Save" />
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

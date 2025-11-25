@@ -1,4 +1,3 @@
-// src/pages/manager/ManagerTransactionsPage.jsx
 import React, { useState, useMemo } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
@@ -13,7 +12,7 @@ import FilterDate from "../../../components/filters/Date";
 import FilterStatus from "../../../components/filters/Status";
 import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
-import ActionDropdown from "../../../components/modal/dropdown/ActionDropdown";
+import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 
 const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
@@ -145,7 +144,12 @@ const ManagerTransactionsPage = () => {
         onItemsPerPageChange={handleItemsPerPageChange}
       />
       {isOpen && (
-        <ActionDropdown onClose={closeDropdown} pos={modalPos} detailOn deleteOn />
+        <ActionDropdown
+          onClose={closeDropdown}
+          pos={modalPos}
+          detailOn
+          deleteOn
+        />
       )}
     </div>
   );
