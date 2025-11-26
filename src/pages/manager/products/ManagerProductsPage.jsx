@@ -206,7 +206,13 @@ const ManagerProductsPage = () => {
         )}
 
         {modalType === "delete" && payload && (
-          <ConfirmDeleteModal onCancel={closeModal} itemName={payload.name} />
+          <ConfirmDeleteModal
+            onCancel={closeModal}
+            onConfirm={() => {
+              closeModal();
+            }}
+            itemName={payload.name}
+          />
         )}
       </Modal>
     </div>

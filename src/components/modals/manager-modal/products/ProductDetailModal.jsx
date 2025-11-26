@@ -1,7 +1,7 @@
 const ProductDetail = ({ itemName, itemPrice, itemStock }) => {
   return (
     <div>
-      <h2 className="text-2xl text-center max-w-[22npm r0px] md:max-w-[280px] 2xl:max-w-sm mx-auto">
+      <h2 className="text-2xl text-center 2xl:max-w-sm mx-auto">
         Product Detail
       </h2>
       <p>
