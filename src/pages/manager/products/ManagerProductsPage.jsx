@@ -17,6 +17,7 @@ import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 import Modal from "../../../components/modals/BaseModal";
+import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
@@ -175,6 +176,10 @@ const ManagerProductsPage = () => {
             openModal("edit", selectedRow);
             closeDropdown();
           }}
+          onClickDelete={() => {
+            openModal("delete", selectedRow);
+            closeDropdown();
+          }}
         />
       )}
 
@@ -204,6 +209,10 @@ const ManagerProductsPage = () => {
             />
             <Button onClick={closeModal} label="Save" />
           </div>
+        )}
+
+        {modalType === "delete" && payload && (
+          <ConfirmDeleteModal onCancel={closeModal} itemName={payload.name} />
         )}
       </Modal>
     </div>
