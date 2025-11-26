@@ -18,6 +18,7 @@ import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 import Modal from "../../../components/modals/BaseModal";
 import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
+import ProductDetail from "../../../components/modals/manager-modal/products/ProductDetailModal";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
@@ -185,18 +186,11 @@ const ManagerProductsPage = () => {
 
       <Modal isOpen={isOpenModal} onClose={closeModal}>
         {modalType === "detail" && payload && (
-          <div>
-            <h2 className="text-lg font-semibold mb-3">Product Detail</h2>
-            <p>
-              <strong>Name:</strong> {payload.name}
-            </p>
-            <p>
-              <strong>Price:</strong> {formatRupiah(payload.price)}
-            </p>
-            <p>
-              <strong>Stock:</strong> {payload.stock}
-            </p>
-          </div>
+          <ProductDetail
+            itemName={payload.name}
+            itemPrice={formatRupiah(payload.price)}
+            itemStock={payload.stock}
+          />
         )}
 
         {modalType === "edit" && payload && (

@@ -3,7 +3,7 @@ import { TiDelete } from "react-icons/ti";
 
 const ConfirmDeleteModal = ({ itemName, onConfirm, onCancel }) => {
   return (
-    <div>
+    <div className="p-5 w-[290px] md:w-md">
       <p className="text-base 2xl:text-xl text-center max-w-[220px] md:max-w-[280px] 2xl:max-w-sm mx-auto">
         Are you sure you want to delete {itemName}?
       </p>

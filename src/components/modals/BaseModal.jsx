@@ -26,7 +26,7 @@ export default function Modal({ isOpen, onClose, children }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-white rounded-lg w-full max-w-[320px] md:max-w-md p-5 relative
+        className={`bg-white flex justify-center items-center rounded-lg relative
         transition-all duration-200 ease-out
         ${
           isClosing ? "opacity-0 -translate-y-5" : "opacity-100 translate-y-0"
