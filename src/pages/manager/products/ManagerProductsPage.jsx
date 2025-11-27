@@ -18,7 +18,7 @@ import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 import Modal from "../../../components/modals/BaseModal";
 import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
-import ProductFormModal from "./modal/ProductFormModal";
+import ProductFormModal from "./form/ProductFormModal";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
@@ -144,7 +144,9 @@ const ManagerProductsPage = () => {
             ]}
           />
           <Button
-            onClick={() => alert("Add Product clicked")}
+            onClick={() => {
+              openModal("add", null);
+            }}
             icon={<FaPlus />}
             label="Add"
             className="col-span-6 lg:col-span-2"
@@ -185,6 +187,17 @@ const ManagerProductsPage = () => {
       )}
 
       <Modal isOpen={isOpenModal} onClose={closeModal}>
+        {modalType === "add" && (
+          <ProductFormModal
+            mode="add"
+            onSave={(newData) => {
+              alert("Adding product:", newData);
+              closeModal();
+            }}
+            onCancel={closeModal}
+          />
+        )}
+
         {modalType === "detail" && payload && (
           <ProductFormModal
             product={payload}
@@ -198,7 +211,7 @@ const ManagerProductsPage = () => {
             product={payload}
             mode="edit"
             onSave={(updatedData) => {
-              console.log("Updated product:", updatedData);
+              alert("Updated product:", updatedData);
               closeModal();
             }}
             onCancel={closeModal}
@@ -209,7 +222,7 @@ const ManagerProductsPage = () => {
           <ConfirmDeleteModal
             onCancel={closeModal}
             onConfirm={() => {
-              console.log("Deleting:", payload.name);
+              alert("Deleting:", payload.name);
               closeModal();
             }}
             itemName={payload.name}

@@ -1,29 +1,49 @@
 import { useState, useRef, useEffect } from "react";
+import { BiImageAdd } from "react-icons/bi";
 import { formatRupiah } from "../../../../utils/format";
+
 import Button from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
 import StatusLabel from "../../../../components/ui/StatusLabel";
 import FilterStatus from "../../../../components/filters/Status";
 
 const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
-  const [formData, setFormData] = useState({
-    name: product.name || "",
-    price: product.price || 0,
-    stock: product.stock || 0,
-    category: product.category || "Roti",
-  });
+  const getInitialData = () => {
+    if (mode === "add") {
+      return {
+        name: "",
+        price: "",
+        stock: "",
+        category: "Roti",
+      };
+    }
+    return {
+      name: product?.name || "",
+      price: product?.price || 0,
+      stock: product?.stock || 0,
+      category: product?.category || "Roti",
+    };
+  };
+
+  const [formData, setFormData] = useState(getInitialData());
 
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const isEditable = mode === "edit";
+  const isEditable = mode === "edit" || mode === "add";
+  const isAddMode = mode === "add";
 
   const currentImageUrl =
-    imagePreview || product.image || "/assets/images/product.png";
+    imagePreview ||
+    (isAddMode
+      ? "/assets/images/white.webp"
+      : product?.image || "/assets/images/product.png");
 
   const handleSave = () => {
     if (onSave) {
       onSave({
         ...formData,
+        price: Number(formData.price),
+        stock: Number(formData.stock),
       });
     }
   };
@@ -65,9 +85,9 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
 
   return (
     <div className="grid grid-cols-12 max-h-[85dvh] w-[90vw] md:w-[inherit] md:max-h-[inherit] overflow-y-auto">
+      {/* Kolom Gambar */}
       <div className="col-span-12 md:col-span-6 md:max-w-md xl:max-w-xl 2xl:max-w-2xl rounded-t-md md:rounded-t-none md:rounded-l-lg overflow-hidden relative">
         <div className="w-full h-full relative">
-          {" "}
           {isEditable && (
             <>
               <input
@@ -78,39 +98,51 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
                 className="hidden"
               />
               <div
-                className="absolute inset-0 bg-black/20 flex items-center justify-center cursor-pointer hover:bg-black/40 transition"
+                className="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer hover:bg-black/40 transition"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <span className="text-white font-medium bg-black/40 px-2 py-1 rounded">
-                  Click to change image
-                </span>
+                {isAddMode ? (
+                  <BiImageAdd size={48} color="white" />
+                ) : (
+                  <span className="text-white font-medium bg-black/40 px-2 py-1 rounded">
+                    Click to change image
+                  </span>
+                )}
               </div>
             </>
           )}
           <img
             src={currentImageUrl}
-            alt="Product"
+            alt={isAddMode ? "New product" : "Product"}
             className="w-full h-full object-cover"
           />
         </div>
       </div>
 
+      {/* Kolom Form */}
       <div className="col-span-12 md:col-span-6 p-4 xl:p-5">
         <h2 className="text-xl 2xl:text-2xl text-center mb-7">
-          {isEditable ? "Edit Product" : "Product Detail"}
+          {mode === "add"
+            ? "Add New Product"
+            : isEditable
+            ? "Edit Product"
+            : "Product Detail"}
         </h2>
 
         <div className="flex flex-col gap-2 xl:gap-4 mb-2">
-          <div>
-            <span className="text-base 2xl:text-xl text-purple">
-              Product ID
-            </span>{" "}
-            <br />
-            <span className="text-xl 2xl:text-2xl font-semibold text-gray-700">
-              {product.id}
-            </span>
-          </div>
+          {!isAddMode && (
+            <div>
+              <span className="text-base 2xl:text-xl text-purple">
+                Product ID
+              </span>{" "}
+              <br />
+              <span className="text-xl 2xl:text-2xl font-semibold text-gray-700">
+                {product.id}
+              </span>
+            </div>
+          )}
 
+          {/* Name */}
           <div>
             {isEditable ? (
               <Input
@@ -131,6 +163,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
+          {/* Price */}
           <div>
             {isEditable ? (
               <Input
@@ -139,7 +172,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
                 type="number"
                 value={formData.price}
                 onChange={(e) =>
-                  setFormData({ ...formData, price: Number(e.target.value) })
+                  setFormData({ ...formData, price: e.target.value })
                 }
               />
             ) : (
@@ -152,6 +185,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
+          {/* Stock */}
           <div>
             {isEditable ? (
               <Input
@@ -160,7 +194,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
                 type="number"
                 value={formData.stock}
                 onChange={(e) =>
-                  setFormData({ ...formData, stock: Number(e.target.value) })
+                  setFormData({ ...formData, stock: e.target.value })
                 }
               />
             ) : (
@@ -173,6 +207,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
+          {/* Category */}
           <div>
             <span className="text-base 2xl:text-xl text-purple block mb-1">
               Category
@@ -197,7 +232,8 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
-          {isEditable ? null : (
+          {/* 🔹 Status hanya di mode view */}
+          {!isEditable && !isAddMode && (
             <div>
               <span className="text-base 2xl:text-xl text-purple block mb-1">
                 Status
@@ -209,11 +245,15 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             </div>
           )}
 
+          {/* Tombol */}
           <div className="mt-5">
             {isEditable ? (
               <div className="grid grid-cols-2 gap-4">
                 <Button variant="secondary" onClick={onCancel} label="Cancel" />
-                <Button onClick={handleSave} label="Save Changes" />
+                <Button
+                  onClick={handleSave}
+                  label={isAddMode ? "Add Product" : "Save Changes"}
+                />
               </div>
             ) : (
               <div className="grid">
