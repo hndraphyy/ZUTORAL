@@ -14,7 +14,6 @@ const ActionDropdown = ({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Trigger animasi masuk setelah render
     const timer = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timer);
   }, []);
@@ -23,7 +22,6 @@ const ActionDropdown = ({
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setIsVisible(false);
-        // Delay onClose agar animasi selesai
         setTimeout(onClose, 150);
       }
     };
@@ -32,7 +30,6 @@ const ActionDropdown = ({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [onClose]);
 
-  // Handle klik aksi
   const handleAction = (action) => {
     setIsVisible(false);
     setTimeout(() => {

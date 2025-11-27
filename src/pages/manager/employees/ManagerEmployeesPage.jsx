@@ -2,6 +2,12 @@ import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { generateFakeData } from "../../../utils/faker";
+import { formatStatusLabel, getStatusColor } from "../../../utils/statusUtils";
+import {
+  PRODUCT_STATUS_LABELS,
+  PRODUCT_STATUS_COLORS,
+} from "./config/statusConfig";
+
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
@@ -17,13 +23,8 @@ const ManagerEmployeesPage = () => {
   usePageTitle("Employees - Manager");
 
   const { isOpen, modalPos, openDropdown, closeDropdown } = useActionModal();
-
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
-
-  const formatStatusLabel = (status) => {
-    return status === "active" ? "Active" : "Inactive";
-  };
 
   const columns = [
     { header: "No", accessor: "id" },
@@ -36,8 +37,8 @@ const ManagerEmployeesPage = () => {
       render: (row) => (
         <div className="flex justify-start">
           <StatusLabel
-            variant={getStatusColor(row.status)}
-            label={formatStatusLabel(row.status)}
+            variant={getStatusColor(row.status, PRODUCT_STATUS_COLORS)}
+            label={formatStatusLabel(row.status, PRODUCT_STATUS_LABELS)}
           />
         </div>
       ),
@@ -76,10 +77,6 @@ const ManagerEmployeesPage = () => {
       return matchSearch && matchStatus;
     });
   }, [data, search, isStatus]);
-
-  const getStatusColor = (status) => {
-    return status === "active" ? "green" : "pink";
-  };
 
   const {
     currentPage,

@@ -4,6 +4,11 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import useModal from "../../../hooks/useModal";
 import { generateFakeData } from "../../../utils/faker";
+import { formatStatusLabel, getStatusColor } from "../../../utils/statusUtils";
+import {
+  PRODUCT_STATUS_LABELS,
+  PRODUCT_STATUS_COLORS,
+} from "./config/statusConfig";
 
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
@@ -46,8 +51,8 @@ const ManagerProductsPage = () => {
       render: (row) => (
         <div className="flex justify-start">
           <StatusLabel
-            variant={getStatusColor(row.status)}
-            label={formatStatusLabel(row.status)}
+            variant={getStatusColor(row.status, PRODUCT_STATUS_COLORS)}
+            label={formatStatusLabel(row.status, PRODUCT_STATUS_LABELS)}
           />
         </div>
       ),
@@ -68,21 +73,8 @@ const ManagerProductsPage = () => {
     },
   ];
 
-  const formatStatusLabel = (status) => {
-    switch (status) {
-      case "available":
-        return "Available";
-      case "low":
-        return "Low Stock";
-      case "out_of_stock":
-        return "Out of Stock";
-      default:
-        return status;
-    }
-  };
-
   const data = generateFakeData(100, (i) => {
-    const stock = (i * 5) % 50;
+    const stock = (i * 6) % 50;
 
     let status = "available";
     if (stock === 0) status = "out_of_stock";
@@ -105,14 +97,6 @@ const ManagerProductsPage = () => {
       return matchSearch && matchStatus;
     });
   }, [data, search, isStatus]);
-
-  const getStatusColor = (status) => {
-    return status === "available"
-      ? "purple"
-      : status === "low"
-      ? "yellow"
-      : "pink";
-  };
 
   const {
     currentPage,

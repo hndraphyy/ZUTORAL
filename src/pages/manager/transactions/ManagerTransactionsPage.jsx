@@ -3,6 +3,12 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { formatRupiah } from "../../../utils/format";
 import { generateFakeData } from "../../../utils/faker";
 import { formatDate } from "../../../utils/date";
+import { formatStatusLabel, getStatusColor } from "../../../utils/statusUtils";
+import {
+  PRODUCT_STATUS_LABELS,
+  PRODUCT_STATUS_COLORS,
+} from "./config/statusConfig";
+
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
@@ -22,14 +28,6 @@ const ManagerTransactionsPage = () => {
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
 
-  const formatStatusLabel = (status) => {
-    return status === "completed"
-      ? "Completed"
-      : status === "pending"
-      ? "Pending"
-      : "Failed";
-  };
-
   const columns = [
     { header: "No", accessor: "id" },
     { header: "Invoice", accessor: "invoice" },
@@ -47,8 +45,8 @@ const ManagerTransactionsPage = () => {
       render: (row) => (
         <div className="flex justify-start">
           <StatusLabel
-            variant={getStatusColor(row.status)}
-            label={formatStatusLabel(row.status)}
+            variant={getStatusColor(row.status, PRODUCT_STATUS_COLORS)}
+            label={formatStatusLabel(row.status, PRODUCT_STATUS_LABELS)}
           />
         </div>
       ),
@@ -89,14 +87,6 @@ const ManagerTransactionsPage = () => {
       return matchSearch && matchStatus && matchDate;
     });
   }, [data, search, isStatus, isDate]);
-
-  const getStatusColor = (status) => {
-    return status === "completed"
-      ? "green"
-      : status === "pending"
-      ? "yellow"
-      : "pink";
-  };
 
   const {
     currentPage,
