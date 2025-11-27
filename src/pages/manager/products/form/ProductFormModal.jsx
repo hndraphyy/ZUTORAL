@@ -26,7 +26,6 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
   };
 
   const [formData, setFormData] = useState(getInitialData());
-
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
   const isEditable = mode === "edit" || mode === "add";

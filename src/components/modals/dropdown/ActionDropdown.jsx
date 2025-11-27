@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ActionDropdown = ({
   onClose,
@@ -11,11 +11,20 @@ const ActionDropdown = ({
   onClickDelete,
 }) => {
   const dropdownRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger animasi masuk setelah render
+    const timer = setTimeout(() => setIsVisible(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        onClose();
+        setIsVisible(false);
+        // Delay onClose agar animasi selesai
+        setTimeout(onClose, 150);
       }
     };
 
@@ -23,36 +32,51 @@ const ActionDropdown = ({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [onClose]);
 
+  // Handle klik aksi
+  const handleAction = (action) => {
+    setIsVisible(false);
+    setTimeout(() => {
+      action();
+      onClose();
+    }, 150);
+  };
+
   return (
     <div
       ref={dropdownRef}
-      className="absolute bg-white border border-gray-200 shadow-lg lg:w-22 rounded-md overflow-hidden z-50"
-      style={{ top: pos.top, left: pos.left }}
+      className="absolute bg-white border border-gray-200 shadow-lg lg:w-22 rounded-md overflow-hidden z-50 transition-all duration-150 ease-out"
+      style={{
+        top: pos.top,
+        left: pos.left,
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "scale(1)" : "scale(0.95)",
+        pointerEvents: isVisible ? "auto" : "none'",
+      }}
     >
       {detailOn && (
         <button
           className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
-          onClick={onClickDetail}
+          onClick={() => handleAction(onClickDetail)}
         >
           Detail
         </button>
       )}
-      <hr className="border border-gray-200" />
+      {detailOn && editOn && <hr className="border border-gray-200" />}
       {editOn && (
-        <div>
-          <button
-            className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
-            onClick={onClickEdit}
-          >
-            Edit
-          </button>
-          <hr className="border border-gray-200" />
-        </div>
+        <button
+          className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-gray-600 hover:bg-purple-light"
+          onClick={() => handleAction(onClickEdit)}
+        >
+          Edit
+        </button>
+      )}
+      {(detailOn || editOn) && deleteOn && (
+        <hr className="border border-gray-200" />
       )}
       {deleteOn && (
         <button
           className="w-full py-2 px-4 text-sm 2xl:text-[15px] text-left text-red-500 hover:bg-purple-light"
-          onClick={onClickDelete}
+          onClick={() => handleAction(onClickDelete)}
         >
           Delete
         </button>
