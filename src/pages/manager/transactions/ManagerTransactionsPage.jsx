@@ -1,13 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { formatRupiah } from "../../../utils/format";
-import { generateFakeData } from "../../../utils/faker";
-import { formatDate } from "../../../utils/date";
-import { formatStatusLabel, getStatusColor } from "../../../utils/statusUtils";
-import {
-  PRODUCT_STATUS_LABELS,
-  PRODUCT_STATUS_COLORS,
-} from "./config/statusConfig";
+import { TRANSACTION_COLUMNS_BASE } from "./config/columns.jsx";
+import { generateTransactionData } from "./data/transactionData.js";
 
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
@@ -16,7 +10,6 @@ import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterDate from "../../../components/filters/Date";
 import FilterStatus from "../../../components/filters/Status";
-import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 
@@ -28,54 +21,27 @@ const ManagerTransactionsPage = () => {
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
 
-  const columns = [
-    { header: "No", accessor: "id" },
-    { header: "Invoice", accessor: "invoice" },
-    { header: "Customer", accessor: "customer" },
-    { header: "Sales", accessor: "sales" },
-    {
-      header: "Total",
-      accessor: "total",
-      render: (row) => <span>{formatRupiah(row.total)}</span>,
-    },
-    { header: "Date", accessor: "date", render: (row) => formatDate(row.date) },
-    {
-      header: "Status",
-      accessor: "status",
-      render: (row) => (
-        <div className="flex justify-start">
-          <StatusLabel
-            variant={getStatusColor(row.status, PRODUCT_STATUS_COLORS)}
-            label={formatStatusLabel(row.status, PRODUCT_STATUS_LABELS)}
-          />
-        </div>
-      ),
-    },
-    {
-      header: "Actions",
-      accessor: "actions",
-      sortable: false,
-      isAction: true,
-      render: (row) => (
-        <button
-          onClick={(e) => openDropdown(row, e)}
-          className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
-        >
-          <FiMoreHorizontal size={24} />
-        </button>
-      ),
-    },
-  ];
+  const data = generateTransactionData(100);
 
-  const data = generateFakeData(100, (i) => ({
-    id: i + 1,
-    invoice: `INV/${1000 + i}`,
-    customer: `Customer Adi Satya ${i}`,
-    sales: `Sales Person ${i}`,
-    total: 1530000 + i * 100,
-    date: `2025-11-${String((i % 30) + 1).padStart(2, "0")}`,
-    status: ["completed", "pending", "failed"][i % 3], // lowercase
-  }));
+  const columns = useMemo(() => {
+    return [
+      ...TRANSACTION_COLUMNS_BASE,
+      {
+        header: "Actions",
+        accessor: "actions",
+        sortable: false,
+        isAction: true,
+        render: (row) => (
+          <button
+            onClick={(e) => openDropdown(row, e)}
+            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+          >
+            <FiMoreHorizontal size={24} />
+          </button>
+        ),
+      },
+    ];
+  }, [openDropdown]);
 
   const filteredData = useMemo(() => {
     return data.filter((p) => {

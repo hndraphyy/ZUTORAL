@@ -1,12 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { generateFakeData } from "../../../utils/faker";
-import { formatStatusLabel, getStatusColor } from "../../../utils/statusUtils";
-import {
-  PRODUCT_STATUS_LABELS,
-  PRODUCT_STATUS_COLORS,
-} from "./config/statusConfig";
+import { EMPLOYEE_COLUMNS_BASE } from "./config/columns.jsx";
+import { generateEmployeeData } from "./data/employeeData.js";
 
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
@@ -15,7 +11,6 @@ import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
-import StatusLabel from "../../../components/ui/StatusLabel";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 
@@ -26,46 +21,27 @@ const ManagerEmployeesPage = () => {
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
 
-  const columns = [
-    { header: "No", accessor: "id" },
-    { header: "Name", accessor: "name" },
-    { header: "Username", accessor: "username" },
-    { header: "Email", accessor: "email" },
-    {
-      header: "Status",
-      accessor: "status",
-      render: (row) => (
-        <div className="flex justify-start">
-          <StatusLabel
-            variant={getStatusColor(row.status, PRODUCT_STATUS_COLORS)}
-            label={formatStatusLabel(row.status, PRODUCT_STATUS_LABELS)}
-          />
-        </div>
-      ),
-    },
-    {
-      header: "Actions",
-      accessor: "actions",
-      sortable: false,
-      isAction: true,
-      render: (row) => (
-        <button
-          onClick={(e) => openDropdown(row, e)}
-          className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
-        >
-          <FiMoreHorizontal size={24} />
-        </button>
-      ),
-    },
-  ];
+  const data = generateEmployeeData(100);
 
-  const data = generateFakeData(100, (i) => ({
-    id: i + 1,
-    name: `Employee Sadirifan ${i}`,
-    username: `employee${i}`,
-    email: `employee${i}@example.com`,
-    status: ["active", "inactive"][i % 2],
-  }));
+  const columns = useMemo(() => {
+    return [
+      ...EMPLOYEE_COLUMNS_BASE,
+      {
+        header: "Actions",
+        accessor: "actions",
+        sortable: false,
+        isAction: true,
+        render: (row) => (
+          <button
+            onClick={(e) => openDropdown(row, e)}
+            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+          >
+            <FiMoreHorizontal size={24} />
+          </button>
+        ),
+      },
+    ];
+  }, [openDropdown]);
 
   const filteredData = useMemo(() => {
     return data.filter((p) => {

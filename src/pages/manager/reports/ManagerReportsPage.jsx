@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { exportReportToPDF } from "../../../utils/exportPDF";
-import { generateFakeData } from "../../../utils/faker";
-import { formatRupiah } from "../../../utils/format";
+import { REPORT_COLUMNS_BASE } from "./config/columns.jsx";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
 
@@ -10,55 +9,22 @@ import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
 import BaseTable from "../../../components/table/BaseTable";
 
+const getMonthName = (monthIndex) =>
+  new Date(0, monthIndex).toLocaleString("en-US", { month: "long" });
+
 const ManagerReportsPage = () => {
   usePageTitle("Reports - Manager");
 
-  const currentYearNum = new Date().getFullYear();
-  const currentYear = currentYearNum.toString();
+  const currentYear = new Date().getFullYear().toString();
   const [isYear, setYear] = useState(currentYear);
 
   const yearOptions = Array.from({ length: 6 }, (_, i) => {
-    const year = currentYearNum - i;
+    const year = new Date().getFullYear() - i;
     return { value: year.toString(), label: year.toString() };
   });
 
-  const getMonthName = (i) =>
-    new Date(0, i).toLocaleString("en-US", { month: "long" });
-
-  const columns = [
-    { header: "Month", accessor: "month", sortable: false },
-    { header: "Year", accessor: "year", sortable: false },
-    { header: "Total Transactions", accessor: "transactions", sortable: false },
-    {
-      header: "Total Revenue",
-      accessor: "revenue",
-      sortable: false,
-      render: (row) => <span>{formatRupiah(row.revenue)}</span>,
-    },
-    {
-      header: "Actions",
-      accessor: "actions",
-      sortable: false,
-      isAction: true,
-      render: (row) => (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            exportReportToPDF([row], `Laporan_${row.month}_${row.year}`);
-          }}
-          className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer"
-        >
-          <p className="flex items-center gap-2">
-            <img src="/assets/svg/download.svg" alt="Download" />
-            <span className="hidden md:block">Export</span>
-          </p>
-        </button>
-      ),
-    },
-  ];
-
   const data = useMemo(() => {
-    return generateFakeData(12, (i) => ({
+    return Array.from({ length: 12 }, (_, i) => ({
       id: i,
       year: isYear,
       month: getMonthName(i),
@@ -66,6 +32,32 @@ const ManagerReportsPage = () => {
       revenue: 1530000 + i * 100,
     }));
   }, [isYear]);
+
+  const columns = useMemo(() => {
+    return [
+      ...REPORT_COLUMNS_BASE,
+      {
+        header: "Actions",
+        accessor: "actions",
+        sortable: false,
+        isAction: true,
+        render: (row) => (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              exportReportToPDF([row], `Laporan_${row.month}_${row.year}`);
+            }}
+            className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer"
+          >
+            <p className="flex items-center gap-2">
+              <img src="/assets/svg/download.svg" alt="Download" />
+              <span className="hidden md:block">Export</span>
+            </p>
+          </button>
+        ),
+      },
+    ];
+  }, []);
 
   const {
     currentPage,
@@ -87,7 +79,7 @@ const ManagerReportsPage = () => {
           options={yearOptions}
         />
         <Button
-          onAdd={() => exportReportToPDF(data, `Laporan_Tahunan_${isYear}`)}
+          onClick={() => exportReportToPDF(data, `Laporan_Tahunan_${isYear}`)}
           className="col-span-6"
           icon={<img src="/assets/svg/download.svg" alt="Download" />}
           label="Export Yearly Report"
