@@ -18,7 +18,7 @@ import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 import Modal from "../../../components/modals/BaseModal";
 import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
-import ProductDetail from "../../../components/modals/manager-modal/products/ProductDetailModal";
+import ProductFormModal from "./modal/ProductFormModal";
 
 const ManagerProductsPage = () => {
   usePageTitle("Products - Manager");
@@ -186,29 +186,30 @@ const ManagerProductsPage = () => {
 
       <Modal isOpen={isOpenModal} onClose={closeModal}>
         {modalType === "detail" && payload && (
-          <ProductDetail
-            itemName={payload.name}
-            itemPrice={formatRupiah(payload.price)}
-            itemStock={payload.stock}
+          <ProductFormModal
+            product={payload}
+            mode="view"
+            onCancel={closeModal}
           />
         )}
 
         {modalType === "edit" && payload && (
-          <div>
-            <h2 className="text-lg font-semibold mb-3">Edit Product</h2>
-            <input
-              type="text"
-              defaultValue={payload.name}
-              className="border p-2 rounded w-full mb-3"
-            />
-            <Button onClick={closeModal} label="Save" />
-          </div>
+          <ProductFormModal
+            product={payload}
+            mode="edit"
+            onSave={(updatedData) => {
+              console.log("Updated product:", updatedData);
+              closeModal();
+            }}
+            onCancel={closeModal}
+          />
         )}
 
         {modalType === "delete" && payload && (
           <ConfirmDeleteModal
             onCancel={closeModal}
             onConfirm={() => {
+              console.log("Deleting:", payload.name);
               closeModal();
             }}
             itemName={payload.name}
