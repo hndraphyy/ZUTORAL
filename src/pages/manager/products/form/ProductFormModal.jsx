@@ -1,7 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { formatRupiah } from "../../../../utils/format";
-
+import {
+  formatStatusLabel,
+  getStatusColor,
+} from "../../../../utils/statusUtils";
+import {
+  PRODUCT_STATUS_LABELS,
+  PRODUCT_STATUS_COLORS,
+} from "../config/statusConfig";
 import Button from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
 import StatusLabel from "../../../../components/ui/StatusLabel";
@@ -47,27 +54,6 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
     }
   };
 
-  const formatStatusLabel = (status) => {
-    switch (status) {
-      case "available":
-        return "Available";
-      case "low":
-        return "Low Stock";
-      case "out_of_stock":
-        return "Out of Stock";
-      default:
-        return status;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    return status === "available"
-      ? "purple"
-      : status === "low"
-      ? "yellow"
-      : "pink";
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -84,7 +70,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
 
   return (
     <div className="grid grid-cols-12 max-h-[85dvh] w-[90vw] md:w-[inherit] md:max-h-[inherit] overflow-y-auto">
-      {/* Kolom Gambar */}
+      {/* img */}
       <div className="col-span-12 md:col-span-6 md:max-w-md xl:max-w-xl 2xl:max-w-2xl rounded-t-md md:rounded-t-none md:rounded-l-lg overflow-hidden relative">
         <div className="w-full h-full relative">
           {isEditable && (
@@ -118,7 +104,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
         </div>
       </div>
 
-      {/* Kolom Form */}
+      {/* form*/}
       <div className="col-span-12 md:col-span-6 p-4 xl:p-5">
         <h2 className="text-xl 2xl:text-2xl text-center mb-7">
           {mode === "add"
@@ -231,20 +217,20 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
-          {/* 🔹 Status hanya di mode view */}
+          {/* Status */}
           {!isEditable && !isAddMode && (
             <div>
               <span className="text-base 2xl:text-xl text-purple block mb-1">
                 Status
               </span>
               <StatusLabel
-                variant={getStatusColor(product.status)}
-                label={formatStatusLabel(product.status)}
+                variant={getStatusColor(product.status, PRODUCT_STATUS_COLORS)}
+                label={formatStatusLabel(product.status, PRODUCT_STATUS_LABELS)}
               />
             </div>
           )}
 
-          {/* Tombol */}
+          {/* btn */}
           <div className="mt-5">
             {isEditable ? (
               <div className="grid grid-cols-2 gap-4">

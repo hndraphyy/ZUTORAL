@@ -1,5 +1,3 @@
-// src/utils/statusUtils.js
-
 export const formatStatusLabel = (status, labelMap = {}) => {
   return labelMap[status] || status;
 };
