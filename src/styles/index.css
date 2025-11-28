@@ -11,8 +11,50 @@
   --color-border-table: rgba(176, 116, 210, 0.119);
   --color-search: #dbd8d8;
   --color-red-light: #ff9797;
-
   --background-image-sidebar: url("/assets/images/sidebar-bg.webp");
+
+  --animate-popIn: popIn 1s ease-in-out;
+  @keyframes popIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    55% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    75% {
+      transform: scale(1);
+    }
+    85% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  --animate-shake: shake 1s ease-in-out;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-4px);
+    }
+    40% {
+      transform: translateX(4px);
+    }
+    60% {
+      transform: translateX(-2px);
+    }
+    80% {
+      transform: translateX(2px);
+    }
+  }
 }
 
 @import "tailwindcss";

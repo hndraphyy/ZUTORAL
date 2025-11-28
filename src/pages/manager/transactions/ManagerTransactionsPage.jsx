@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { TRANSACTION_COLUMNS_BASE } from "./config/columns.jsx";
 import { generateTransactionData } from "./data/transactionData.js";
+import useModal from "../../../hooks/useModal.js";
 
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
@@ -12,11 +13,16 @@ import FilterDate from "../../../components/filters/Date";
 import FilterStatus from "../../../components/filters/Status";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
+import Modal from "../../../components/modals/BaseModal.jsx";
+import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal.jsx";
+import TransactionDetail from "./detail/TransactionDetail.jsx";
 
 const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
 
-  const { isOpen, modalPos, openDropdown, closeDropdown } = useActionModal();
+  const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
+    useActionModal();
+  const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
@@ -105,8 +111,29 @@ const ManagerTransactionsPage = () => {
           pos={modalPos}
           detailOn
           deleteOn
+          onClickDetail={() => {
+            openModal("detail", selectedRow);
+            closeDropdown();
+          }}
+          onClickDelete={() => {
+            openModal("delete", selectedRow);
+            closeDropdown();
+          }}
         />
       )}
+      <Modal isOpen={isOpenModal} onClose={closeModal}>
+        {modalType === "detail" && payload && (
+          <TransactionDetail transaction={payload} onCancel={closeModal} />
+        )}
+
+        {modalType === "delete" && payload && (
+          <ConfirmDeleteModal
+            onCancel={closeModal}
+            onConfirm={closeModal}
+            itemName={payload.customer}
+          />
+        )}
+      </Modal>
     </div>
   );
 };
