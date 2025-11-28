@@ -1,23 +1,29 @@
 import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { EMPLOYEE_COLUMNS_BASE } from "./config/columns.jsx";
-import { generateEmployeeData } from "./data/employeeData.js";
-
+import { EMPLOYEE_COLUMNS_BASE } from "./config/columns";
+import { generateEmployeeData } from "./data/employeeData";
+import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterStatus from "../../../components/filters/Status";
 import Button from "../../../components/ui/Button";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
+import EmployeeFormModal from "./form/EmployeeFormModal";
+import Modal from "../../../components/modals/BaseModal";
+import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
 
 const ManagerEmployeesPage = () => {
   usePageTitle("Employees - Manager");
 
-  const { isOpen, modalPos, openDropdown, closeDropdown } = useActionModal();
+  const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
+    useActionModal();
+  const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
 
@@ -83,7 +89,7 @@ const ManagerEmployeesPage = () => {
             ]}
           />
           <Button
-            onClick={() => alert("Add Employee clicked")}
+            onClick={() => openModal("add", null)}
             icon={<FaPlus />}
             label="Add"
             className="col-span-6 lg:col-span-2"
@@ -106,8 +112,52 @@ const ManagerEmployeesPage = () => {
           detailOn
           editOn
           deleteOn
+          onClickDetail={() => {
+            openModal("detail", selectedRow);
+            closeDropdown();
+          }}
+          onClickEdit={() => {
+            openModal("edit", selectedRow);
+            closeDropdown();
+          }}
+          onClickDelete={() => {
+            openModal("delete", selectedRow);
+            closeDropdown();
+          }}
         />
       )}
+
+      <Modal isOpen={isOpenModal} onClose={closeModal}>
+        {modalType === "add" && (
+          <EmployeeFormModal
+            mode="add"
+            onSave={closeModal}
+            onCancel={closeModal}
+          />
+        )}
+        {modalType === "detail" && payload && (
+          <EmployeeFormModal
+            employee={payload}
+            mode="view"
+            onCancel={closeModal}
+          />
+        )}
+        {modalType === "edit" && payload && (
+          <EmployeeFormModal
+            employee={payload}
+            mode="edit"
+            onSave={closeModal}
+            onCancel={closeModal}
+          />
+        )}
+        {modalType === "delete" && payload && (
+          <ConfirmDeleteModal
+            itemName={payload.name}
+            onCancel={closeModal}
+            onConfirm={closeModal}
+          />
+        )}
+      </Modal>
     </div>
   );
 };
