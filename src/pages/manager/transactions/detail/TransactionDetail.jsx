@@ -50,10 +50,10 @@ const TransactionDetail = ({ transaction, onCancel }) => {
       <div className="space-y-4 text-gray-600 py-4">
         {[
           { label: "Invoice", value: transaction.invoice },
+          { label: "Date", value: formatDate(transaction.date) },
           { label: "Customer", value: transaction.customer },
           { label: "Sales", value: transaction.sales },
           { label: "Total", value: formatRupiah(transaction.total) },
-          { label: "Date", value: formatDate(transaction.date) },
         ].map((item, i) => (
           <div key={i} className="flex justify-between items-center">
             <span className="text-sm md:text-lg 2xl:text-lg">{item.label}</span>

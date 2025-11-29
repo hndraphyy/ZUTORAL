@@ -73,7 +73,7 @@ const PasswordSection = ({ onChangePassword }) => {
             onChange={handleChange}
           />
         </div>
-        <div className="grid">
+        <div className="mt-6 grid">
           <Button type="submit" label="Update Password" variant="primary" />
         </div>
       </form>

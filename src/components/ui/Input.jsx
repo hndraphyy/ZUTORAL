@@ -20,7 +20,10 @@ const Input = React.forwardRef(
     return (
       <div className="mb-3">
         {label && (
-          <label htmlFor={id} className={`block mb-1 ${classNameLabel}`}>
+          <label
+            htmlFor={id}
+            className={`block  text-gray-600 mb-1.5 ${classNameLabel}`}
+          >
             {label}
           </label>
         )}
@@ -33,7 +36,7 @@ const Input = React.forwardRef(
           placeholder={placeholder}
           disabled={disabled}
           required={required}
-          className={`w-full px-3  py-2 outline-0 text-base 2xl:text-lg border rounded-md border-search text-gray-500 ${
+          className={`w-full px-3  py-2 outline-0 text-[14px] 2xl:text-lg border rounded-md border-search text-gray-500 ${
             disabled
               ? "bg-gray-100 text-gray-500 cursor-not-allowed"
               : "bg-white"

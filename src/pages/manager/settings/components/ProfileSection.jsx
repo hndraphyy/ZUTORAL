@@ -41,7 +41,7 @@ const ProfileSection = ({ user, onSave }) => {
 
           <div>
             <label>Email</label>
-            <p className="mt-1 px-3 border-l-2 border-gray-400 text-gray-600 lg:text-lg">
+            <p className="mt-1 px-3 border-l-2 border-gray-400 text-gray-600 text-[14px] 2xl:text-lg">
               {user.email}
             </p>
           </div>
