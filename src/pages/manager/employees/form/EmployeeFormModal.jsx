@@ -66,6 +66,7 @@ const EmployeeFormModal = ({ employee, mode = "view", onSave, onCancel }) => {
             {isEditable ? (
               <Input
                 label="Full Name"
+                placeholder="Employee Name"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 value={formData.name}
                 onChange={(e) =>
@@ -89,6 +90,7 @@ const EmployeeFormModal = ({ employee, mode = "view", onSave, onCancel }) => {
             {isEditable ? (
               <Input
                 label="Username"
+                placeholder="Username"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 value={formData.username}
                 onChange={(e) =>
@@ -112,6 +114,7 @@ const EmployeeFormModal = ({ employee, mode = "view", onSave, onCancel }) => {
             {isEditable ? (
               <Input
                 label="Email"
+                placeholder="Email"
                 type="email"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 value={formData.email}

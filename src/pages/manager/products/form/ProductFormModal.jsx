@@ -132,6 +132,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             {isEditable ? (
               <Input
                 label="Name"
+                placeholder="Product Name"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 value={formData.name}
                 onChange={(e) =>
@@ -153,6 +154,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             {isEditable ? (
               <Input
                 label="Price"
+                placeholder="Product Price"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 type="number"
                 value={formData.price}
@@ -175,6 +177,7 @@ const ProductFormModal = ({ product, mode = "view", onSave, onCancel }) => {
             {isEditable ? (
               <Input
                 label="Stock"
+                placeholder="Product Stock"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 type="number"
                 value={formData.stock}

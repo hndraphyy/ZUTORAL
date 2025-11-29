@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
 @theme {
+  /* font */
   --font-sans: "Outfit", sans-serif;
 
+  /* color */
   --color-blue: #2a0586;
   --color-purple: #895cd6;
   --color-purple-light: #f9f5ff;
@@ -13,6 +15,7 @@
   --color-red-light: #ff9797;
   --background-image-sidebar: url("/assets/images/sidebar-bg.webp");
 
+  /* animate */
   --animate-popIn: popIn 1s ease-in-out;
   @keyframes popIn {
     0% {
