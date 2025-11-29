@@ -4,6 +4,8 @@ const variantClasses = {
   danger: "bg-purple text-white hover:purple/90",
   outline: "border border-gray-400 text-gray-700 hover:bg-gray-100",
   ghost: "text-gray-700 hover:bg-gray-100",
+  logout:
+    "w-full h-full flex justify-start items-center px-2 md:px-5 text-red-light md:text-lg 2xl:text-[22px] text-xl mb-8 gap-2.5 cursor-pointer",
 };
 
 const Button = ({

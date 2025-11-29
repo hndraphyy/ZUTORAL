@@ -6,7 +6,7 @@ const FilterStatus = ({ onChange, value, options, className = "" }) => {
       <select
         value={value}
         onChange={onChange}
-        className="border px-3 outline-0 border-gray-300 text-base 2xl:text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white"
+        className="border px-3 outline-0 border-gray-300 text-[14px] 2xl:text-lg rounded-md h-full w-full text-gray-500 appearance-none bg-white"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import Input from "../../../../components/ui/Input";
 import Button from "../../../../components/ui/Button";
 
@@ -9,6 +10,7 @@ const PasswordSection = ({ onChangePassword }) => {
     confirm: "",
   });
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +55,7 @@ const PasswordSection = ({ onChangePassword }) => {
             placeholder="Current Password"
             name="current"
             type="password"
+            showPasswordToggle={true}
             value={formData.current}
             onChange={handleChange}
           />
@@ -61,6 +64,7 @@ const PasswordSection = ({ onChangePassword }) => {
             placeholder="New Password"
             name="new"
             type="password"
+            showPasswordToggle={true}
             value={formData.new}
             onChange={handleChange}
           />
@@ -69,6 +73,7 @@ const PasswordSection = ({ onChangePassword }) => {
             placeholder="Confirm New Password"
             name="confirm"
             type="password"
+            showPasswordToggle={true}
             value={formData.confirm}
             onChange={handleChange}
           />

@@ -1,48 +1,68 @@
-import React from "react";
+import React, { useState, forwardRef } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
-const Input = React.forwardRef(
+const Input = forwardRef(
   (
     {
       label,
-      id,
       type = "text",
+      showPasswordToggle = false,
       value,
       onChange,
-      classNameLabel = "",
       placeholder = "",
       className = "",
       disabled = false,
       required = false,
+      name,
       ...props
     },
     ref
   ) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const actualType =
+      showPasswordToggle && type === "password"
+        ? showPassword
+          ? "text"
+          : "password"
+        : type;
+
     return (
       <div className="mb-3">
         {label && (
-          <label
-            htmlFor={id}
-            className={`block  text-gray-600 mb-1.5 ${classNameLabel}`}
-          >
+          <label htmlFor={name} className="text-gray-600">
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          id={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          disabled={disabled}
-          required={required}
-          className={`w-full px-3  py-2 outline-0 text-[14px] 2xl:text-lg border rounded-md border-search text-gray-500 ${
-            disabled
-              ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-              : "bg-white"
-          } ${className}`}
-          {...props}
-        />
+        <div className="relative mt-1.5">
+          <input
+            ref={ref}
+            id={name}
+            name={name}
+            type={actualType}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            disabled={disabled}
+            required={required}
+            className={`w-full px-3  py-2 outline-0 text-[14px] 2xl:text-lg border rounded-md border-search text-gray-500 ${
+              disabled
+                ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                : "bg-white"
+            } ${className}`}
+            {...props}
+          />
+          {showPasswordToggle && type === "password" && (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-800"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FiEye /> : <FiEyeOff />}
+            </button>
+          )}
+        </div>
       </div>
     );
   }

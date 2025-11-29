@@ -1,9 +1,24 @@
 import { NavLink } from "react-router-dom";
-import LogoutButton from "../LogoutButton";
+import Button from "../ui/Button";
 import useAuth from "../../hooks/useAuth";
+import useModal from "../../hooks/useModal";
+import Modal from "../modals/BaseModal";
+import ConfirmLogoutModal from "../modals/ConfirmLogoutModal";
 
 const ManagerSidebar = ({ Links }) => {
   const { logout } = useAuth();
+  const { isOpenModal, modalType, openModal, closeModal } = useModal();
+
+  const handleLogout = () => {
+    openModal("confirm", { type: "logout" });
+  };
+
+  const handleConfirmAction = () => {
+    if (modalType === "confirm") {
+      logout();
+    }
+    closeModal();
+  };
 
   return (
     <aside className="fixed bottom-0 md:top-0 md:left-0 w-full md:w-60 lg:w-[270px] xl:w-[300px] 2xl:w-[360px] md:h-full bg-sidebar flex md:flex-col justify-between items-center md:py-10 z-50 bg-cover md:bg-bottom pt-2">
@@ -50,16 +65,47 @@ const ManagerSidebar = ({ Links }) => {
               </NavLink>
             ))}
 
-            <div className="block -mt-1.5 md:hidden shrink-0">
-              <LogoutButton onLogout={logout} />
+            <div className="block -mt-3 md:hidden shrink-0">
+              <Button
+                onClick={handleLogout}
+                variant="logout"
+                icon={
+                  <img
+                    src="/assets/svg/sidebar-icon/logout-light.svg"
+                    alt="log out"
+                    className="h-9 md:h-7 2xl:h-10"
+                  />
+                }
+              />
             </div>
           </nav>
         </div>
       </div>
 
       <div className="hidden md:block absolute pb-8 bottom-0 w-full px-5">
-        <LogoutButton onLogout={logout} />
+        <Button
+          onClick={handleLogout}
+          variant="logout"
+          label="Log Out"
+          icon={
+            <img
+              src="/assets/svg/sidebar-icon/logout-light.svg"
+              alt="log out"
+              className="h-9 md:h-7 2xl:h-10"
+            />
+          }
+        />
       </div>
+
+      <Modal
+        isOpen={isOpenModal && modalType === "confirm"}
+        onClose={closeModal}
+      >
+        <ConfirmLogoutModal
+          onConfirm={handleConfirmAction}
+          onCancel={closeModal}
+        />
+      </Modal>
     </aside>
   );
 };

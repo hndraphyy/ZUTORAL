@@ -4,9 +4,11 @@ import { USERS } from "../config/auth";
 const useAuth = () => {
   const navigate = useNavigate();
 
-  const login = (username, password) => {
+  const login = (identifier, password) => {
     const validUser = Object.values(USERS).find(
-      (user) => user.username === username && user.password === password
+      (user) =>
+        (user.username === identifier || user.email === identifier) &&
+        user.password === password
     );
 
     if (validUser) {
