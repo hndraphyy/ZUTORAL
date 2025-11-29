@@ -27,7 +27,7 @@ const StatusLabel = ({ variant, label }) => {
   const style = statusVariants[key] || statusVariants.default;
 
   const baseClasses =
-    "font-medium py-1 px-3 rounded-full text-sm lg:text-[14px] 2xl:text-[16px] whitespace-nowrap";
+    "font-medium py-1 px-3 rounded-full text-[12px] lg:text-[14px] 2xl:text-[16px] whitespace-nowrap";
 
   return <span className={`${baseClasses} ${style.className}`}>{label}</span>;
 };

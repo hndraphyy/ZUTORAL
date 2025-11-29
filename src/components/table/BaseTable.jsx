@@ -58,7 +58,7 @@ const BaseTable = ({
                   }
                   className={`p-3 2xl:p-4 font-semibold ${
                     col.sortable !== false ? "cursor-pointer" : "cursor-default"
-                  } text-gray-700 text-sm 2xl:text-[16px] whitespace-nowrap`}
+                  } text-gray-700 text-[14px] 2xl:text-[16px] whitespace-nowrap`}
                 >
                   <div
                     className={`flex items-center ${
@@ -102,7 +102,7 @@ const BaseTable = ({
                   {columns.map((col, ci) => (
                     <td
                       key={ci}
-                      className={`px-4 py-3 text-gray-700 text-sm 2xl:text-[16px] ${
+                      className={`px-4 py-3 text-gray-700 text-[14px] 2xl:text-[16px] ${
                         col.isAction ? "text-center" : ""
                       }`}
                     >
