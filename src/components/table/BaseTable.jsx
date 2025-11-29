@@ -56,7 +56,7 @@ const BaseTable = ({
                   onClick={() =>
                     col.sortable !== false && handleSort(col.accessor)
                   }
-                  className={`p-4 font-semibold ${
+                  className={`p-3 2xl:p-4 font-semibold ${
                     col.sortable !== false ? "cursor-pointer" : "cursor-default"
                   } text-gray-700 text-sm 2xl:text-[16px] whitespace-nowrap`}
                 >
@@ -86,7 +86,7 @@ const BaseTable = ({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="text-center py-6 border-t border-gray-200 text-gray-700"
+                  className="text-center py-5 2xl:py-6 border-t border-gray-200 text-gray-700"
                 >
                   No Data Available
                 </td>
