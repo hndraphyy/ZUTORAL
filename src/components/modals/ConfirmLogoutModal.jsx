@@ -4,11 +4,11 @@ import { IoLogOut } from "react-icons/io5";
 const ConfirmLogoutModal = ({ onConfirm, onCancel }) => {
   return (
     <div className="p-5 w-[85vw] md:w-[400px] 2xl:w-[500px]">
-      <p className="text-base 2xl:text-xl text-center max-w-[220px] md:max-w-[280px] 2xl:max-w-sm mx-auto">
+      <p className="text-base 2xl:text-xl text-center max-w-[220px] md:max-w-[200px] mx-auto">
         Are you sure you want to Log Out?
       </p>
       <div className="mx-auto my-4 flex justify-center items-center">
-        <IoLogOut className="w-1/2 h-1/2 text-purple" />
+        <IoLogOut className="w-1/2 h-1/2 text-purple rotate-180" />
       </div>
       <div className="grid grid-cols-12 gap-2">
         <Button
