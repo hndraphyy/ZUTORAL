@@ -61,7 +61,6 @@ const RevenueChart = () => {
     ],
     datasets: [
       {
-        label: "",
         data: [
           12000000, 15000000, 13000000, 18000000, 20000000, 19000000, 22000000,
           24000000, 21000000, 26000000, 28000000, 20000000,
@@ -94,6 +93,9 @@ const RevenueChart = () => {
       intersect: false,
     },
     plugins: {
+      legend: {
+        display: false,
+      },
       tooltip: {
         mode: "index",
         intersect: false,
@@ -133,9 +135,18 @@ const RevenueChart = () => {
     },
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div className="w-full h-full">
-      <Line data={data} options={options} plugins={[verticalLinePlugin]} />
+    <div>
+      <h2 className="text-base lg:text-lg 2xl:text-2xl font-medium text-gray-800 mb-7">
+        Monthly Revenue {currentYear}
+      </h2>
+      <div className="w-full h-[280px] 2xl:h-[310px]">
+        <div className="w-full h-full">
+          <Line data={data} options={options} plugins={[verticalLinePlugin]} />
+        </div>
+      </div>
     </div>
   );
 };
