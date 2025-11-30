@@ -65,7 +65,6 @@
 input[type="password"]::-webkit-reveal {
   display: none !important;
   opacity: 0 !important;
-  /* color: rgb(137, 92, 214); */
 }
 
 input[type="password"]::-ms-reveal {

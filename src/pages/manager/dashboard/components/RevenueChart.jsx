@@ -19,6 +19,30 @@ ChartJS.register(
   Tooltip
 );
 
+const verticalLinePlugin = {
+  id: "verticalLine",
+  beforeDatasetsDraw: (chart) => {
+    const {
+      ctx,
+      tooltip,
+      chartArea: { top, bottom },
+    } = chart;
+
+    if (tooltip?._active?.length) {
+      const x = tooltip._active[0].element.x;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "#6b46c1";
+      ctx.setLineDash([5, 5]);
+      ctx.stroke();
+      ctx.restore();
+    }
+  },
+};
+
 const RevenueChart = () => {
   const data = {
     labels: [
@@ -37,10 +61,10 @@ const RevenueChart = () => {
     ],
     datasets: [
       {
-        label: "Revenue",
+        label: "",
         data: [
-          1200000, 1500000, 1300000, 1800000, 2000000, 1900000, 2200000,
-          2400000, 2100000, 2600000, 2800000, 3000000,
+          12000000, 15000000, 13000000, 18000000, 20000000, 19000000, 22000000,
+          24000000, 21000000, 26000000, 28000000, 20000000,
         ],
         borderColor: "#6b46c1",
         backgroundColor: (context) => {
@@ -51,8 +75,8 @@ const RevenueChart = () => {
           return gradient;
         },
         borderWidth: 3,
-        pointRadius: 5,
-        pointHoverRadius: 7,
+        pointRadius: 0,
+        hoverRadius: 5,
         pointBackgroundColor: "white",
         pointBorderColor: "#6b46c1",
         pointBorderWidth: 2,
@@ -65,11 +89,14 @@ const RevenueChart = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+      intersect: false,
+    },
     plugins: {
       tooltip: {
         mode: "index",
         intersect: false,
-        Axis: "x",
         backgroundColor: "#6b46c1",
         displayColors: false,
         titleMarginBottom: 0,
@@ -82,13 +109,19 @@ const RevenueChart = () => {
           },
         },
       },
+      verticalLine: {},
     },
     scales: {
       x: {
         grid: { color: "rgba(0,0,0,0.03)" },
-        ticks: { color: "#6b7280", font: { family: "Outfit", size: 12 } },
+        ticks: {
+          color: "#6b7280",
+          font: { family: "Outfit", size: 12 },
+        },
+        border: { display: false },
       },
       y: {
+        border: { display: false },
         beginAtZero: true,
         grid: { color: "rgba(0,0,0,0.03)" },
         ticks: {
@@ -102,7 +135,7 @@ const RevenueChart = () => {
 
   return (
     <div className="w-full h-full">
-      <Line data={data} options={options} />
+      <Line data={data} options={options} plugins={[verticalLinePlugin]} />
     </div>
   );
 };
