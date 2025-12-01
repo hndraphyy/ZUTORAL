@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 import LoginPage from "../pages/auth/LoginPage";
 import ManagerLayout from "../layouts/ManagerLayout";
@@ -27,26 +28,39 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/manager",
-    element: <ManagerLayout />,
+    element: <ProtectedRoute allowedRoles={["manager"]} />,
     children: [
-      { path: "dashboard", element: <ManagerDashboardPage /> },
-      { path: "products", element: <ManagerProductsPage /> },
-      { path: "transactions", element: <ManagerTransactionsPage /> },
-      { path: "employees", element: <ManagerEmployeesPage /> },
-      { path: "reports", element: <ManagerReportsPage /> },
-      { path: "settings", element: <SettingsPage /> },
+      {
+        path: "/manager",
+        element: <ManagerLayout />,
+        children: [
+          { index: true, element: <ManagerDashboardPage /> },
+          { path: "dashboard", element: <ManagerDashboardPage /> },
+          { path: "products", element: <ManagerProductsPage /> },
+          { path: "transactions", element: <ManagerTransactionsPage /> },
+          { path: "employees", element: <ManagerEmployeesPage /> },
+          { path: "reports", element: <ManagerReportsPage /> },
+          { path: "settings", element: <SettingsPage /> },
+        ],
+      },
     ],
   },
+
   {
-    path: "/sales-agent",
-    element: <SalesAgentLayout />,
+    element: <ProtectedRoute allowedRoles={["sales"]} />,
     children: [
-      { path: "dashboard", element: <SalesAgentDashboardPage /> },
-      { path: "customers", element: <SalesAgentCustomersPage /> },
-      { path: "orders", element: <SalesAgentOrdersPage /> },
-      { path: "reports", element: <SalesAgentReportsPage /> },
-      { path: "settings", element: <SettingsPage /> },
+      {
+        path: "/sales-agent",
+        element: <SalesAgentLayout />,
+        children: [
+          { index: true, element: <SalesAgentDashboardPage /> },
+          { path: "dashboard", element: <SalesAgentDashboardPage /> },
+          { path: "customers", element: <SalesAgentCustomersPage /> },
+          { path: "orders", element: <SalesAgentOrdersPage /> },
+          { path: "reports", element: <SalesAgentReportsPage /> },
+          { path: "settings", element: <SettingsPage /> },
+        ],
+      },
     ],
   },
 ]);

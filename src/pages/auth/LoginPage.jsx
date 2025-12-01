@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import usePageTitle from "../../hooks/usePageTitle";
 import useAuth from "../../hooks/useAuth";
@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -44,7 +45,9 @@ const LoginPage = () => {
     }
 
     const user = login(username, password);
-    if (!user) {
+    if (user) {
+      navigate(user.redirect, { replace: true });
+    } else {
       setErrorMessage("Username/Email atau Password salah.");
     }
   };
