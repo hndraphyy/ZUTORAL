@@ -14,7 +14,7 @@ export default function Modal({ isOpen, onClose, children }) {
 
       const enterTimer = setTimeout(() => {
         setIsEntering(true);
-      }, 10);
+      }, 200);
 
       return () => clearTimeout(enterTimer);
     } else if (!isOpen && hasOpened.current) {
