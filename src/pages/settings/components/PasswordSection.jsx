@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import Input from "../../../../components/ui/Input";
-import Button from "../../../../components/ui/Button";
+import Input from "../../../components/ui/Input";
+import Button from "../../../components/ui/Button";
 
 const PasswordSection = ({ onChangePassword }) => {
   const [formData, setFormData] = useState({

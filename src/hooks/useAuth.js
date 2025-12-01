@@ -12,18 +12,24 @@ const useAuth = () => {
     );
 
     if (validUser) {
+      localStorage.setItem("currentUser", JSON.stringify(validUser));
       navigate(validUser.redirect);
       return validUser;
-    } else {
-      return null;
     }
+    return null;
   };
 
   const logout = () => {
+    localStorage.removeItem("currentUser");
     navigate("/login");
   };
 
-  return { login, logout };
+  const getCurrentUser = () => {
+    const user = localStorage.getItem("currentUser");
+    return user ? JSON.parse(user) : null;
+  };
+
+  return { login, logout, getCurrentUser };
 };
 
 export default useAuth;
