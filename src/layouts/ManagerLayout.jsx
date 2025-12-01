@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
-import managerLinks from "../components/sidebar/managerLinks";
+import { managerLinks } from "../components/sidebar/data/managerLinks";
 
 const ManagerLayout = () => {
   return (
