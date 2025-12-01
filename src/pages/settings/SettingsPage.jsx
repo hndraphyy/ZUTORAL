@@ -23,8 +23,6 @@ const ManagerSettingsPage = () => {
     console.log("Change password:", data);
   };
 
-  console.log("User from auth:", user);
-
   return (
     <div>
       <Header title="Settings" />
