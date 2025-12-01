@@ -1,4 +1,4 @@
-import { FaUser, FaUserClock, FaUserTimes } from "react-icons/fa";
+import { FaUser, FaUserCheck, FaUserTimes } from "react-icons/fa";
 import { getDashboardData } from "../utils/dashboardData";
 
 const EmployeesDashboard = () => {
@@ -18,7 +18,7 @@ const EmployeesDashboard = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <FaUserClock className="w-10 h-10 text-purple" />
+          <FaUserCheck className="w-10 h-10 text-purple" />
           <p className="text-xl lg:text-2xl 2xl:text-4xl font-bold text-gray-600">
             {data.employees.active}
           </p>
