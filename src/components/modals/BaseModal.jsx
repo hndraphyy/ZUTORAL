@@ -14,7 +14,7 @@ export default function Modal({ isOpen, onClose, children }) {
 
       const enterTimer = setTimeout(() => {
         setIsEntering(true);
-      }, 200);
+      }, 100);
 
       return () => clearTimeout(enterTimer);
     } else if (!isOpen && hasOpened.current) {
@@ -23,7 +23,7 @@ export default function Modal({ isOpen, onClose, children }) {
         setShowModal(false);
         hasOpened.current = false;
         onClose();
-      }, 200);
+      }, 100);
       return () => clearTimeout(exitTimer);
     }
   }, [isOpen, onClose]);
@@ -31,13 +31,13 @@ export default function Modal({ isOpen, onClose, children }) {
   if (!showModal) return null;
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-300 ease-out ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-400 ease-out ${
         isEntering ? "opacity-100" : "opacity-0"
       }`}
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-lg  relative transform transition-all duration-300 ease-out ${
+        className={`bg-white rounded-lg  relative transform transition-all duration-400 ease-out ${
           isEntering ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
         }`}
         onClick={(e) => e.stopPropagation()}
