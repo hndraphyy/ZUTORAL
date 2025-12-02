@@ -1,4 +1,4 @@
-import { formatRupiah } from "../../../../utils/format";
+import { formatRupiah } from "../../../utils/format";
 
 export const REPORT_COLUMNS_BASE = [
   { header: "Month", accessor: "month", sortable: false },

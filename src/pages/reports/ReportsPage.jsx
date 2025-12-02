@@ -1,19 +1,36 @@
 import React, { useState, useMemo } from "react";
-import { exportReportToPDF } from "../../../utils/exportPDF";
+import { exportReportToPDF } from "../../utils/exportPDF.js";
 import { REPORT_COLUMNS_BASE } from "./config/columns.jsx";
-import usePagination from "../../../hooks/usePagination";
-import usePageTitle from "../../../hooks/usePageTitle";
+import usePagination from "../../hooks/usePagination.js";
+import usePageTitle from "../../hooks/usePageTitle.js";
+import useAuth from "../../hooks/useAuth.js";
 
-import Header from "../../../components/Header";
-import FilterStatus from "../../../components/filters/Status";
-import Button from "../../../components/ui/Button";
-import BaseTable from "../../../components/table/BaseTable";
+import Header from "../../components/Header.jsx";
+import FilterStatus from "../../components/filters/Status.jsx";
+import Button from "../../components/ui/Button.jsx";
+import BaseTable from "../../components/table/BaseTable.jsx";
 
 const getMonthName = (monthIndex) =>
   new Date(0, monthIndex).toLocaleString("en-US", { month: "long" });
 
-const ManagerReportsPage = () => {
-  usePageTitle("Reports - Manager");
+const ReportsPage = () => {
+  usePageTitle("Reports");
+
+  const { getCurrentUser } = useAuth();
+
+  const user = getCurrentUser();
+
+  if (!user) {
+    return (
+      <div className="p-6">
+        <p className="text-red-500">You must be logged in to view reports.</p>
+      </div>
+    );
+  }
+
+  const role = user.role;
+  const isManager = role === "manager";
+  const isSales = role === "sales";
 
   const currentYear = new Date().getFullYear().toString();
   const [isYear, setYear] = useState(currentYear);
@@ -25,13 +42,15 @@ const ManagerReportsPage = () => {
 
   const data = useMemo(() => {
     return Array.from({ length: 12 }, (_, i) => ({
-      id: i,
+      id: i + 1,
       year: isYear,
       month: getMonthName(i),
-      transactions: Math.floor(150 + i * 10),
-      revenue: 1530000 + i * 100,
+      transactions: isManager
+        ? Math.floor(300 + i * 15)
+        : Math.floor(150 + i * 10),
+      revenue: isManager ? 5_000_000 + i * 200_000 : 1_530_000 + i * 100_000,
     }));
-  }, [isYear]);
+  }, [isYear, role]);
 
   const columns = useMemo(() => {
     return [
@@ -57,7 +76,7 @@ const ManagerReportsPage = () => {
         ),
       },
     ];
-  }, []);
+  }, [role]);
 
   const {
     currentPage,
@@ -101,4 +120,4 @@ const ManagerReportsPage = () => {
   );
 };
 
-export default ManagerReportsPage;
+export default ReportsPage;

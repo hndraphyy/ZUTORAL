@@ -9,13 +9,12 @@ import ManagerDashboardPage from "../pages/manager/dashboard/ManagerDashboardPag
 import ManagerProductsPage from "../pages/manager/products/ManagerProductsPage";
 import ManagerTransactionsPage from "../pages/manager/transactions/ManagerTransactionsPage";
 import ManagerEmployeesPage from "../pages/manager/employees/ManagerEmployeesPage";
-import ManagerReportsPage from "../pages/manager/reports/ManagerReportsPage";
 
 import SalesAgentDashboardPage from "../pages/sales-agent/dashboard/SalesAgentDashboardPage";
 import SalesAgentCustomersPage from "../pages/sales-agent/customers/SalesAgentCustomersPage";
 import SalesAgentOrdersPage from "../pages/sales-agent/orders/SalesAgentOrdersPage";
-import SalesAgentReportsPage from "../pages/sales-agent/reports/SalesAgentReportsPage";
 
+import ReportsPage from "../pages/reports/ReportsPage";
 import SettingsPage from "../pages/settings/SettingsPage";
 
 const router = createBrowserRouter([
@@ -39,7 +38,7 @@ const router = createBrowserRouter([
           { path: "products", element: <ManagerProductsPage /> },
           { path: "transactions", element: <ManagerTransactionsPage /> },
           { path: "employees", element: <ManagerEmployeesPage /> },
-          { path: "reports", element: <ManagerReportsPage /> },
+          { path: "reports", element: <ReportsPage /> },
           { path: "settings", element: <SettingsPage /> },
         ],
       },
@@ -57,7 +56,7 @@ const router = createBrowserRouter([
           { path: "dashboard", element: <SalesAgentDashboardPage /> },
           { path: "customers", element: <SalesAgentCustomersPage /> },
           { path: "orders", element: <SalesAgentOrdersPage /> },
-          { path: "reports", element: <SalesAgentReportsPage /> },
+          { path: "reports", element: <ReportsPage /> },
           { path: "settings", element: <SettingsPage /> },
         ],
       },
