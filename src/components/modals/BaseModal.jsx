@@ -23,7 +23,7 @@ export default function Modal({ isOpen, onClose, children }) {
         setShowModal(false);
         hasOpened.current = false;
         onClose();
-      }, 100);
+      }, 300);
       return () => clearTimeout(exitTimer);
     }
   }, [isOpen, onClose]);

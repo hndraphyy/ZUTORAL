@@ -3,10 +3,10 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { TRANSACTION_COLUMNS_BASE } from "./config/columns.jsx";
 import { generateTransactionData } from "./data/transactionData.js";
 import useModal from "../../../hooks/useModal.js";
-
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
 import FilterDate from "../../../components/filters/Date";

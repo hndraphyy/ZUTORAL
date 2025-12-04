@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { BiImageAdd } from "react-icons/bi";
 import Button from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
 
