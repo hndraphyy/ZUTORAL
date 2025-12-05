@@ -20,7 +20,7 @@ import BaseTable from "../../../components/table/BaseTable";
 import OrderFormModal from "./form/OrdersFormModal";
 
 const SalesAgentOrdersPage = () => {
-  usePageTitle("Orders - SalesAgent");
+  usePageTitle("Orders - Sales Agent");
 
   const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
     useActionModal();

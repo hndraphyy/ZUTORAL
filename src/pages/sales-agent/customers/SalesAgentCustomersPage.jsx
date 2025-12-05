@@ -20,7 +20,7 @@ import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
 import CustomerFormModal from "./form/CustomerFormModal";
 
 const SalesAgentCustomersPage = () => {
-  usePageTitle("Customers - SalesAgent");
+  usePageTitle("Customers - Sales Agent");
 
   const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
     useActionModal();

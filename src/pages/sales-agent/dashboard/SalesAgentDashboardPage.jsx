@@ -3,7 +3,7 @@ import usePageTitle from "../../../hooks/usePageTitle";
 import Header from "../../../components/Header";
 
 const SalesAgentDashboardPage = () => {
-  usePageTitle("Dashboard - SalesAgent");
+  usePageTitle("Dashboard - Sales Agent");
 
   return (
     <div>

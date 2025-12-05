@@ -6,14 +6,20 @@ import ProfileSection from "./components/ProfileSection";
 import PasswordSection from "./components/PasswordSection";
 
 const ManagerSettingsPage = () => {
-  usePageTitle("Settings - ");
-
   const { getCurrentUser } = useAuth();
   const user = getCurrentUser();
 
   if (!user) {
-    return <div className="p-6">Loading...</div>;
+    return (
+      <div className="p-6">
+        <div>Loading...</div>
+      </div>
+    );
   }
+
+  const pageTitle =
+    user.role === "manager" ? "Settings - Manager" : "Settings - Sales Agent";
+  usePageTitle(pageTitle);
 
   const handleSaveProfile = (data) => {
     console.log("Update profile:", data);

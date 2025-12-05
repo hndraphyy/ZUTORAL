@@ -14,10 +14,7 @@ const getMonthName = (monthIndex) =>
   new Date(0, monthIndex).toLocaleString("en-US", { month: "long" });
 
 const ReportsPage = () => {
-  usePageTitle("Reports");
-
   const { getCurrentUser } = useAuth();
-
   const user = getCurrentUser();
 
   if (!user) {
@@ -28,10 +25,11 @@ const ReportsPage = () => {
     );
   }
 
-  const role = user.role;
-  const isManager = role === "manager";
-  const isSales = role === "sales";
+  const pageTitle =
+    user.role === "manager" ? "Reports - Manager " : "Reports - Sales Agent";
+  usePageTitle(pageTitle);
 
+  const isManager = user.role === "manager";
   const currentYear = new Date().getFullYear().toString();
   const [isYear, setYear] = useState(currentYear);
 
@@ -50,7 +48,7 @@ const ReportsPage = () => {
         : Math.floor(150 + i * 10),
       revenue: isManager ? 5_000_000 + i * 200_000 : 1_530_000 + i * 100_000,
     }));
-  }, [isYear, role]);
+  }, [isYear, user.role]);
 
   const columns = useMemo(() => {
     return [
@@ -76,7 +74,7 @@ const ReportsPage = () => {
         ),
       },
     ];
-  }, [role]);
+  }, [user.role]);
 
   const {
     currentPage,
