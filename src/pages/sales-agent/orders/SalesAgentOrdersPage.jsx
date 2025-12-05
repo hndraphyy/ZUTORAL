@@ -119,8 +119,12 @@ const SalesAgentOrdersPage = () => {
         />
       )}
       <Modal isOpen={isOpenModal} onClose={closeModal}>
-        {modalType === "add" && payload && (
-          <OrderFormModal order={payload} mode="add" onCancel={closeModal} />
+        {modalType === "add" && (
+          <OrderFormModal
+            mode="add"
+            onSave={closeModal}
+            onCancel={closeModal}
+          />
         )}
         {modalType === "detail" && payload && (
           <OrderFormModal order={payload} mode="view" onCancel={closeModal} />
