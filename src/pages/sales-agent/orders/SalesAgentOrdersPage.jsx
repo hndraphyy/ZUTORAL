@@ -2,11 +2,11 @@ import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { ORDERS_COLUMNS_BASE } from "./config/columns";
-import { generateOrdersData } from "./data/ordersData.js";
-import useModal from "../../../hooks/useModal.js";
-import useActionModal from "../../../hooks/useActionModal.js";
-import usePagination from "../../../hooks/usePagination.js";
-import usePageTitle from "../../../hooks/usePageTitle.js";
+import { generateOrdersData } from "./data/ordersData";
+import useModal from "../../../hooks/useModal";
+import useActionModal from "../../../hooks/useActionModal";
+import usePagination from "../../../hooks/usePagination";
+import usePageTitle from "../../../hooks/usePageTitle";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -17,7 +17,7 @@ import Modal from "../../../components/modals/BaseModal";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
 import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
 import BaseTable from "../../../components/table/BaseTable";
-import OrderFormModal from "./form/OrdersFormModal.jsx";
+import OrderFormModal from "./form/OrdersFormModal";
 
 const SalesAgentOrdersPage = () => {
   usePageTitle("Orders - SalesAgent");

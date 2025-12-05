@@ -1,23 +1,23 @@
 import React, { useState, useMemo } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
-import { CUSTOMER_COLUMNS_BASE } from "./config/columns.jsx";
-import { generateCustomerData } from "./data/customerData.js";
+import { CUSTOMER_COLUMNS_BASE } from "./config/columns";
+import { generateCustomerData } from "./data/customerData";
 
-import useModal from "../../../hooks/useModal.js";
-import useActionModal from "../../../hooks/useActionModal.js";
-import usePagination from "../../../hooks/usePagination.js";
-import usePageTitle from "../../../hooks/usePageTitle.js";
+import useModal from "../../../hooks/useModal";
+import useActionModal from "../../../hooks/useActionModal";
+import usePagination from "../../../hooks/usePagination";
+import usePageTitle from "../../../hooks/usePageTitle";
 
-import Header from "../../../components/Header.jsx";
-import SearchInput from "../../../components/filters/Search.jsx";
-import FilterDate from "../../../components/filters/Date.jsx";
-import Button from "../../../components/ui/Button.jsx";
-import BaseTable from "../../../components/table/BaseTable.jsx";
-import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown.jsx";
-import Modal from "../../../components/modals/BaseModal.jsx";
-import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal.jsx";
-import CustomerFormModal from "./form/CustomerFormModal.jsx";
+import Header from "../../../components/Header";
+import SearchInput from "../../../components/filters/Search";
+import FilterDate from "../../../components/filters/Date";
+import Button from "../../../components/ui/Button";
+import BaseTable from "../../../components/table/BaseTable";
+import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
+import Modal from "../../../components/modals/BaseModal";
+import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal";
+import CustomerFormModal from "./form/CustomerFormModal";
 
 const SalesAgentCustomersPage = () => {
   usePageTitle("Customers - SalesAgent");
