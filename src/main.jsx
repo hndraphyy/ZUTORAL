@@ -1,7 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import "./utils/preloadIcons";
 
 import router from "./router/Router.jsx";
 import "./styles/index.css";

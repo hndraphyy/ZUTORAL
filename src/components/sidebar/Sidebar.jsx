@@ -5,10 +5,9 @@ import useModal from "../../hooks/useModal";
 import Modal from "../modals/BaseModal";
 import ConfirmLogoutModal from "../modals/ConfirmLogoutModal";
 
-const ManagerSidebar = ({ Links }) => {
+const Sidebar = ({ Links }) => {
   const { logout } = useAuth();
   const { isOpenModal, modalType, openModal, closeModal } = useModal();
-  const LogoBrand = "/assets/svg/logo-brand.svg?react";
 
   const handleLogout = () => {
     openModal("confirm", { type: "logout" });
@@ -25,7 +24,7 @@ const ManagerSidebar = ({ Links }) => {
     <aside className="fixed bottom-0 md:top-0 md:left-0 w-full md:w-60 lg:w-[270px] xl:w-[300px] 2xl:w-[360px] md:h-full bg-sidebar flex md:flex-col justify-between items-center md:py-10 z-50 bg-cover md:bg-bottom pt-2">
       <div className="flex flex-col items-center gap-9 2xl:gap-12 w-full">
         <img
-          src={LogoBrand}
+          src="/assets/svg/logo-brand.svg"
           alt="Logo Brand"
           className="hidden md:block w-16 2xl:w-20 h-auto"
         />
@@ -58,7 +57,8 @@ const ManagerSidebar = ({ Links }) => {
                     <img
                       src={isActive ? iconActive : icon}
                       alt={`${label} icon`}
-                      className="w-8 h-8 md:w-6 md:h-6 2xl:h-8 2xl:w-8 inline-block"
+                      etchpriority="high"
+                      className="w-8 h-8 md:w-6 md:h-6 2xl:h-8 2xl:w-8"
                     />
                     <p className="hidden md:block">{label}</p>
                   </div>
@@ -73,7 +73,7 @@ const ManagerSidebar = ({ Links }) => {
                 icon={
                   <img
                     src="/assets/svg/sidebar-icon/logout-light.svg"
-                    alt="log out"
+                    alt="Log out"
                     className="h-9 md:h-7 2xl:h-10"
                   />
                 }
@@ -91,7 +91,7 @@ const ManagerSidebar = ({ Links }) => {
           icon={
             <img
               src="/assets/svg/sidebar-icon/logout-light.svg"
-              alt="log out"
+              alt="Log out"
               className="h-9 md:h-7 2xl:h-10"
             />
           }
@@ -111,4 +111,4 @@ const ManagerSidebar = ({ Links }) => {
   );
 };
 
-export default ManagerSidebar;
+export default Sidebar;

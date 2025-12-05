@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
-import { salesLinks } from "../components/sidebar/data/managerLinks";
+import { salesLinks } from "../components/sidebar/data/Links";
 
 const SalesAgentLayout = () => {
   return (
