@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { PRODUCT_COLUMNS_BASE } from "./config/columns";
+import { generateProductData } from "./data/productData";
 import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
-import { PRODUCT_COLUMNS_BASE } from "./config/columns";
-import { generateProductData } from "./data/productData";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -24,10 +24,11 @@ const ManagerProductsPage = () => {
   const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
     useActionModal();
   const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
+
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
 
-  const data = generateProductData(100);
+  const data = useMemo(() => generateProductData(100), []);
 
   const columns = useMemo(() => {
     return [
@@ -39,8 +40,12 @@ const ManagerProductsPage = () => {
         isAction: true,
         render: (row) => (
           <button
-            onClick={(e) => openDropdown(row, e)}
-            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              openDropdown(row, e);
+            }}
+            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer hover:bg-purple-700 transition"
+            aria-label="Open product actions"
           >
             <FiMoreHorizontal size={24} />
           </button>
@@ -50,9 +55,11 @@ const ManagerProductsPage = () => {
   }, [openDropdown]);
 
   const filteredData = useMemo(() => {
-    return data.filter((p) => {
-      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-      const matchStatus = isStatus ? p.status === isStatus : true;
+    return data.filter((product) => {
+      const matchSearch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const matchStatus = isStatus ? product.status === isStatus : true;
       return matchSearch && matchStatus;
     });
   }, [data, search, isStatus]);
@@ -73,6 +80,7 @@ const ManagerProductsPage = () => {
           <SearchInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by product name..."
             className="col-span-12 lg:col-span-8"
           />
           <FilterStatus
@@ -87,7 +95,7 @@ const ManagerProductsPage = () => {
             ]}
           />
           <Button
-            onClick={() => openModal("add", null)}
+            onClick={() => openModal("add")}
             icon={<FaPlus />}
             label="Add"
             className="col-span-6 lg:col-span-2"
@@ -128,35 +136,41 @@ const ManagerProductsPage = () => {
       )}
 
       <Modal isOpen={isOpenModal} onClose={closeModal}>
-        {modalType === "add" && (
+        {modalType === "add" ? (
           <ProductFormModal
             mode="add"
-            onSave={closeModal}
+            onSave={(newProduct) => {
+              console.log("Add Product:", newProduct);
+              closeModal();
+            }}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "detail" && payload && (
+        ) : modalType === "detail" && payload ? (
           <ProductFormModal
             product={payload}
             mode="view"
             onCancel={closeModal}
           />
-        )}
-        {modalType === "edit" && payload && (
+        ) : modalType === "edit" && payload ? (
           <ProductFormModal
             product={payload}
             mode="edit"
-            onSave={closeModal}
+            onSave={(updatedProduct) => {
+              console.log("Edit Product:", updatedProduct);
+              closeModal();
+            }}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "delete" && payload && (
+        ) : modalType === "delete" && payload ? (
           <ConfirmDeleteModal
-            onCancel={closeModal}
-            onConfirm={closeModal}
             itemName={payload.name}
+            onConfirm={() => {
+              console.log("Delete Product ID:", payload.id);
+              closeModal();
+            }}
+            onCancel={closeModal}
           />
-        )}
+        ) : null}
       </Modal>
     </div>
   );

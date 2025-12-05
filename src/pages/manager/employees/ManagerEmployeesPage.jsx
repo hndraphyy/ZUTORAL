@@ -24,10 +24,11 @@ const ManagerEmployeesPage = () => {
   const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
     useActionModal();
   const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
+
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
 
-  const data = generateEmployeeData(100);
+  const data = useMemo(() => generateEmployeeData(100), []);
 
   const columns = useMemo(() => {
     return [
@@ -39,8 +40,12 @@ const ManagerEmployeesPage = () => {
         isAction: true,
         render: (row) => (
           <button
-            onClick={(e) => openDropdown(row, e)}
-            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              openDropdown(row, e);
+            }}
+            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer hover:bg-purple-700 transition"
+            aria-label="Open employee actions"
           >
             <FiMoreHorizontal size={24} />
           </button>
@@ -50,12 +55,12 @@ const ManagerEmployeesPage = () => {
   }, [openDropdown]);
 
   const filteredData = useMemo(() => {
-    return data.filter((p) => {
+    return data.filter((emp) => {
       const matchSearch =
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.username.toLowerCase().includes(search.toLowerCase()) ||
-        p.email.toLowerCase().includes(search.toLowerCase());
-      const matchStatus = isStatus ? p.status === isStatus : true;
+        emp.name.toLowerCase().includes(search.toLowerCase()) ||
+        emp.username.toLowerCase().includes(search.toLowerCase()) ||
+        emp.email.toLowerCase().includes(search.toLowerCase());
+      const matchStatus = isStatus ? emp.status === isStatus : true;
       return matchSearch && matchStatus;
     });
   }, [data, search, isStatus]);
@@ -76,12 +81,13 @@ const ManagerEmployeesPage = () => {
           <SearchInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, username, or email..."
             className="col-span-12 lg:col-span-8"
           />
           <FilterStatus
-            className="col-span-6 lg:col-span-2"
-            onChange={(e) => setStatus(e.target.value)}
             value={isStatus}
+            onChange={(e) => setStatus(e.target.value)}
+            className="col-span-6 lg:col-span-2"
             options={[
               { value: "", label: "Status" },
               { value: "active", label: "Active" },
@@ -89,13 +95,14 @@ const ManagerEmployeesPage = () => {
             ]}
           />
           <Button
-            onClick={() => openModal("add", null)}
+            onClick={() => openModal("add")}
             icon={<FaPlus />}
             label="Add"
             className="col-span-6 lg:col-span-2"
           />
         </div>
       </div>
+
       <BaseTable
         columns={columns}
         data={filteredData}
@@ -105,6 +112,7 @@ const ManagerEmployeesPage = () => {
         onPageChange={handlePageChange}
         onItemsPerPageChange={handleItemsPerPageChange}
       />
+
       {isOpen && (
         <ActionDropdown
           onClose={closeDropdown}
@@ -128,35 +136,41 @@ const ManagerEmployeesPage = () => {
       )}
 
       <Modal isOpen={isOpenModal} onClose={closeModal}>
-        {modalType === "add" && (
+        {modalType === "add" ? (
           <EmployeeFormModal
             mode="add"
-            onSave={closeModal}
+            onSave={(newEmployee) => {
+              console.log("Add Employee:", newEmployee);
+              closeModal();
+            }}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "detail" && payload && (
+        ) : modalType === "detail" && payload ? (
           <EmployeeFormModal
             employee={payload}
             mode="view"
             onCancel={closeModal}
           />
-        )}
-        {modalType === "edit" && payload && (
+        ) : modalType === "edit" && payload ? (
           <EmployeeFormModal
             employee={payload}
             mode="edit"
-            onSave={closeModal}
+            onSave={(updatedEmployee) => {
+              console.log("Edit Employee:", updatedEmployee);
+              closeModal();
+            }}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "delete" && payload && (
+        ) : modalType === "delete" && payload ? (
           <ConfirmDeleteModal
             itemName={payload.name}
+            onConfirm={() => {
+              console.log("Delete Employee ID:", payload.id);
+              closeModal();
+            }}
             onCancel={closeModal}
-            onConfirm={closeModal}
           />
-        )}
+        ) : null}
       </Modal>
     </div>
   );

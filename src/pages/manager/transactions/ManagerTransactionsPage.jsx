@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { TRANSACTION_COLUMNS_BASE } from "./config/columns.jsx";
-import { generateTransactionData } from "./data/transactionData.js";
-import useModal from "../../../hooks/useModal.js";
+import { TRANSACTION_COLUMNS_BASE } from "./config/columns";
+import { generateTransactionData } from "./data/transactionData";
+import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
@@ -13,21 +13,21 @@ import FilterDate from "../../../components/filters/Date";
 import FilterStatus from "../../../components/filters/Status";
 import BaseTable from "../../../components/table/BaseTable";
 import ActionDropdown from "../../../components/modals/dropdown/ActionDropdown";
-import Modal from "../../../components/modals/BaseModal.jsx";
-import ConfirmDeleteModal from "../../../components/modals/ConfirmDeleteModal.jsx";
-import TransactionDetail from "./detail/TransactionDetail.jsx";
+import Modal from "../../../components/modals/BaseModal";
+import TransactionDetail from "./detail/TransactionDetail";
 
 const ManagerTransactionsPage = () => {
   usePageTitle("Transactions - Manager");
 
   const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
     useActionModal();
-  const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
+  const { isOpenModal, closeModal, openModal, payload } = useModal();
+
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
 
-  const data = generateTransactionData(100);
+  const data = useMemo(() => generateTransactionData(100), []);
 
   const columns = useMemo(() => {
     return [
@@ -39,8 +39,12 @@ const ManagerTransactionsPage = () => {
         isAction: true,
         render: (row) => (
           <button
-            onClick={(e) => openDropdown(row, e)}
-            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              openDropdown(row, e);
+            }}
+            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer hover:bg-purple-700 transition"
+            aria-label="View transaction details"
           >
             <FiMoreHorizontal size={24} />
           </button>
@@ -50,15 +54,15 @@ const ManagerTransactionsPage = () => {
   }, [openDropdown]);
 
   const filteredData = useMemo(() => {
-    return data.filter((p) => {
+    return data.filter((trx) => {
       const matchSearch =
-        p.customer.toLowerCase().includes(search.toLowerCase()) ||
-        p.sales.toLowerCase().includes(search.toLowerCase());
-      const matchDate = isDate ? p.date === isDate : true;
-      const matchStatus = isStatus ? p.status === isStatus : true;
-      return matchSearch && matchStatus && matchDate;
+        trx.customer.toLowerCase().includes(search.toLowerCase()) ||
+        trx.sales.toLowerCase().includes(search.toLowerCase());
+      const matchDate = isDate ? trx.date === isDate : true;
+      const matchStatus = isStatus ? trx.status === isStatus : true;
+      return matchSearch && matchDate && matchStatus;
     });
-  }, [data, search, isStatus, isDate]);
+  }, [data, search, isDate, isStatus]);
 
   const {
     currentPage,
@@ -76,17 +80,18 @@ const ManagerTransactionsPage = () => {
           <SearchInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by customer or sales..."
             className="col-span-12 lg:col-span-8"
           />
           <FilterDate
-            onChange={(e) => setDate(e.target.value)}
             value={isDate}
+            onChange={(e) => setDate(e.target.value)}
             className="col-span-6 lg:col-span-2"
           />
           <FilterStatus
-            className="col-span-6 lg:col-span-2"
-            onChange={(e) => setStatus(e.target.value)}
             value={isStatus}
+            onChange={(e) => setStatus(e.target.value)}
+            className="col-span-6 lg:col-span-2"
             options={[
               { value: "", label: "Status" },
               { value: "completed", label: "Completed" },
@@ -96,6 +101,7 @@ const ManagerTransactionsPage = () => {
           />
         </div>
       </div>
+
       <BaseTable
         columns={columns}
         data={filteredData}
@@ -105,33 +111,22 @@ const ManagerTransactionsPage = () => {
         onPageChange={handlePageChange}
         onItemsPerPageChange={handleItemsPerPageChange}
       />
+
       {isOpen && (
         <ActionDropdown
           onClose={closeDropdown}
           pos={modalPos}
           detailOn
-          deleteOn
           onClickDetail={() => {
             openModal("detail", selectedRow);
             closeDropdown();
           }}
-          onClickDelete={() => {
-            openModal("delete", selectedRow);
-            closeDropdown();
-          }}
         />
       )}
-      <Modal isOpen={isOpenModal} onClose={closeModal}>
-        {modalType === "detail" && payload && (
-          <TransactionDetail transaction={payload} onCancel={closeModal} />
-        )}
 
-        {modalType === "delete" && payload && (
-          <ConfirmDeleteModal
-            onCancel={closeModal}
-            onConfirm={closeModal}
-            itemName={payload.customer}
-          />
+      <Modal isOpen={isOpenModal} onClose={closeModal}>
+        {payload && (
+          <TransactionDetail transaction={payload} onCancel={closeModal} />
         )}
       </Modal>
     </div>
