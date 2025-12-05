@@ -1,9 +1,5 @@
 import { useState } from "react";
-import Button from "../../../../components/ui/Button";
-import Input from "../../../../components/ui/Input";
-import StatusLabel from "../../../../components/ui/StatusLabel";
-import FilterStatus from "../../../../components/filters/Status";
-
+import { formatRupiah } from "../../../../utils/format";
 import {
   formatStatusLabel,
   getStatusColor,
@@ -13,19 +9,31 @@ import {
   ORDERS_STATUS_COLORS,
 } from "../config/statusConfig";
 
+import Button from "../../../../components/ui/Button";
+import Input from "../../../../components/ui/Input";
+import StatusLabel from "../../../../components/ui/StatusLabel";
+import FilterStatus from "../../../../components/filters/Status";
+
 const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
   const isEditable = mode === "edit" || mode === "add";
   const isAddMode = mode === "add";
 
+  const getTodayDate = () => new Date().toISOString().split("T")[0];
+
   const getInitialData = () => {
     if (isAddMode) {
-      return { customer: "", total: "", date: "", status: "active" };
+      return {
+        customer: "",
+        total: "",
+        date: getTodayDate(),
+        status: "pending",
+      };
     }
     return {
       customer: order?.customer || "",
       total: order?.total || "",
       date: order?.date || "",
-      status: order?.status || "Paid",
+      status: order?.status || "pending",
     };
   };
 
@@ -35,18 +43,20 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
     if (onSave) {
       onSave(formData);
     }
-    onCancel();
   };
 
   const formatDateForDisplay = (dateString) => {
     if (!dateString) return "-";
-    const options = { day: "2-digit", month: "short", year: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-GB", options);
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   return (
     <div className="w-[90vw] sm:w-[50vw] lg:w-[40vw] xl:w-[30vw] 2xl:w-[25vw] overflow-y-auto">
-      <div className=" p-4 xl:p-5">
+      <div className="p-4 xl:p-5">
         <h2 className="text-xl 2xl:text-2xl text-center mb-7">
           {isAddMode
             ? "Add New Order"
@@ -55,7 +65,7 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
             : "Order Detail"}
         </h2>
 
-        <div className="flex flex-col gap-2 xl:gap-4 mb-2">
+        <div className="flex flex-col gap-4">
           {!isAddMode && (
             <div>
               <span className="text-base 2xl:text-xl text-purple">
@@ -82,8 +92,8 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
           <div>
             {isEditable ? (
               <Input
-                label="Full Name"
-                placeholder="Full Name"
+                label="Customer Name"
+                placeholder="Customer Name"
                 classNameLabel="text-base 2xl:text-xl text-purple"
                 value={formData.customer}
                 onChange={(e) =>
@@ -102,13 +112,14 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
-          {/* Customer */}
+          {/* Total */}
           <div>
             {isEditable ? (
               <Input
-                label="Full Name"
-                placeholder="Full Name"
+                label="Total"
+                placeholder="Order Total"
                 classNameLabel="text-base 2xl:text-xl text-purple"
+                type="number"
                 value={formData.total}
                 onChange={(e) =>
                   setFormData({ ...formData, total: e.target.value })
@@ -116,24 +127,28 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
               />
             ) : (
               <div className="flex flex-col">
-                <span className="text-base 2xl:text-xl text-purple">
-                  Customer Name
-                </span>
+                <span className="text-base 2xl:text-xl text-purple">Total</span>
                 <span className="text-xl 2xl:text-2xl font-semibold text-gray-700">
-                  {order.total}
+                  {formatRupiah(order.total)}
                 </span>
               </div>
             )}
           </div>
 
+          {/* Date — EDITABLE di add/edit, text di view */}
           <div>
             <span className="text-base 2xl:text-xl text-purple block mb-1">
               Date
             </span>
-            {isAddMode ? (
-              <div className="flex items-center h-11 px-3 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
-                {formatDateForDisplay(formData.date)}
-              </div>
+            {isEditable ? (
+              <Input
+                type="date"
+                value={formData.date}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
+                className="h-11"
+              />
             ) : (
               <span className="text-xl 2xl:text-2xl font-semibold text-gray-700">
                 {formatDateForDisplay(order.date)}
@@ -143,7 +158,7 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
 
           {/* Status */}
           <div>
-            <span className="text-base 2xl:text-xl text-purple block mb-3">
+            <span className="text-base 2xl:text-xl text-purple block mb-1">
               Status
             </span>
             {isEditable ? (
@@ -167,14 +182,14 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
             )}
           </div>
 
-          {/* Tombol */}
-          <div className="mt-5">
+          {/* Buttons */}
+          <div className="mt-6">
             {isEditable ? (
               <div className="grid grid-cols-2 gap-4">
                 <Button variant="secondary" onClick={onCancel} label="Cancel" />
                 <Button
                   onClick={handleSave}
-                  label={isAddMode ? "Add orders" : "Save Changes"}
+                  label={isAddMode ? "Add Order" : "Save Changes"}
                 />
               </div>
             ) : (
