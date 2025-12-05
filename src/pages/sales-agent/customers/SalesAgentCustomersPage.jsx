@@ -8,6 +8,7 @@ import useModal from "../../../hooks/useModal.js";
 import useActionModal from "../../../hooks/useActionModal.js";
 import usePagination from "../../../hooks/usePagination.js";
 import usePageTitle from "../../../hooks/usePageTitle.js";
+
 import Header from "../../../components/Header.jsx";
 import SearchInput from "../../../components/filters/Search.jsx";
 import FilterDate from "../../../components/filters/Date.jsx";
@@ -24,6 +25,7 @@ const SalesAgentCustomersPage = () => {
   const { isOpen, modalPos, selectedRow, openDropdown, closeDropdown } =
     useActionModal();
   const { isOpenModal, modalType, openModal, closeModal, payload } = useModal();
+
   const [search, setSearch] = useState("");
   const [isDate, setDate] = useState("");
 
@@ -39,8 +41,12 @@ const SalesAgentCustomersPage = () => {
         isAction: true,
         render: (row) => (
           <button
-            onClick={(e) => openDropdown(row, e)}
-            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              openDropdown(row, e);
+            }}
+            className="py-[5px] 2xl:py-[7px] px-1.5 2xl:px-2 bg-purple text-white rounded-md cursor-pointer hover:bg-purple-700 transition"
+            aria-label="Open customer actions"
           >
             <FiMoreHorizontal size={24} />
           </button>
@@ -50,12 +56,12 @@ const SalesAgentCustomersPage = () => {
   }, [openDropdown]);
 
   const filteredData = useMemo(() => {
-    return data.filter((p) => {
+    return data.filter((customer) => {
       const matchSearch =
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.phone.toLowerCase().includes(search.toLowerCase()) ||
-        p.email.toLowerCase().includes(search.toLowerCase());
-      const matchDate = isDate ? p.joinDate === isDate : true;
+        customer.name.toLowerCase().includes(search.toLowerCase()) ||
+        customer.phone.toLowerCase().includes(search.toLowerCase()) ||
+        customer.email.toLowerCase().includes(search.toLowerCase());
+      const matchDate = isDate ? customer.joinDate === isDate : true;
       return matchSearch && matchDate;
     });
   }, [data, search, isDate]);
@@ -80,9 +86,11 @@ const SalesAgentCustomersPage = () => {
           <SearchInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, phone, or email..."
             className="col-span-12 lg:col-span-8"
           />
           <FilterDate
+            value={isDate}
             onChange={(e) => setDate(e.target.value)}
             className="col-span-6 lg:col-span-2"
           />
@@ -110,8 +118,8 @@ const SalesAgentCustomersPage = () => {
           onClose={closeDropdown}
           pos={modalPos}
           detailOn
-          deleteOn
           editOn
+          deleteOn
           onClickDetail={() => {
             openModal("detail", selectedRow);
             closeDropdown();
@@ -126,44 +134,43 @@ const SalesAgentCustomersPage = () => {
           }}
         />
       )}
+
       <Modal isOpen={isOpenModal} onClose={closeModal}>
-        {modalType === "add" && (
+        {modalType === "add" ? (
           <CustomerFormModal
             mode="add"
-            onSave={(dataCustomer) => {
-              console.log("Add customer:", dataCustomer);
+            onSave={(newCustomer) => {
+              console.log("Add Customer:", newCustomer);
               closeModal();
             }}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "edit" && payload && (
+        ) : modalType === "edit" && payload ? (
           <CustomerFormModal
             mode="edit"
             customer={payload}
-            onSave={(dataCustomer) => {
-              console.log("Edit customer:", dataCustomer);
+            onSave={(updatedCustomer) => {
+              console.log("Edit Customer:", updatedCustomer);
               closeModal();
             }}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "detail" && payload && (
+        ) : modalType === "detail" && payload ? (
           <CustomerFormModal
             mode="view"
             customer={payload}
             onCancel={closeModal}
           />
-        )}
-        {modalType === "delete" && payload && (
+        ) : modalType === "delete" && payload ? (
           <ConfirmDeleteModal
             itemName={payload.name}
             onConfirm={() => {
+              console.log("Delete Customer ID:", payload.id);
               closeModal();
             }}
             onCancel={closeModal}
           />
-        )}
+        ) : null}
       </Modal>
     </div>
   );
