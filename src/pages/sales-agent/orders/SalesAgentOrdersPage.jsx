@@ -122,7 +122,9 @@ const SalesAgentOrdersPage = () => {
         {modalType === "add" && (
           <OrderFormModal
             mode="add"
-            onSave={closeModal}
+            onSave={(dataOrder) => {
+              console.log("Add Order:", dataOrder);
+            }}
             onCancel={closeModal}
           />
         )}
@@ -131,7 +133,14 @@ const SalesAgentOrdersPage = () => {
         )}
 
         {modalType === "edit" && payload && (
-          <OrderFormModal order={payload} mode="edit" onCancel={closeModal} />
+          <OrderFormModal
+            order={payload}
+            mode="edit"
+            onSave={(dataOrder) => {
+              console.log("Edit Order:", dataOrder);
+            }}
+            onCancel={closeModal}
+          />
         )}
 
         {modalType === "delete" && payload && (

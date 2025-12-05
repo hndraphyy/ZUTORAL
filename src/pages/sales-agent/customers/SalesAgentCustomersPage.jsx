@@ -130,8 +130,8 @@ const SalesAgentCustomersPage = () => {
         {modalType === "add" && (
           <CustomerFormModal
             mode="add"
-            onSave={(data) => {
-              console.log("Add customer:", data);
+            onSave={(dataCustomer) => {
+              console.log("Add customer:", dataCustomer);
               closeModal();
             }}
             onCancel={closeModal}
@@ -141,8 +141,8 @@ const SalesAgentCustomersPage = () => {
           <CustomerFormModal
             mode="edit"
             customer={payload}
-            onSave={(data) => {
-              console.log("Edit customer:", data);
+            onSave={(dataCustomer) => {
+              console.log("Edit customer:", dataCustomer);
               closeModal();
             }}
             onCancel={closeModal}

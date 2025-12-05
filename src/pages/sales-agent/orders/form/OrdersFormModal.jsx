@@ -22,10 +22,10 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
       return { customer: "", total: "", date: "", status: "active" };
     }
     return {
-      name: order?.customer || "",
-      username: order?.total || "",
+      customer: order?.customer || "",
+      total: order?.total || "",
       date: order?.date || "",
-      status: order?.status || "active",
+      status: order?.status || "Paid",
     };
   };
 
@@ -97,6 +97,30 @@ const OrderFormModal = ({ order, mode = "view", onSave, onCancel }) => {
                 </span>
                 <span className="text-xl 2xl:text-2xl font-semibold text-gray-700">
                   {order.customer}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Customer */}
+          <div>
+            {isEditable ? (
+              <Input
+                label="Full Name"
+                placeholder="Full Name"
+                classNameLabel="text-base 2xl:text-xl text-purple"
+                value={formData.total}
+                onChange={(e) =>
+                  setFormData({ ...formData, total: e.target.value })
+                }
+              />
+            ) : (
+              <div className="flex flex-col">
+                <span className="text-base 2xl:text-xl text-purple">
+                  Customer Name
+                </span>
+                <span className="text-xl 2xl:text-2xl font-semibold text-gray-700">
+                  {order.total}
                 </span>
               </div>
             )}

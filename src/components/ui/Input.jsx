@@ -11,6 +11,7 @@ const Input = forwardRef(
       onChange,
       placeholder = "",
       className = "",
+      classNameLabel = "",
       disabled = false,
       required = false,
       name,
@@ -30,7 +31,7 @@ const Input = forwardRef(
     return (
       <div className="mb-3">
         {label && (
-          <label htmlFor={name} className="text-gray-600">
+          <label htmlFor={name} className={`text-gray-600 ${classNameLabel}`}>
             {label}
           </label>
         )}
