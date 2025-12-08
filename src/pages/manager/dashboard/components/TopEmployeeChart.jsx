@@ -11,7 +11,7 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const TopProductsChart = () => {
+const TopEmployeeChart = () => {
   const topProducts = [
     { name: "Wireless Mouse", unit: 320 },
     { name: "Mechanical Keyboard", unit: 280 },
@@ -72,7 +72,7 @@ const TopProductsChart = () => {
   return (
     <div className="h-full w-full">
       <h3 className="text-base lg:text-lg 2xl:text-2xl mb-6 font-medium text-gray-600">
-        Top 4 Best-Selling Products
+        Top Employee
       </h3>
       <div className="h-[220px]">
         <Bar data={data} options={options} />
@@ -81,4 +81,4 @@ const TopProductsChart = () => {
   );
 };
 
-export default TopProductsChart;
+export default TopEmployeeChart;

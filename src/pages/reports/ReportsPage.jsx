@@ -1,11 +1,13 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { exportReportToPDF } from "../../utils/exportPDF.js";
 import { REPORT_COLUMNS_BASE } from "./config/columns.jsx";
 import usePagination from "../../hooks/usePagination.js";
 import usePageTitle from "../../hooks/usePageTitle.js";
 import useAuth from "../../hooks/useAuth.js";
+import useDebounce from "../../hooks/useDebounce.js";
 
 import Header from "../../components/Header.jsx";
+import SearchInput from "../../components/filters/Search.jsx";
 import FilterStatus from "../../components/filters/Status.jsx";
 import Button from "../../components/ui/Button.jsx";
 import BaseTable from "../../components/table/BaseTable.jsx";
@@ -16,6 +18,8 @@ const getMonthName = (monthIndex) =>
 const ReportsPage = () => {
   const { getCurrentUser } = useAuth();
   const user = getCurrentUser();
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   if (!user) {
     return (
@@ -50,6 +54,13 @@ const ReportsPage = () => {
     }));
   }, [isYear, user.role]);
 
+  const filteredData = useMemo(() => {
+    if (!debouncedSearch.trim()) return data;
+    return data.filter((item) =>
+      item.month.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+  }, [data, debouncedSearch]);
+
   const columns = useMemo(() => {
     return [
       ...REPORT_COLUMNS_BASE,
@@ -82,14 +93,22 @@ const ReportsPage = () => {
     totalItems,
     handlePageChange,
     handleItemsPerPageChange,
-  } = usePagination(data, data.length);
+  } = usePagination(filteredData, filteredData.length);
 
   return (
     <div>
       <Header title="Reports" />
-      <div className="mb-6 grid grid-cols-12 gap-3 h-11">
+      <div className="mb-6 grid grid-cols-12 gap-3">
+        {isManager && (
+          <SearchInput
+            className="col-span-8"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search name employee..."
+          />
+        )}
         <FilterStatus
-          className="col-span-6"
+          className={isManager ? "col-span-2" : "col-span-6"}
           placeholder="Select Year"
           value={isYear}
           onChange={(e) => setYear(e.target.value)}
@@ -97,16 +116,21 @@ const ReportsPage = () => {
         />
         <Button
           onClick={() => exportReportToPDF(data, `Laporan_Tahunan_${isYear}`)}
-          className="col-span-6"
+          className={isManager ? "col-span-2" : "col-span-6"}
           icon={<img src="/assets/svg/download.svg" alt="Download" />}
-          label="Export Yearly Report"
-          classNameLabel="text-sm lg:text-[16px] leading-tight"
+          label="Export All"
+          classNameLabel="hidden xl:block text-sm 2xl:text-[16px] leading-tight"
         />
       </div>
+      {search.trim() ? (
+        <p className="pb-5 text-gray-600 text-xl">{search}</p>
+      ) : (
+        <p className="pb-5 text-gray-600 text-xl">All Employees</p>
+      )}
 
       <BaseTable
         columns={columns}
-        data={data}
+        data={filteredData}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}

@@ -1,5 +1,5 @@
 import { FaUser, FaUserCheck, FaUserTimes } from "react-icons/fa";
-import { getDashboardData } from "../utils/dashboardData";
+import { getDashboardData } from "../data/dashboardData";
 
 const EmployeesDashboard = () => {
   const data = getDashboardData();

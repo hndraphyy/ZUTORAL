@@ -5,7 +5,7 @@ import {
   FaFileCircleXmark,
 } from "react-icons/fa6";
 import WidgetCard from "../../../../components/cards/WidgetCard";
-import { getDashboardData } from "../utils/dashboardData";
+import { getDashboardData } from "../data/dashboardData";
 
 const Transactions = () => {
   const currentYear = new Date().getFullYear();
