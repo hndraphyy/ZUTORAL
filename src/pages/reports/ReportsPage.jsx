@@ -75,7 +75,7 @@ const ReportsPage = () => {
               e.stopPropagation();
               exportReportToPDF([row], `Laporan_${row.month}_${row.year}`);
             }}
-            className="py-[5px] 2xl:py-[7px] px-3 bg-purple text-white rounded-md cursor-pointer"
+            className="py-2 2xl:py-[7px] px-3 md:px-5 bg-purple text-white rounded-md cursor-pointer"
           >
             <p className="flex items-center gap-2">
               <img src="/assets/svg/download.svg" alt="Download" />
@@ -98,17 +98,23 @@ const ReportsPage = () => {
   return (
     <div>
       <Header title="Reports" />
-      <div className="mb-6 grid grid-cols-12 gap-3">
+      <div
+        className={
+          isManager
+            ? "mb-6 grid grid-cols-12 gap-3 grid-rows-2 lg:grid-rows-1"
+            : "mb-6 grid grid-cols-12 gap-3 h-11"
+        }
+      >
         {isManager && (
           <SearchInput
-            className="col-span-8"
+            className="col-span-12 lg:col-span-8"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search name employee..."
           />
         )}
         <FilterStatus
-          className={isManager ? "col-span-2" : "col-span-6"}
+          className={isManager ? "col-span-6 lg:col-span-2" : "col-span-6"}
           placeholder="Select Year"
           value={isYear}
           onChange={(e) => setYear(e.target.value)}
@@ -116,16 +122,22 @@ const ReportsPage = () => {
         />
         <Button
           onClick={() => exportReportToPDF(data, `Laporan_Tahunan_${isYear}`)}
-          className={isManager ? "col-span-2" : "col-span-6"}
+          className={isManager ? "col-span-6 lg:col-span-2" : "col-span-6"}
           icon={<img src="/assets/svg/download.svg" alt="Download" />}
           label="Export All"
-          classNameLabel="hidden xl:block text-sm 2xl:text-[16px] leading-tight"
+          classNameLabel="text-sm  2xl:text-[16px] leading-tight"
         />
       </div>
-      {search.trim() ? (
-        <p className="pb-5 text-gray-600 text-xl">{search}</p>
+      {isManager ? (
+        <>
+          {search.trim() ? (
+            <p className="pb-5 text-gray-600 text-xl">{search}</p>
+          ) : (
+            <p className="pb-5 text-gray-600 text-xl">All Employees</p>
+          )}
+        </>
       ) : (
-        <p className="pb-5 text-gray-600 text-xl">All Employees</p>
+        <></>
       )}
 
       <BaseTable
