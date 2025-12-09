@@ -7,6 +7,7 @@ import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+import useDebounce from "../../../hooks/useDebounce";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -27,6 +28,7 @@ const ManagerEmployeesPage = () => {
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const data = useMemo(() => generateEmployeeData(100), []);
 
@@ -56,14 +58,21 @@ const ManagerEmployeesPage = () => {
 
   const filteredData = useMemo(() => {
     return data.filter((emp) => {
-      const matchSearch =
-        emp.name.toLowerCase().includes(search.toLowerCase()) ||
-        emp.username.toLowerCase().includes(search.toLowerCase()) ||
-        emp.email.toLowerCase().includes(search.toLowerCase());
+      const name = (emp.name || "").toLowerCase();
+      const username = (emp.username || "").toLowerCase();
+      const email = (emp.email || "").toLowerCase();
+      const searchTerm = debouncedSearch.toLowerCase();
+
+      const matchSearch = debouncedSearch
+        ? name.includes(searchTerm) ||
+          username.includes(searchTerm) ||
+          email.includes(searchTerm)
+        : true;
+
       const matchStatus = isStatus ? emp.status === isStatus : true;
       return matchSearch && matchStatus;
     });
-  }, [data, search, isStatus]);
+  }, [data, debouncedSearch, isStatus]);
 
   const {
     currentPage,

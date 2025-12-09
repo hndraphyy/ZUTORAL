@@ -28,6 +28,22 @@ const Input = forwardRef(
           : "password"
         : type;
 
+    const handleChange = (e) => {
+      let inputValue = e.target.value;
+
+      if (type === "number") {
+        inputValue = inputValue.replace(/[^0-9]/g, "");
+      }
+
+      onChange({
+        ...e,
+        target: {
+          ...e.target,
+          value: inputValue,
+        },
+      });
+    };
+
     return (
       <div className="mb-3">
         {label && (
@@ -42,7 +58,7 @@ const Input = forwardRef(
             name={name}
             type={actualType}
             value={value}
-            onChange={onChange}
+            onChange={handleChange}
             placeholder={placeholder}
             disabled={disabled}
             required={required}

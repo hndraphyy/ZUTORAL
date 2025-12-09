@@ -6,6 +6,7 @@ import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+import useDebounce from "../../../hooks/useDebounce";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -26,6 +27,7 @@ const ManagerTransactionsPage = () => {
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const data = useMemo(() => generateTransactionData(100), []);
 
@@ -55,14 +57,20 @@ const ManagerTransactionsPage = () => {
 
   const filteredData = useMemo(() => {
     return data.filter((trx) => {
-      const matchSearch =
-        trx.customer.toLowerCase().includes(search.toLowerCase()) ||
-        trx.sales.toLowerCase().includes(search.toLowerCase());
+      const customer = (trx.customer || "").toLowerCase();
+      const sales = (trx.sales || "").toLowerCase();
+      const searchTerm = debouncedSearch.toLowerCase();
+
+      const matchSearch = debouncedSearch
+        ? customer.includes(searchTerm) || sales.includes(searchTerm)
+        : true;
+
       const matchDate = isDate ? trx.date === isDate : true;
       const matchStatus = isStatus ? trx.status === isStatus : true;
+
       return matchSearch && matchDate && matchStatus;
     });
-  }, [data, search, isDate, isStatus]);
+  }, [data, debouncedSearch, isDate, isStatus]);
 
   const {
     currentPage,

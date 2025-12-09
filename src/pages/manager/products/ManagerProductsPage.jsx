@@ -7,6 +7,7 @@ import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+import useDebounce from "../../../hooks/useDebounce";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -27,6 +28,7 @@ const ManagerProductsPage = () => {
 
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const data = useMemo(() => generateProductData(100), []);
 
@@ -56,13 +58,16 @@ const ManagerProductsPage = () => {
 
   const filteredData = useMemo(() => {
     return data.filter((product) => {
-      const matchSearch = product.name
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      const name = (product.name || "").toLowerCase();
+      const searchTerm = debouncedSearch.toLowerCase();
+
+      const matchSearch = debouncedSearch
+        ? name.includes(debouncedSearch.toLowerCase(searchTerm))
+        : true;
       const matchStatus = isStatus ? product.status === isStatus : true;
       return matchSearch && matchStatus;
     });
-  }, [data, search, isStatus]);
+  }, [data, debouncedSearch, isStatus]);
 
   const {
     currentPage,
