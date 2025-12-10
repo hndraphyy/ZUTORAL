@@ -1,8 +1,5 @@
 export const getDashboardData = () => {
-  const now = new Date();
-  const today = now.toISOString().split("T")[0];
-
-  // TRANSACTIONS
+  // TRANSACTIONS (sekitar 999)
   const totalTransactions = {
     total: 999,
     completed: 968,
@@ -16,12 +13,13 @@ export const getDashboardData = () => {
     pending: 3,
     failed: 1,
   };
+
   const totalTransactionsToday = Object.values(transactionsToday).reduce(
     (a, b) => a + b,
     0
   );
 
-  // === EMPLOYEES ===
+  // EMPLOYEES (kalau diperlukan)
   const employees = {
     all: 85,
     active: 78,

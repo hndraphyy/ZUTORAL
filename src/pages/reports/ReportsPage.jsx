@@ -1,7 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { exportReportToPDF } from "../../utils/exportPDF";
 import { REPORT_COLUMNS_BASE } from "./config/columns";
-import { EMPLOYEES } from "./data/employeeData";
 import usePagination from "../../hooks/usePagination";
 import usePageTitle from "../../hooks/usePageTitle";
 import useAuth from "../../hooks/useAuth";

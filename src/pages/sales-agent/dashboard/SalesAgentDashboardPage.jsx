@@ -4,6 +4,7 @@ import { revenueChartOptions } from "../../../components/charts/styleChart/chart
 import usePageTitle from "../../../hooks/usePageTitle";
 import Header from "../../../components/Header";
 import RevenueChart from "../../../components/charts/RevenueChart";
+import OrdersDashboard from "./components/Orders";
 
 const SalesAgentDashboardPage = () => {
   usePageTitle("Dashboard - Sales Agent");
@@ -18,6 +19,7 @@ const SalesAgentDashboardPage = () => {
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
           <RevenueChart data={salesData} options={options} />
         </div>
+        <OrdersDashboard />
       </div>
     </div>
   );
