@@ -1,19 +1,18 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { exportReportToPDF } from "../../utils/exportPDF.js";
-import { REPORT_COLUMNS_BASE } from "./config/columns.jsx";
-import usePagination from "../../hooks/usePagination.js";
-import usePageTitle from "../../hooks/usePageTitle.js";
-import useAuth from "../../hooks/useAuth.js";
-import useDebounce from "../../hooks/useDebounce.js";
+import { exportReportToPDF } from "../../utils/exportPDF";
+import { REPORT_COLUMNS_BASE } from "./config/columns";
+import { EMPLOYEES } from "./data/employeeData";
+import usePagination from "../../hooks/usePagination";
+import usePageTitle from "../../hooks/usePageTitle";
+import useAuth from "../../hooks/useAuth";
+import useDebounce from "../../hooks/useDebounce";
+import { useReportData } from "./hooks/useReportData";
 
-import Header from "../../components/Header.jsx";
-import SearchInput from "../../components/filters/Search.jsx";
-import FilterStatus from "../../components/filters/Status.jsx";
-import Button from "../../components/ui/Button.jsx";
-import BaseTable from "../../components/table/BaseTable.jsx";
-
-const getMonthName = (monthIndex) =>
-  new Date(0, monthIndex).toLocaleString("en-US", { month: "long" });
+import Header from "../../components/Header";
+import SearchInput from "../../components/filters/Search";
+import FilterStatus from "../../components/filters/Status";
+import Button from "../../components/ui/Button";
+import BaseTable from "../../components/table/BaseTable";
 
 const ReportsPage = () => {
   const { getCurrentUser } = useAuth();
@@ -42,24 +41,12 @@ const ReportsPage = () => {
     return { value: year.toString(), label: year.toString() };
   });
 
-  const data = useMemo(() => {
-    return Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      year: isYear,
-      month: getMonthName(i),
-      transactions: isManager
-        ? Math.floor(300 + i * 15)
-        : Math.floor(150 + i * 10),
-      revenue: isManager ? 5_000_000 + i * 200_000 : 1_530_000 + i * 100_000,
-    }));
-  }, [isYear, user.role]);
-
-  const filteredData = useMemo(() => {
-    if (!debouncedSearch.trim()) return data;
-    return data.filter((item) =>
-      item.month.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
-  }, [data, debouncedSearch]);
+  const { aggregatedData } = useReportData({
+    isManager,
+    user,
+    isYear,
+    debouncedSearch,
+  });
 
   const columns = useMemo(() => {
     return [
@@ -93,7 +80,7 @@ const ReportsPage = () => {
     totalItems,
     handlePageChange,
     handleItemsPerPageChange,
-  } = usePagination(filteredData, filteredData.length);
+  } = usePagination(aggregatedData, aggregatedData.length);
 
   return (
     <div>
@@ -121,7 +108,9 @@ const ReportsPage = () => {
           options={yearOptions}
         />
         <Button
-          onClick={() => exportReportToPDF(data, `Laporan_Tahunan_${isYear}`)}
+          onClick={() =>
+            exportReportToPDF(aggregatedData, `Laporan_Tahunan_${isYear}`)
+          }
           className={isManager ? "col-span-6 lg:col-span-2" : "col-span-6"}
           icon={<img src="/assets/svg/download.svg" alt="Download" />}
           label="Export All"
@@ -131,7 +120,9 @@ const ReportsPage = () => {
       {isManager ? (
         <>
           {search.trim() ? (
-            <p className="pb-5 text-gray-600 text-xl">{search}</p>
+            <p className="pb-5 text-gray-600 text-xl">
+              Employee Name: <b>{search}</b>
+            </p>
           ) : (
             <p className="pb-5 text-gray-600 text-xl">All Employees</p>
           )}
@@ -142,7 +133,7 @@ const ReportsPage = () => {
 
       <BaseTable
         columns={columns}
-        data={filteredData}
+        data={aggregatedData}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
