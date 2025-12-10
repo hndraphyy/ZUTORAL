@@ -8,6 +8,7 @@ import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+import useDebounce from "../../../hooks/useDebounce";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -28,6 +29,7 @@ const SalesAgentCustomersPage = () => {
 
   const [search, setSearch] = useState("");
   const [isDate, setDate] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const data = useMemo(() => generateCustomerData(100), []);
 
@@ -57,14 +59,19 @@ const SalesAgentCustomersPage = () => {
 
   const filteredData = useMemo(() => {
     return data.filter((customer) => {
+      const name = (customer.name || "").toLowerCase();
+      const phone = (customer.phone || "").toLowerCase();
+      const email = (customer.email || "").toLowerCase();
+      const searchTerm = debouncedSearch.toLowerCase();
+
       const matchSearch =
-        customer.name.toLowerCase().includes(search.toLowerCase()) ||
-        customer.phone.toLowerCase().includes(search.toLowerCase()) ||
-        customer.email.toLowerCase().includes(search.toLowerCase());
+        name.includes(searchTerm) ||
+        phone.includes(searchTerm) ||
+        email.includes(searchTerm);
       const matchDate = isDate ? customer.joinDate === isDate : true;
       return matchSearch && matchDate;
     });
-  }, [data, search, isDate]);
+  }, [data, debouncedSearch, search, isDate]);
 
   const handleAddCustomer = () => {
     openModal("add");

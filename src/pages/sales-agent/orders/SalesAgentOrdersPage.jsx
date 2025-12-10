@@ -7,6 +7,7 @@ import useModal from "../../../hooks/useModal";
 import useActionModal from "../../../hooks/useActionModal";
 import usePagination from "../../../hooks/usePagination";
 import usePageTitle from "../../../hooks/usePageTitle";
+import useDebounce from "../../../hooks/useDebounce";
 
 import Header from "../../../components/Header";
 import SearchInput from "../../../components/filters/Search";
@@ -29,6 +30,7 @@ const SalesAgentOrdersPage = () => {
   const [search, setSearch] = useState("");
   const [isStatus, setStatus] = useState("");
   const [isDate, setDate] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const data = useMemo(() => generateOrdersData(100), []);
 
@@ -58,14 +60,15 @@ const SalesAgentOrdersPage = () => {
 
   const filteredData = useMemo(() => {
     return data.filter((order) => {
-      const matchSearch = order.customer
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      const customer = (order.customer || "").toLowerCase();
+      const searchTerm = debouncedSearch.toLowerCase();
+
+      const matchSearch = customer.includes(searchTerm);
       const matchDate = isDate ? order.date === isDate : true;
       const matchStatus = isStatus ? order.status === isStatus : true;
       return matchSearch && matchDate && matchStatus;
     });
-  }, [data, search, isDate, isStatus]);
+  }, [data, search, debouncedSearch, isDate, isStatus]);
 
   const {
     currentPage,

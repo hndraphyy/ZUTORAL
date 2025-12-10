@@ -52,7 +52,7 @@ const ManagerTransactionsPage = () => {
           </button>
         ),
       },
-    ];
+    ];fe
   }, [openDropdown]);
 
   const filteredData = useMemo(() => {
