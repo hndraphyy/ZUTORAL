@@ -4,8 +4,8 @@ import { getRevenueData } from "./data/revenueData";
 import { revenueChartOptions } from "../../../components/charts/styleChart/chartOptions";
 import Header from "../../../components/Header";
 import RevenueChart from "../../../components/charts/RevenueChart";
-import Transactions from "./components/Transactions";
-import EmployeesDashboard from "./components/Employees";
+import TransactionsDashboard from "./components/TransactionsDashboard";
+import EmployeesDashboard from "./components/EmployeesDashboard";
 import TopEmployeeChart from "./components/TopEmployeeChart";
 import DoughnutProductsChart from "./components/DoughnutProductsChart";
 
@@ -22,7 +22,7 @@ const ManagerDashboardPage = () => {
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
           <RevenueChart data={managerData} options={options} />
         </div>
-        <Transactions />
+        <TransactionsDashboard />
         <div className="grid grid-cols-12 gap-4">
           <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 col-span-12 md:col-span-6 lg:col-span-2">
             <EmployeesDashboard />

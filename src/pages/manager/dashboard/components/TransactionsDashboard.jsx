@@ -7,7 +7,7 @@ import {
 import WidgetCard from "../../../../components/cards/WidgetCard";
 import { getDashboardData } from "../data/dashboardData";
 
-const Transactions = () => {
+const TransactionsDashboard = () => {
   const currentYear = new Date().getFullYear();
   const data = getDashboardData();
   return (
@@ -65,4 +65,4 @@ const Transactions = () => {
     </div>
   );
 };
-export default Transactions;
+export default TransactionsDashboard;
