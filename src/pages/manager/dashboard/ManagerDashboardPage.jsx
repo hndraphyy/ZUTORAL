@@ -1,6 +1,7 @@
 import React from "react";
-import { managerData, managerOptions } from "./data/revenueData";
 import usePageTitle from "../../../hooks/usePageTitle";
+import { getRevenueData } from "./data/revenueData";
+import { revenueChartOptions } from "../../../components/charts/styleChart/chartOptions";
 import Header from "../../../components/Header";
 import RevenueChart from "../../../components/charts/RevenueChart";
 import Transactions from "./components/Transactions";
@@ -8,15 +9,18 @@ import EmployeesDashboard from "./components/Employees";
 import TopEmployeeChart from "./components/TopEmployeeChart";
 import DoughnutProductsChart from "./components/DoughnutProductsChart";
 
-export default function ManagerDashboardPage() {
+const ManagerDashboardPage = () => {
   usePageTitle("Dashboard - Manager");
+
+  const managerData = getRevenueData();
+  const options = revenueChartOptions;
 
   return (
     <div className="mb-10">
       <Header title="Dashboard" />
       <div className="flex flex-col gap-6">
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
-          <RevenueChart data={managerData} options={managerOptions} />
+          <RevenueChart data={managerData} options={options} />
         </div>
         <Transactions />
         <div className="grid grid-cols-12 gap-4">
@@ -33,4 +37,6 @@ export default function ManagerDashboardPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ManagerDashboardPage;
