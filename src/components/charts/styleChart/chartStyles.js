@@ -16,3 +16,5 @@ export const revenueChartStyle = {
   tension: 0.4,
   fill: true,
 };
+
+export const barChartStyle = ["#8B5CF6", "#A78BFA", "#C4B5FD", "#DDD6FE"];

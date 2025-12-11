@@ -37,6 +37,8 @@ const DoughnutProductsChart = () => {
         },
       },
       tooltip: {
+        titleFont: { size: 12, family: "Outfit" },
+        bodyFont: { size: 12, family: "Outfit" },
         callbacks: {
           label: (context) => {
             const label = context.label || "";
@@ -44,7 +46,6 @@ const DoughnutProductsChart = () => {
             return `${label}: ${value} items`;
           },
         },
-        bodyFont: { family: "Outfit" },
       },
     },
   };

@@ -1,3 +1,5 @@
+import { color } from "chart.js/helpers";
+
 export const revenueChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -39,6 +41,45 @@ export const revenueChartOptions = {
         font: { family: "Outfit", size: 12 },
         callback: (value) => `Rp${value.toLocaleString("id-ID")}`,
       },
+    },
+  },
+};
+
+export const topBarChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      titleFont: { size: 12, family: "Outfit" },
+      bodyFont: { size: 12, family: "Outfit" },
+      callbacks: {
+        title: (context) => context[0].label,
+        label: (context) => `${context.parsed.y}`,
+      },
+    },
+  },
+
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: {
+        color: "#6b7280",
+        font: { family: "Outfit", size: 12 },
+      },
+      border: { display: false },
+    },
+    y: {
+      beginAtZero: true,
+      grid: { color: "rgba(0,0,0,0.03)" },
+      ticks: {
+        color: "#6b7280",
+        font: { family: "Outfit", size: 12 },
+        precision: 0,
+      },
+      border: { display: false },
     },
   },
 };

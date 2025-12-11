@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { verticalLinePlugin } from "./plugins/verticalLinePlugin";
 import { revenueChartStyle } from "./styleChart/chartStyles";
+import { revenueChartOptions } from "./styleChart/chartOptions";
 
 ChartJS.register(
   CategoryScale,
@@ -21,8 +22,9 @@ ChartJS.register(
   Tooltip
 );
 
-const RevenueChart = ({ data, options }) => {
+const RevenueChart = ({ data }) => {
   const currentYear = new Date().getFullYear();
+  const options = revenueChartOptions;
 
   // ✅ Gabungin data + style di sini
   const chartData = {
