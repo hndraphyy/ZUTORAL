@@ -1,5 +1,4 @@
 export const getDashboardData = () => {
-  // Orders this year
   const totalOrders = {
     total: 512,
     completed: 483,
@@ -7,7 +6,6 @@ export const getDashboardData = () => {
     failed: 11,
   };
 
-  // Orders today
   const ordersToday = {
     total: 22,
     completed: 19,

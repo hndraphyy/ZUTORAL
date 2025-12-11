@@ -1,5 +1,4 @@
 export const getDashboardData = () => {
-  // TRANSACTIONS (sekitar 999)
   const totalTransactions = {
     total: 999,
     completed: 968,
@@ -19,7 +18,6 @@ export const getDashboardData = () => {
     0
   );
 
-  // EMPLOYEES (kalau diperlukan)
   const employees = {
     all: 85,
     active: 78,

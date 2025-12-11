@@ -2,9 +2,10 @@ import React from "react";
 import usePageTitle from "../../../hooks/usePageTitle";
 import { getRevenueData } from "./data/revenueData";
 import { revenueChartOptions } from "../../../components/charts/styleChart/chartOptions";
+import { getDashboardData } from "./data/dashboardData";
 import Header from "../../../components/Header";
 import RevenueChart from "../../../components/charts/RevenueChart";
-import TransactionsDashboard from "./components/TransactionsDashboard";
+import StatCards from "../../../components/cards/StatCards";
 import EmployeesDashboard from "./components/EmployeesDashboard";
 import TopEmployeeChart from "./components/TopEmployeeChart";
 import DoughnutProductsChart from "./components/DoughnutProductsChart";
@@ -14,6 +15,7 @@ const ManagerDashboardPage = () => {
 
   const managerData = getRevenueData();
   const options = revenueChartOptions;
+  const { totalTransactions, transactionsToday } = getDashboardData();
 
   return (
     <div className="mb-10">
@@ -22,7 +24,11 @@ const ManagerDashboardPage = () => {
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
           <RevenueChart data={managerData} options={options} />
         </div>
-        <TransactionsDashboard />
+        <StatCards
+          title="Transactions"
+          yearlyData={totalTransactions}
+          todayData={transactionsToday}
+        />
         <div className="grid grid-cols-12 gap-4">
           <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 col-span-12 md:col-span-6 lg:col-span-2">
             <EmployeesDashboard />

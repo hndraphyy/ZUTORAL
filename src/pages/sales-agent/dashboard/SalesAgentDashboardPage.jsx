@@ -1,16 +1,18 @@
 import React from "react";
 import { getRevenueData } from "./data/revenueData";
 import { revenueChartOptions } from "../../../components/charts/styleChart/chartOptions";
+import { getDashboardData } from "./data/dashboardData";
 import usePageTitle from "../../../hooks/usePageTitle";
 import Header from "../../../components/Header";
 import RevenueChart from "../../../components/charts/RevenueChart";
-import OrdersDashboard from "./components/Orders";
+import StatCards from "../../../components/cards/StatCards";
 
 const SalesAgentDashboardPage = () => {
   usePageTitle("Dashboard - Sales Agent");
 
   const salesData = getRevenueData();
   const options = revenueChartOptions;
+  const { totalOrders, ordersToday } = getDashboardData();
 
   return (
     <div className="mb-10">
@@ -19,7 +21,11 @@ const SalesAgentDashboardPage = () => {
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
           <RevenueChart data={salesData} options={options} />
         </div>
-        <OrdersDashboard />
+        <StatCards
+          title="Orders"
+          yearlyData={totalOrders}
+          todayData={ordersToday}
+        />
       </div>
     </div>
   );
