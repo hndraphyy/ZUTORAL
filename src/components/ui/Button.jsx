@@ -13,11 +13,13 @@ const Button = ({
   icon,
   label,
   className = "",
+  type,
   variant = "primary",
   classNameLabel = "",
 }) => {
   return (
     <button
+      type={type}
       onClick={onClick}
       className={`
         px-4 py-2 rounded-md flex items-center justify-center gap-2 cursor-pointer text-base 2xl:text-lg transition-all duration-200

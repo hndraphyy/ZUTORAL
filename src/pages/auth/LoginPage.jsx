@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import usePageTitle from "../../hooks/usePageTitle";
 import useAuth from "../../hooks/useAuth";
+import Button from "../../components/ui/Button";
 
 const LoginPage = () => {
   usePageTitle("Login");
@@ -69,7 +70,7 @@ const LoginPage = () => {
         />
         <form
           onSubmit={handleLogin}
-          className="bg-white md:bg-transparent w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12  p-6 md:p-0 flex flex-col gap-4 rounded-xl"
+          className="bg-white md:bg-transparent w-11/12 sm:w-10/12 md:w-9/12 lg:w-7/12 xl:w-7/12 2xl:w-6/12  p-6 md:p-0 flex flex-col gap-4 rounded-xl"
         >
           <h1 className="text-2xl mb-4 font-medium">Log In</h1>
           <div className="flex flex-col  gap-4 w-full">
@@ -77,7 +78,7 @@ const LoginPage = () => {
               <input
                 type="text"
                 placeholder="Email or Username"
-                className={`border-2 rounded text-gray-700 p-[7px] w-full lg:text-[18px] pl-3 transition duration-200 outline-0 
+                className={`border-2 rounded text-gray-700 p-[7px] w-full 2xl:text-[18px] pl-3 transition duration-200 outline-0 
                                 ${
                                   usernameError || errorMessage
                                     ? "border-red-500 focus:border-red-500"
@@ -101,7 +102,7 @@ const LoginPage = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className={`border-2 rounded text-gray-700 p-[7px] w-full lg:text-[18px] pl-3 pr-10 transition duration-200 outline-0 
+                  className={`border-2 rounded text-gray-700 p-[7px] w-full 2xl:text-[18px] pl-3 pr-10 transition duration-200 outline-0 
                                     ${
                                       passwordError || errorMessage
                                         ? "border-red-500 focus:border-red-500"
@@ -122,12 +123,12 @@ const LoginPage = () => {
                 </button>
               </div>
               {passwordError && (
-                <p className="text-red-500 text-sm lg:text-md 2xl:text-lg mt-1">
+                <p className="text-red-500 text-sm 2xl:text-lg mt-1">
                   {passwordError}
                 </p>
               )}
               {errorMessage && (
-                <p className="text-red-500 text-sm lg:text-md 2xl:text-lg mt-1">
+                <p className="text-red-500 text-sm 2xl:text-lg mt-1">
                   {errorMessage}
                 </p>
               )}
@@ -141,17 +142,16 @@ const LoginPage = () => {
               />
               <label
                 htmlFor="rememberMe"
-                className="text-[18px] text-gray-700 cursor-pointer"
+                className="text-base 2xl:text-[18px] text-gray-700 cursor-pointer"
               >
                 Remember me
               </label>
             </div>
-            <button
+            <Button
               type="submit"
               className="bg-purple text-white text-lg rounded p-2 w-full hover:bg-purple-hover transition duration-200"
-            >
-              Log In
-            </button>
+              label="Log In"
+            />
           </div>
         </form>
       </div>

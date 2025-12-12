@@ -57,7 +57,7 @@ const StatCards = ({ title, yearlyData, todayData }) => {
 
   return (
     <div>
-      <p className="text-base lg:text-lg 2xl:text-2xl mb-2 font-medium text-gray-600">
+      <p className="text-lg 2xl:text-2xl mb-2 font-medium text-gray-600">
         {title} {currentYear}
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -71,7 +71,7 @@ const StatCards = ({ title, yearlyData, todayData }) => {
         ))}
       </div>
 
-      <p className="text-base lg:text-lg 2xl:text-2xl font-medium mb-2 text-gray-600">
+      <p className="text-lg 2xl:text-2xl font-medium mb-2 text-gray-600">
         {title} Today
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

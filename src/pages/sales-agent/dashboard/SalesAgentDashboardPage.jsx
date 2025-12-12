@@ -23,7 +23,7 @@ const SalesAgentDashboardPage = () => {
   }));
 
   return (
-    <div className="mb-10">
+    <div className="mb-9">
       <Header title="Dashboard" />
       <div className="flex flex-col gap-6">
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
@@ -34,7 +34,7 @@ const SalesAgentDashboardPage = () => {
           yearlyData={totalOrders}
           todayData={ordersToday}
         />
-        <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 relative">
+        <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 relative -mt-7 md:mt-0">
           <TopBarChart
             dataList={chartData}
             title="Customer Growth In 7 Month"

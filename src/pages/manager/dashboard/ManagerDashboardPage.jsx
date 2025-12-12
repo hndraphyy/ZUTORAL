@@ -22,7 +22,7 @@ const ManagerDashboardPage = () => {
   }));
 
   return (
-    <div className="mb-10">
+    <div className="mb-15">
       <Header title="Dashboard" />
       <div className="flex flex-col gap-6">
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200">
@@ -33,7 +33,7 @@ const ManagerDashboardPage = () => {
           yearlyData={totalTransactions}
           todayData={transactionsToday}
         />
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-4 -my-7 md:my-0">
           <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 col-span-12 md:col-span-6 lg:col-span-2">
             <EmployeesDashboard />
           </div>
@@ -44,7 +44,7 @@ const ManagerDashboardPage = () => {
               valueLabel="orders handled"
             />
           </div>
-          <div className="bg-white p-4 rounded-xl shadow-md border mt-6 lg:mt-0 border-gray-200 col-span-12 lg:col-span-4">
+          <div className="bg-white p-4 rounded-xl shadow-md border border-gray-200 col-span-12 lg:col-span-4">
             <DoughnutProductsChart />
           </div>
         </div>
