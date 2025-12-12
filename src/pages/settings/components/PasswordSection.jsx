@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 
 const PasswordSection = ({ onChangePassword }) => {
   const [formData, setFormData] = useState({
-    current: "",
-    new: "",
-    confirm: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,25 +19,25 @@ const PasswordSection = ({ onChangePassword }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.current.trim() === "") {
+    if (formData.currentPassword.trim() === "") {
       setError("Current password is required.");
       return;
     }
-    if (formData.new.length < 6) {
+    if (formData.newPassword.length < 6) {
       setError("New password must be at least 6 characters.");
       return;
     }
-    if (formData.new === formData.current) {
+    if (formData.newPassword === formData.currentPassword) {
       setError("New password must be different from current password.");
       return;
     }
-    if (formData.new !== formData.confirm) {
+    if (formData.newPassword !== formData.confirmPassword) {
       setError("New password and confirmation do not match.");
       return;
     }
 
     onChangePassword(formData);
-    setFormData({ current: "", new: "", confirm: "" });
+    setFormData({ currentPassword: "", newPassword: "", confirmPassword: "" });
   };
 
   return (
@@ -53,28 +51,28 @@ const PasswordSection = ({ onChangePassword }) => {
           <Input
             label="Current Password"
             placeholder="Current Password"
-            name="current"
+            name="currentPassword"
             type="password"
             showPasswordToggle={true}
-            value={formData.current}
+            value={formData.currentPassword}
             onChange={handleChange}
           />
           <Input
             label="New Password"
             placeholder="New Password"
-            name="new"
+            name="newPassword"
             type="password"
             showPasswordToggle={true}
-            value={formData.new}
+            value={formData.newPassword}
             onChange={handleChange}
           />
           <Input
             label="Confirm New Password"
             placeholder="Confirm New Password"
-            name="confirm"
+            name="confirmPassword"
             type="password"
             showPasswordToggle={true}
-            value={formData.confirm}
+            value={formData.confirmPassword}
             onChange={handleChange}
           />
         </div>

@@ -29,19 +29,19 @@ const Input = forwardRef(
         : type;
 
     const handleChange = (e) => {
-      let inputValue = e.target.value;
-
       if (type === "number") {
-        inputValue = inputValue.replace(/[^0-9]/g, "");
+        const numericValue = e.target.value.replace(/[^0-9]/g, "");
+        const newEvent = {
+          ...e,
+          target: {
+            ...e.target,
+            value: numericValue,
+          },
+        };
+        onChange?.(newEvent);
+      } else {
+        onChange?.(e);
       }
-
-      onChange({
-        ...e,
-        target: {
-          ...e.target,
-          value: inputValue,
-        },
-      });
     };
 
     return (
